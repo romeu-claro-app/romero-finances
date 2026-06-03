@@ -626,10 +626,7 @@
         valid = false;
       }
       if (!valid) return;
-      document.getElementById('naForm').querySelectorAll('input, select, button').forEach(function(el) { el.disabled = true; });
-      var s = document.getElementById('naSuccess');
-      s.style.display = 'block';
-      s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      window.location.href = 'merci.html?produit=assurance-nouveau-arrive';
     }
   </script>
 </body>

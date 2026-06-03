@@ -1168,12 +1168,12 @@
     }
 
     function submitSansDocs() {
-      showSuccess('Votre dossier a bien été reçu. Vous pourrez nous envoyer vos documents lors de votre rendez-vous.<br />Nous vous contactons sous 24h.');
+      window.location.href = 'merci.html?produit=credit';
     }
 
     function submitDossier() {
       if (!validateStep(5)) return;
-      showSuccess('Votre dossier a bien été reçu.<br />Nous vous contactons sous 24h.');
+      window.location.href = 'merci.html?produit=credit';
     }
 
     /* ─── HELPERS ────────────────────────────────────────────── */
