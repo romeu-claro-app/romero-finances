@@ -180,7 +180,6 @@
     .fgrid-inner {
       display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px;
     }
-    .personne-block--disabled { opacity: 0.55; pointer-events: none; }
     .lca-same-wrap {
       display: flex; align-items: center; gap: 6px; margin-top: 7px;
     }
@@ -738,7 +737,6 @@
         extra.insertAdjacentHTML('beforeend', buildPersonneBlock(i));
       }
       document.getElementById('meme_assurance').checked = false;
-      enableAllBlocks();
     }
 
     function toggleLcaSame(n) {
@@ -755,9 +753,8 @@
 
     /* ─── TOGGLE "MÊME ASSURANCE POUR TOUS" ──────────────── */
     function onMemeAssurance() {
-      var locked = document.getElementById('meme_assurance').checked;
-      if (locked) syncAndLockAll();
-      else enableAllBlocks();
+      if (document.getElementById('meme_assurance').checked) copyP1ToAll();
+      // uncheck: do nothing — values stay, nothing locked
     }
 
     function getP1Values() {
@@ -770,42 +767,22 @@
       };
     }
 
-    function syncAndLockAll() {
+    function copyP1ToAll() {
       var v = getP1Values();
       for (var i = 2; i <= currentNb; i++) {
-        setBlockValues(i, v);
-        var block = document.getElementById('p' + i + '-block');
-        if (block) block.classList.add('personne-block--disabled');
-      }
-    }
-
-    function enableAllBlocks() {
-      for (var i = 2; i <= currentNb; i++) {
-        var block = document.getElementById('p' + i + '-block');
-        if (block) block.classList.remove('personne-block--disabled');
-      }
-    }
-
-    function setBlockValues(n, v) {
-      var f = function(id, val) { var el = document.getElementById(id); if (el) el.value = val; };
-      f('p' + n + '_lamal_caisse', v.lamal_caisse);
-      f('p' + n + '_lamal_prime',  v.lamal_prime);
-      f('p' + n + '_lamal_franchise', v.lamal_franchise);
-      var lcaCaisse = document.getElementById('p' + n + '_lca_caisse');
-      var lcaSame   = document.getElementById('p' + n + '_lca_same');
-      if (v.lca_same) {
-        if (lcaSame)   { lcaSame.checked = true; }
-        if (lcaCaisse) { lcaCaisse.value = v.lamal_caisse; lcaCaisse.disabled = true; }
-      } else {
-        if (lcaSame)   { lcaSame.checked = false; }
-        if (lcaCaisse) { lcaCaisse.value = v.lca_caisse; lcaCaisse.disabled = false; }
+        var f = function(id, val) { var el = document.getElementById(id); if (el) { el.disabled = false; el.value = val; } };
+        f('p' + i + '_lamal_caisse',    v.lamal_caisse);
+        f('p' + i + '_lamal_prime',     v.lamal_prime);
+        f('p' + i + '_lamal_franchise', v.lamal_franchise);
+        var lcaCaisse = document.getElementById('p' + i + '_lca_caisse');
+        var lcaSame   = document.getElementById('p' + i + '_lca_same');
+        if (lcaSame)   { lcaSame.checked = v.lca_same; }
+        if (lcaCaisse) { lcaCaisse.disabled = false; lcaCaisse.value = v.lca_same ? v.lamal_caisse : v.lca_caisse; }
       }
     }
 
     function syncMeme() {
-      if (document.getElementById('meme_assurance') && document.getElementById('meme_assurance').checked) {
-        syncAndLockAll();
-      }
+      // no-op: "tout le monde" toggle no longer auto-syncs on p1 changes
     }
 
     /* ─── PRÉ-REMPLIR DEPUIS HERO CARD ──────────────────── */
