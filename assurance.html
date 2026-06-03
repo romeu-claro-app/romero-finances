@@ -480,11 +480,11 @@
                   <!-- Ligne 1 : LAMal (gauche) | LCA + checkbox (droite) -->
                   <div class="fg-am">
                     <label>Caisse LAMal actuelle</label>
-                    <input type="text" id="p1_lamal_caisse" name="p1_lamal_caisse" placeholder="ex: CSS, Swica…" oninput="syncMeme()" />
+                    <select id="p1_lamal_caisse" name="p1_lamal_caisse" onchange="syncMeme()"><option value="">Choisir…</option><option>Swica</option><option>CSS</option><option>Helsana</option><option>Concordia</option><option>Groupe Mutuel</option><option>Assura</option><option>Visana</option><option>KPT</option><option>Sanitas</option><option>Atupri</option><option>Aquilana</option><option>EGK</option><option>Sana24</option><option>Sympany</option><option>Arcosana</option><option>Avenir</option><option>Easy Sana</option><option>First</option><option>Mutuel Assurance</option><option>Philos</option><option>AMB Assurances</option><option>CMBB</option><option>Caisse-maladie de la Vallée</option><option>Caisse Maladie Universa</option><option>Autre</option></select>
                   </div>
                   <div class="fg-am">
                     <label>Caisse LCA actuelle</label>
-                    <input type="text" id="p1_lca_caisse" name="p1_lca_caisse" placeholder="ex: CSS, Swica…" oninput="syncMeme()" />
+                    <select id="p1_lca_caisse" name="p1_lca_caisse" onchange="syncMeme()"><option value="">Choisir…</option><option>Swica</option><option>CSS</option><option>Helsana</option><option>Concordia</option><option>Groupe Mutuel</option><option>Assura</option><option>Visana</option><option>KPT</option><option>Sanitas</option><option>Atupri</option><option>Aquilana</option><option>EGK</option><option>Sana24</option><option>Sympany</option><option>Arcosana</option><option>Avenir</option><option>Easy Sana</option><option>First</option><option>Mutuel Assurance</option><option>Philos</option><option>AMB Assurances</option><option>CMBB</option><option>Caisse-maladie de la Vallée</option><option>Caisse Maladie Universa</option><option>Autre</option></select>
                     <div class="lca-same-wrap">
                       <input type="checkbox" id="p1_lca_same" onchange="toggleLcaSame(1)" />
                       <label for="p1_lca_same">Même caisse que LAMal</label>
@@ -688,6 +688,14 @@
     /* ─── PERSONNE BLOCKS ─────────────────────────────────── */
     var currentNb = 1;
 
+    var CAISSES = ['','Swica','CSS','Helsana','Concordia','Groupe Mutuel','Assura','Visana','KPT','Sanitas','Atupri','Aquilana','EGK','Sana24','Sympany','Arcosana','Avenir','Easy Sana','First','Mutuel Assurance','Philos','AMB Assurances','CMBB','Caisse-maladie de la Vallée','Caisse Maladie Universa','Autre'];
+
+    function caisseOptions() {
+      return CAISSES.map(function(c) {
+        return '<option value="' + c + '">' + (c || 'Choisir…') + '</option>';
+      }).join('');
+    }
+
     function franchiseOptions() {
       return ['','300','500','1000','1500','2000','2500'].map(function(v) {
         return '<option value="' + v + '">' + (v ? v.replace(/(\d)(?=(\d{3})+$)/g,'$1 ') + ' CHF' : 'Choisir…') + '</option>';
@@ -704,9 +712,9 @@
         '</div>' +
         '<div class="fgrid-inner">' +
           '<div class="fg-am"><label>Caisse LAMal actuelle</label>' +
-            '<input type="text" id="p' + n + '_lamal_caisse" name="p' + n + '_lamal_caisse" placeholder="ex: CSS, Swica…" /></div>' +
+            '<select id="p' + n + '_lamal_caisse" name="p' + n + '_lamal_caisse">' + caisseOptions() + '</select></div>' +
           '<div class="fg-am"><label>Caisse LCA actuelle</label>' +
-            '<input type="text" id="p' + n + '_lca_caisse" name="p' + n + '_lca_caisse" placeholder="ex: CSS, Swica…" />' +
+            '<select id="p' + n + '_lca_caisse" name="p' + n + '_lca_caisse">' + caisseOptions() + '</select>' +
             '<div class="lca-same-wrap">' +
               '<input type="checkbox" id="p' + n + '_lca_same" onchange="toggleLcaSame(' + n + ')" />' +
               '<label for="p' + n + '_lca_same">Même caisse que LAMal</label>' +
