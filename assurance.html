@@ -300,7 +300,34 @@
         </div>
         <div class="sc-field">
           <label for="sc_caisse">Caisse maladie actuelle</label>
-          <input type="text" id="sc_caisse" placeholder="ex: Swica, CSS, Helsana…" />
+          <select id="sc_caisse">
+            <option value="">Choisir…</option>
+            <option>Swica</option>
+            <option>CSS</option>
+            <option>Helsana</option>
+            <option>Concordia</option>
+            <option>Groupe Mutuel</option>
+            <option>Assura</option>
+            <option>Visana</option>
+            <option>KPT</option>
+            <option>Sanitas</option>
+            <option>Atupri</option>
+            <option>Aquilana</option>
+            <option>EGK</option>
+            <option>Sana24</option>
+            <option>Sympany</option>
+            <option>Arcosana</option>
+            <option>Avenir</option>
+            <option>Easy Sana</option>
+            <option>First</option>
+            <option>Mutuel Assurance</option>
+            <option>Philos</option>
+            <option>AMB Assurances</option>
+            <option>CMBB</option>
+            <option>Caisse-maladie de la Vallée</option>
+            <option>Caisse Maladie Universa</option>
+            <option>Autre</option>
+          </select>
         </div>
         <div class="sc-field">
           <label for="sc_prime">Prime mensuelle actuelle (CHF)</label>
@@ -788,17 +815,15 @@
     /* ─── PRÉ-REMPLIR DEPUIS HERO CARD ──────────────────── */
     function prefillForm(e) {
       if (e) e.preventDefault();
-      var p1franchise = document.getElementById('p1_lamal_franchise');
-      var p1caisse    = document.getElementById('p1_lamal_caisse');
-      var p1prime     = document.getElementById('p1_lamal_prime');
-      if (document.getElementById('sc_canton').value)
-        document.getElementById('am_canton').value = document.getElementById('sc_canton').value;
-      if (document.getElementById('sc_caisse').value && p1caisse)
-        p1caisse.value = document.getElementById('sc_caisse').value;
-      if (document.getElementById('sc_prime').value && p1prime)
-        p1prime.value = document.getElementById('sc_prime').value;
-      if (document.getElementById('sc_franchise').value && p1franchise)
-        p1franchise.value = document.getElementById('sc_franchise').value;
+      function sync(srcId, dstId) {
+        var src = document.getElementById(srcId);
+        var dst = document.getElementById(dstId);
+        if (src && dst && src.value) dst.value = src.value;
+      }
+      sync('sc_canton',   'am_canton');
+      sync('sc_caisse',   'p1_lamal_caisse');
+      sync('sc_prime',    'p1_lamal_prime');
+      sync('sc_franchise','p1_lamal_franchise');
       var navH   = document.getElementById('nav') ? document.getElementById('nav').offsetHeight : 68;
       var target = document.getElementById('formulaire');
       var top    = target.getBoundingClientRect().top + window.scrollY - navH - 16;
