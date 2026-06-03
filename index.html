@@ -1,15 +1,388 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Romero Finances</title>
+  <title>Romero Finances — Conseil indépendant en Suisse romande</title>
+  <meta name="description" content="Crédit privé, assurance maladie, 3ème pilier — un expert indépendant à vos côtés. Conseil gratuit, réponse sous 24h." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.jpeg" alt="Romero Finances" class="nav__logo" />
+        <span class="nav__name">Romero Finances</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="credit.html">Crédit</a></li>
+        <li><a href="assurance.html">Assurance maladie</a></li>
+        <li><a href="pilier.html">3ème pilier</a></li>
+      </ul>
+      <a href="#produits" class="btn btn--primary btn--sm nav__cta">Obtenir un conseil</a>
+      <button class="nav__burger" aria-label="Menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="credit.html">Crédit</a>
+      <a href="assurance.html">Assurance maladie</a>
+      <a href="pilier.html">3ème pilier</a>
+      <a href="#produits" class="btn btn--primary">Obtenir un conseil</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__inner">
+      <span class="badge">Conseil indépendant · Suisse romande</span>
+      <h1 class="hero__h1">
+        Vous travaillez en Suisse et voulez<br />
+        <em>protéger votre avenir financier&nbsp;?</em>
+      </h1>
+      <p class="hero__sub">
+        Crédit privé, assurance maladie, 3ème pilier — un expert indépendant à vos côtés.<br />
+        Conseil gratuit, réponse sous 24h.
+      </p>
+      <div class="hero__pills">
+        <span class="pill">✓ Gratuit &amp; sans engagement</span>
+        <span class="pill">⚡ Réponse sous 24h</span>
+        <span class="pill">🔒 100% confidentiel</span>
+      </div>
+      <a href="#produits" class="btn btn--primary btn--lg">Choisir ma solution</a>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stats-bar__inner">
+      <div class="stat">
+        <span class="stat__num">200+</span>
+        <span class="stat__label">Clients accompagnés</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">24h</span>
+        <span class="stat__label">Délai de réponse</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">100%</span>
+        <span class="stat__label">Gratuit &amp; sans engagement</span>
+      </div>
+      <div class="stat">
+        <span class="stat__num">4.4%</span>
+        <span class="stat__label">Taux crédit dès</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUITS -->
+  <section class="section produits" id="produits">
+    <div class="container">
+      <h2 class="section__title">Quelle est votre priorité&nbsp;?</h2>
+      <p class="section__sub">Choisissez votre besoin — notre expert vous contacte sous 24h.</p>
+      <div class="cards">
+
+        <!-- Crédit -->
+        <a href="credit.html" class="card card--blue">
+          <div class="card__top">
+            <div class="card__icon card__icon--blue">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+            </div>
+            <h3 class="card__title">Crédit privé</h3>
+          </div>
+          <p class="card__desc">Financement rapide et personnalisé — taux dès 4.4%, réponse en 24h.</p>
+          <div class="card__tags">
+            <span class="tag tag--blue">Dès 4.4%</span>
+            <span class="tag tag--blue">6 à 84 mois</span>
+            <span class="tag tag--blue">Réponse 24h</span>
+          </div>
+          <div class="card__arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Assurance -->
+        <a href="assurance.html" class="card card--green">
+          <div class="card__top">
+            <div class="card__icon card__icon--green">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h3 class="card__title">Assurance maladie</h3>
+          </div>
+          <p class="card__desc">Comparez toutes les caisses maladie suisses et économisez jusqu'à 40%.</p>
+          <div class="card__tags">
+            <span class="tag tag--green">Comparaison gratuite</span>
+            <span class="tag tag--green">Toutes caisses</span>
+            <span class="tag tag--green">Jusqu'à −40%</span>
+          </div>
+          <div class="card__arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </a>
+
+        <!-- 3ème pilier -->
+        <a href="pilier.html" class="card card--amber">
+          <div class="card__top">
+            <div class="card__icon card__icon--amber">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+            </div>
+            <h3 class="card__title">3ème pilier</h3>
+          </div>
+          <p class="card__desc">Préparez votre retraite et réduisez vos impôts grâce au 3ème pilier.</p>
+          <div class="card__tags">
+            <span class="tag tag--amber">Déduction fiscale</span>
+            <span class="tag tag--amber">Retraite sereine</span>
+            <span class="tag tag--amber">Conseil sur mesure</span>
+          </div>
+          <div class="card__arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT ÇA MARCHE -->
+  <section class="section steps">
+    <div class="container">
+      <h2 class="section__title">Comment ça marche&nbsp;?</h2>
+      <p class="section__sub">Simple, rapide et sans engagement.</p>
+      <div class="steps__card">
+        <div class="step">
+          <div class="step__num">1</div>
+          <div class="step__body">
+            <h4 class="step__title">Vous choisissez</h4>
+            <p class="step__desc">Sélectionnez le produit qui correspond à votre besoin : crédit, assurance ou 3ème pilier.</p>
+          </div>
+        </div>
+        <div class="step__divider"></div>
+        <div class="step">
+          <div class="step__num">2</div>
+          <div class="step__body">
+            <h4 class="step__title">Vous remplissez</h4>
+            <p class="step__desc">Remplissez le formulaire en 2 minutes avec vos informations de base.</p>
+          </div>
+        </div>
+        <div class="step__divider"></div>
+        <div class="step">
+          <div class="step__num">3</div>
+          <div class="step__body">
+            <h4 class="step__title">On vous rappelle</h4>
+            <p class="step__desc">Notre conseiller vous contacte sous 24h pour analyser votre situation et vous proposer les meilleures offres.</p>
+          </div>
+        </div>
+        <div class="step__divider"></div>
+        <div class="step">
+          <div class="step__num">4</div>
+          <div class="step__body">
+            <h4 class="step__title">Vous décidez</h4>
+            <p class="step__desc">Aucune pression. Vous choisissez librement, sans obligation. Le conseil reste toujours gratuit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÉMOIGNAGES -->
+  <section class="section temoignages">
+    <div class="container">
+      <h2 class="section__title">Ce que disent nos clients</h2>
+      <p class="section__sub">Des personnes comme vous, accompagnées avec succès.</p>
+      <div class="temoignages__grid">
+
+        <div class="temoignage">
+          <div class="temoignage__stars">★★★★★</div>
+          <p class="temoignage__quote">"J'avais besoin d'un crédit rapidement pour financer une formation. Grâce à Romero Finances, j'ai obtenu une réponse en moins de 24h avec un taux très compétitif."</p>
+          <div class="temoignage__author">
+            <div class="avatar avatar--blue">MA</div>
+            <div>
+              <strong>Miguel A.</strong>
+              <span>Lausanne · Crédit privé</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="temoignage">
+          <div class="temoignage__stars">★★★★★</div>
+          <p class="temoignage__quote">"Je ne savais pas que je payais trop cher mon assurance maladie. Le conseiller a comparé toutes les caisses et j'économise maintenant CHF 180/mois !"</p>
+          <div class="temoignage__author">
+            <div class="avatar avatar--green">SF</div>
+            <div>
+              <strong>Sofia F.</strong>
+              <span>Genève · Assurance maladie</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="temoignage">
+          <div class="temoignage__stars">★★★★★</div>
+          <p class="temoignage__quote">"Le 3ème pilier m'a permis de réduire mes impôts considérablement. Le conseil était clair, sans jargon, et j'ai tout compris dès le premier appel."</p>
+          <div class="temoignage__author">
+            <div class="avatar avatar--amber">RK</div>
+            <div>
+              <strong>Rania K.</strong>
+              <span>Fribourg · 3ème pilier</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq">
+    <div class="container container--sm">
+      <h2 class="section__title">Questions fréquentes</h2>
+      <div class="faq__list">
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Le conseil est-il vraiment gratuit ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Oui, absolument. Romero Finances est rémunéré par les partenaires financiers uniquement si vous acceptez une offre. Il n'y a aucun frais pour vous, quelle que soit l'issue du conseil.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Puis-je obtenir un crédit si je suis en période d'essai ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Cela dépend de la durée de votre contrat et de votre situation. En général, un contrat de plus de 3 mois est suffisant. Notre conseiller évaluera votre dossier et vous indiquera les options disponibles.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Comment changer d'assurance maladie en cours d'année ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>En Suisse, le changement de caisse maladie de base se fait généralement au 31 décembre avec un préavis de 3 mois (avant fin septembre). Certaines assurances complémentaires peuvent être résiliées à d'autres dates. Notre conseiller vous guidera sur les délais exacts selon votre caisse actuelle.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Quelle est la différence entre le pilier 3a et le pilier 3b ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Le pilier 3a est lié : les versements sont déductibles des impôts jusqu'à un plafond annuel (CHF 7 258 pour les salariés en 2024), mais le capital est bloqué jusqu'à 5 ans avant la retraite. Le pilier 3b est libre : pas de déduction fiscale, mais pas de restriction sur les retraits. Notre conseiller vous aidera à choisir selon votre situation.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Mes données personnelles sont-elles protégées ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Oui. Vos données sont traitées conformément à la LPD (Loi fédérale sur la protection des données) et ne sont jamais revendues à des tiers. Elles sont utilisées uniquement pour vous proposer des offres adaptées à votre situation.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="container container--sm">
+      <h2 class="cta-final__title">Prêt à optimiser vos finances&nbsp;?</h2>
+      <p class="cta-final__sub">Conseil gratuit · Sans engagement · Réponse sous 24h</p>
+      <a href="#produits" class="btn btn--white btn--lg">Choisir ma solution</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+
+        <div class="footer__col footer__col--brand">
+          <div class="footer__brand">
+            <img src="assets/logo.jpeg" alt="Romero Finances" class="footer__logo" />
+            <span>Romero Finances</span>
+          </div>
+          <p class="footer__desc">Conseil indépendant en finances personnelles pour les résidents de Suisse romande.</p>
+          <div class="footer__contacts">
+            <a href="mailto:contact@romero-finances.ch">contact@romero-finances.ch</a>
+            <a href="tel:+41000000000">+41 00 000 00 00</a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h5 class="footer__heading">Solutions</h5>
+          <ul>
+            <li><a href="credit.html">Crédit privé</a></li>
+            <li><a href="assurance.html">Assurance maladie</a></li>
+            <li><a href="pilier.html">3ème pilier</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h5 class="footer__heading">Légal</h5>
+          <ul>
+            <li><a href="#">Mentions légales</a></li>
+            <li><a href="#">Politique de confidentialité</a></li>
+            <li><a href="#">Conditions générales</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h5 class="footer__heading">Contact</h5>
+          <ul>
+            <li><a href="merci.html">Demande de conseil</a></li>
+            <li><a href="mailto:contact@romero-finances.ch">Nous écrire</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p>&copy; 2024 Romero Finances. Tous droits réservés.</p>
+        <p class="footer__lcc">Intermédiaire en crédit soumis à la Loi sur le crédit à la consommation (LCC). Activité réglementée.</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="js/main.js"></script>
 </body>
