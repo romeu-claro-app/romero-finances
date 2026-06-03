@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Politique de Cookies — Romero Finances</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .legal-hero { padding: calc(var(--nav-h) + 56px) 24px 40px; background: var(--white); border-bottom: 1px solid var(--border); }
+    .legal-hero__inner { max-width: 800px; margin: 0 auto; }
+    .legal-hero__title { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 3vw, 2.2rem); font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .legal-hero__date { font-size: 0.9rem; color: var(--text-muted); }
+    .legal-body { max-width: 800px; margin: 0 auto; padding: 52px 24px 80px; }
+    .legal-article { margin-bottom: 44px; }
+    .legal-article h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .legal-article p { font-size: 0.96rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 10px; }
+    .legal-article ul { padding-left: 20px; margin-bottom: 10px; }
+    .legal-article ul li { font-size: 0.96rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 4px; }
+    .legal-article a { color: var(--blue); text-decoration: underline; }
+    .cookie-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.88rem; }
+    .cookie-table th { background: var(--blue-pale); color: var(--blue); font-weight: 700; text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border); }
+    .cookie-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+    .cookie-table tr:last-child td { border-bottom: none; }
+    .cookie-badge {
+      display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 2px 8px;
+      border-radius: 50px; white-space: nowrap;
+    }
+    .badge-nec  { background: rgba(13,158,107,0.1); color: #0a7a53; }
+    .badge-perf { background: var(--blue-pale); color: var(--blue); }
+    .badge-fonc { background: rgba(186,117,23,0.1); color: #7a4e10; }
+    .badge-mktg { background: rgba(185,64,32,0.1); color: #7a2510; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.svg" alt="Romero Finances" class="nav__logo" />
+        <span class="nav__name">Romero Finances</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="credit.html">Crédit</a></li>
+        <li><a href="assurance.html">Assurance maladie</a></li>
+        <li><a href="pilier.html">3ème pilier</a></li>
+        <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+      </ul>
+      <a href="index.html#produits" class="btn btn--primary btn--sm nav__cta">Obtenir un conseil</a>
+      <button class="nav__burger" aria-label="Menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="credit.html">Crédit</a>
+      <a href="assurance.html">Assurance maladie</a>
+      <a href="pilier.html">3ème pilier</a>
+      <a href="patrimoine.html">Choses &amp; patrimoine</a>
+      <a href="index.html#produits" class="btn btn--primary">Obtenir un conseil</a>
+    </div>
+  </nav>
+
+  <div class="legal-hero">
+    <div class="legal-hero__inner">
+      <h1 class="legal-hero__title">Politique de Cookies</h1>
+      <p class="legal-hero__date">Dernière mise à jour : 09 Janvier 2026</p>
+    </div>
+  </div>
+
+  <div class="legal-body">
+
+    <div class="legal-article">
+      <h2>Art. 1 — Que sont les cookies ?</h2>
+      <p>Les cookies sont de petits fichiers texte déposés sur votre appareil (ordinateur, smartphone, tablette) lors de votre visite sur un site internet. Ils permettent au site de mémoriser vos actions et préférences pendant une certaine durée, afin que vous n'ayez pas à les saisir à nouveau lors de vos prochaines visites.</p>
+      <p>Certains cookies sont indispensables au fonctionnement du site, d'autres servent à améliorer l'expérience utilisateur ou à des fins analytiques et publicitaires.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 2 — Types de cookies utilisés</h2>
+      <table class="cookie-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Durée</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="cookie-badge badge-nec">Strictement nécessaires</span></td>
+            <td>Indispensables au fonctionnement du site (session, sécurité, mémorisation du formulaire). Ne peuvent pas être désactivés.</td>
+            <td>Session</td>
+          </tr>
+          <tr>
+            <td><span class="cookie-badge badge-perf">Performance</span></td>
+            <td>Collectent des données anonymes sur la façon dont les visiteurs utilisent le site (pages visitées, temps de chargement). Permettent d'améliorer les performances.</td>
+            <td>13 mois</td>
+          </tr>
+          <tr>
+            <td><span class="cookie-badge badge-fonc">Fonctionnalité</span></td>
+            <td>Mémorisent vos préférences (langue, région) pour personnaliser votre expérience.</td>
+            <td>12 mois</td>
+          </tr>
+          <tr>
+            <td><span class="cookie-badge badge-mktg">Marketing</span></td>
+            <td>Suivent votre navigation pour afficher des publicités personnalisées sur d'autres sites. Activés uniquement avec votre consentement.</td>
+            <td>90 jours</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 3 — Cookies tiers</h2>
+      <p>Nous utilisons des services tiers qui déposent leurs propres cookies :</p>
+      <ul>
+        <li><strong>Google Analytics</strong> — Mesure d'audience et analyse du comportement des visiteurs. Les données sont anonymisées. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Politique Google</a></li>
+        <li><strong>Facebook Pixel</strong> — Suivi des conversions et retargeting publicitaire sur Meta. Activé uniquement avec votre consentement.</li>
+        <li><strong>LinkedIn Insight Tag</strong> — Analyse des visiteurs provenant de LinkedIn et retargeting B2B. Activé uniquement avec votre consentement.</li>
+      </ul>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 4 — Gestion du consentement avec Cookiebot</h2>
+      <p>Notre site utilise <strong>Cookiebot</strong> (ou un outil équivalent) pour recueillir et gérer votre consentement aux cookies non essentiels, conformément à la LPD suisse et au RGPD.</p>
+      <p>Lors de votre première visite, une bannière vous propose d'accepter, de refuser ou de personnaliser les catégories de cookies. Votre choix est enregistré pour 12 mois et peut être modifié à tout moment en cliquant sur « Gérer mes cookies » en bas de chaque page.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 5 — Contrôle via votre navigateur</h2>
+      <p>Indépendamment de nos outils de consentement, vous pouvez contrôler et supprimer les cookies directement depuis les paramètres de votre navigateur :</p>
+      <ul>
+        <li><strong>Chrome :</strong> Paramètres → Confidentialité et sécurité → Cookies</li>
+        <li><strong>Firefox :</strong> Options → Vie privée et sécurité → Cookies et données de site</li>
+        <li><strong>Safari :</strong> Préférences → Confidentialité</li>
+        <li><strong>Edge :</strong> Paramètres → Cookies et autorisations de site</li>
+      </ul>
+      <p>Notez que la désactivation de certains cookies peut affecter le bon fonctionnement du site.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 6 — Modifications</h2>
+      <p>Cette politique de cookies peut être mise à jour pour refléter l'évolution des technologies utilisées ou des exigences légales. La date de dernière mise à jour est indiquée en haut de cette page.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 7 — Contact</h2>
+      <p>Pour toute question relative aux cookies et au traitement de vos données de navigation, contactez-nous :</p>
+      <ul>
+        <li>Email : <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a></li>
+        <li>Courrier : Romero Finances, Route des Vuarines 44, 1564 Domdidier</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col footer__col--brand">
+          <div class="footer__brand">
+            <img src="assets/logo.svg" alt="Romero Finances" class="footer__logo" />
+            <span>Romero Finances</span>
+          </div>
+          <p class="footer__desc">Conseil indépendant en finances personnelles pour les résidents de Suisse romande.</p>
+          <div class="footer__contacts">
+            <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a>
+            <a href="tel:+41782044818">+41 78 204 48 18</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Solutions</h5>
+          <ul>
+            <li><a href="credit.html">Crédit privé</a></li>
+            <li><a href="assurance.html">Assurance maladie</a></li>
+            <li><a href="pilier.html">3ème pilier</a></li>
+            <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Légal</h5>
+          <ul>
+            <li><a href="cgu.html">Conditions générales</a></li>
+            <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+            <li><a href="consentement.html">Consentement &amp; courtage</a></li>
+            <li><a href="cookies.html">Politique de cookies</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Contact</h5>
+          <ul>
+            <li><a href="merci.html">Demande de conseil</a></li>
+            <li><a href="mailto:contact@romerofinances.ch">Nous écrire</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Romero Finances. Tous droits réservés.</p>
+        <p class="footer__lcc">Intermédiaire en crédit soumis à la Loi sur le crédit à la consommation (LCC). Activité réglementée.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

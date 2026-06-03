@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conditions Générales d'Utilisation — Romero Finances</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .legal-hero {
+      padding: calc(var(--nav-h) + 56px) 24px 40px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+    .legal-hero__inner { max-width: 800px; margin: 0 auto; }
+    .legal-hero__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      font-weight: 700; color: var(--text); margin-bottom: 8px;
+    }
+    .legal-hero__date { font-size: 0.9rem; color: var(--text-muted); }
+    .legal-body {
+      max-width: 800px; margin: 0 auto;
+      padding: 52px 24px 80px;
+    }
+    .legal-article { margin-bottom: 44px; }
+    .legal-article h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--text); margin-bottom: 14px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .legal-article p { font-size: 0.96rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 10px; }
+    .legal-article ul { padding-left: 20px; margin-bottom: 10px; }
+    .legal-article ul li { font-size: 0.96rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 4px; }
+    .legal-article a { color: var(--blue); text-decoration: underline; }
+    .legal-warn {
+      background: rgba(186,117,23,0.08); border: 1px solid rgba(186,117,23,0.25);
+      border-radius: var(--radius); padding: 16px 20px; margin-top: 10px;
+      font-size: 0.88rem; color: #7a4e10; line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.svg" alt="Romero Finances" class="nav__logo" />
+        <span class="nav__name">Romero Finances</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="credit.html">Crédit</a></li>
+        <li><a href="assurance.html">Assurance maladie</a></li>
+        <li><a href="pilier.html">3ème pilier</a></li>
+        <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+      </ul>
+      <a href="index.html#produits" class="btn btn--primary btn--sm nav__cta">Obtenir un conseil</a>
+      <button class="nav__burger" aria-label="Menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="credit.html">Crédit</a>
+      <a href="assurance.html">Assurance maladie</a>
+      <a href="pilier.html">3ème pilier</a>
+      <a href="patrimoine.html">Choses &amp; patrimoine</a>
+      <a href="index.html#produits" class="btn btn--primary">Obtenir un conseil</a>
+    </div>
+  </nav>
+
+  <div class="legal-hero">
+    <div class="legal-hero__inner">
+      <h1 class="legal-hero__title">Conditions Générales d'Utilisation</h1>
+      <p class="legal-hero__date">Dernière mise à jour : 09 Janvier 2026</p>
+    </div>
+  </div>
+
+  <div class="legal-body">
+
+    <div class="legal-article">
+      <h2>Art. 1 — Introduction</h2>
+      <p>Les présentes Conditions Générales d'Utilisation (ci-après « CGU ») régissent l'accès et l'utilisation du site internet <strong>romerofinances.ch</strong> (ci-après « le Site »), exploité par Romero Finances.</p>
+      <p>En accédant au Site, vous acceptez sans réserve les présentes CGU. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser le Site.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 2 — Identification de l'entreprise</h2>
+      <p>Le Site est exploité par :</p>
+      <ul>
+        <li><strong>Raison sociale :</strong> Romero Finances</li>
+        <li><strong>Adresse :</strong> Route des Vuarines 44, 1564 Domdidier, Suisse</li>
+        <li><strong>Email :</strong> <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a></li>
+        <li><strong>Téléphone :</strong> +41 78 204 48 18</li>
+      </ul>
+      <p>Romero Finances agit en qualité d'intermédiaire en crédit et en assurances, soumis à la législation suisse applicable.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 3 — Utilisation du site et nature des services</h2>
+      <p>Le Site a pour vocation de présenter les services de conseil indépendant en finances personnelles proposés par Romero Finances, notamment en matière de crédit privé, d'assurance maladie, de 3ème pilier et d'assurance choses & patrimoine.</p>
+      <p>Les informations publiées sur le Site sont fournies à titre indicatif et ne constituent pas une offre contractuelle. Tout conseil personnalisé fait l'objet d'un entretien distinct avec un conseiller.</p>
+      <div class="legal-warn">
+        <strong>Avertissement (Loi sur le crédit à la consommation — LCC) :</strong> L'octroi de crédit est interdit s'il entraîne le surendettement du consommateur. Romero Finances s'engage à évaluer la solvabilité de chaque demandeur conformément aux exigences de la LCC.
+      </div>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 4 — Propriété intellectuelle</h2>
+      <p>L'ensemble des contenus du Site (textes, graphiques, logos, images, code source) est la propriété exclusive de Romero Finances ou de ses partenaires et est protégé par le droit suisse de la propriété intellectuelle.</p>
+      <p>Toute reproduction, distribution, modification ou utilisation à des fins commerciales sans autorisation préalable écrite est strictement interdite.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 5 — Limitation de responsabilité</h2>
+      <p>Romero Finances s'efforce de maintenir les informations du Site à jour et exactes. Cependant, elle ne peut garantir l'exhaustivité, l'exactitude ou l'actualité de ces informations et décline toute responsabilité pour les dommages résultant de leur utilisation.</p>
+      <p>Romero Finances ne peut être tenue responsable des interruptions de service, des erreurs techniques ou des dommages causés par des virus informatiques.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 6 — Liens externes</h2>
+      <p>Le Site peut contenir des liens vers des sites tiers. Ces liens sont fournis à titre informatif uniquement. Romero Finances n'assume aucune responsabilité quant au contenu, à la disponibilité ou aux pratiques de confidentialité de ces sites.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 7 — Protection des données</h2>
+      <p>Le traitement des données personnelles des utilisateurs est régi par la <a href="confidentialite.html">Politique de confidentialité</a> de Romero Finances, conforme à la Loi fédérale sur la protection des données (LPD) et, le cas échéant, au Règlement général sur la protection des données (RGPD).</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 8 — Modifications des conditions</h2>
+      <p>Romero Finances se réserve le droit de modifier les présentes CGU à tout moment. Les modifications prennent effet dès leur publication sur le Site. L'utilisation continue du Site après publication vaut acceptation des nouvelles conditions.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 9 — Loi applicable et for juridique</h2>
+      <p>Les présentes CGU sont régies par le droit suisse. Tout litige relatif à l'interprétation ou à l'exécution des présentes sera soumis à la compétence exclusive des tribunaux du canton de Fribourg, Suisse.</p>
+    </div>
+
+    <div class="legal-article">
+      <h2>Art. 10 — Contact</h2>
+      <p>Pour toute question relative aux présentes CGU, vous pouvez nous contacter :</p>
+      <ul>
+        <li>Par email : <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a></li>
+        <li>Par courrier : Romero Finances, Route des Vuarines 44, 1564 Domdidier</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col footer__col--brand">
+          <div class="footer__brand">
+            <img src="assets/logo.svg" alt="Romero Finances" class="footer__logo" />
+            <span>Romero Finances</span>
+          </div>
+          <p class="footer__desc">Conseil indépendant en finances personnelles pour les résidents de Suisse romande.</p>
+          <div class="footer__contacts">
+            <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a>
+            <a href="tel:+41782044818">+41 78 204 48 18</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Solutions</h5>
+          <ul>
+            <li><a href="credit.html">Crédit privé</a></li>
+            <li><a href="assurance.html">Assurance maladie</a></li>
+            <li><a href="pilier.html">3ème pilier</a></li>
+            <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Légal</h5>
+          <ul>
+            <li><a href="cgu.html">Conditions générales</a></li>
+            <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+            <li><a href="consentement.html">Consentement &amp; courtage</a></li>
+            <li><a href="cookies.html">Politique de cookies</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Contact</h5>
+          <ul>
+            <li><a href="merci.html">Demande de conseil</a></li>
+            <li><a href="mailto:contact@romerofinances.ch">Nous écrire</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Romero Finances. Tous droits réservés.</p>
+        <p class="footer__lcc">Intermédiaire en crédit soumis à la Loi sur le crédit à la consommation (LCC). Activité réglementée.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
