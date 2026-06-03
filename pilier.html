@@ -304,7 +304,7 @@
         <!-- Situation professionnelle -->
         <div class="cc-field">
           <label for="cc_situation">Situation professionnelle</label>
-          <select id="cc_situation" onchange="calcFiscal()">
+          <select id="cc_situation" onchange="calcFiscal(); syncSituation()">
             <option value="">Choisir…</option>
             <option value="salarie">Salarié(e)</option>
             <option value="independant">Indépendant(e)</option>
@@ -477,8 +477,8 @@
             </div>
 
             <div class="fg-p">
-              <label for="p_annee">Année de naissance *</label>
-              <input type="number" id="p_annee" placeholder="1985" min="1940" max="2005" required />
+              <label for="p_dob">Date de naissance *</label>
+              <input type="date" id="p_dob" required />
             </div>
             <div class="fg-p">
               <label for="p_canton">Canton *</label>
@@ -501,7 +501,9 @@
                 <option value="">Choisir…</option>
                 <option value="salarie">Salarié(e)</option>
                 <option value="independant">Indépendant(e)</option>
+                <option value="chef">Chef d'entreprise</option>
                 <option value="fonctionnaire">Fonctionnaire</option>
+                <option value="formation">En formation</option>
               </select>
             </div>
             <div class="fg-p">
@@ -509,19 +511,39 @@
               <input type="number" id="p_revenu" placeholder="80 000" min="0" />
             </div>
 
-            <div class="fg-p">
+            <div class="fg-p fg-p--full">
               <label for="p_existant">Avez-vous déjà un 3ème pilier ? *</label>
               <select id="p_existant" onchange="checkExistant()" required>
                 <option value="">Choisir…</option>
                 <option value="non">Non, c'est ma première fois</option>
-                <option value="3a_banque">Oui, pilier 3a bancaire</option>
-                <option value="3a_assurance">Oui, pilier 3a assurance</option>
-                <option value="3b">Oui, pilier 3b</option>
+                <option value="oui">Oui</option>
               </select>
             </div>
-            <div class="fg-p" id="montant-verse-wrap" style="visibility:hidden;">
-              <label for="p_montant">Montant versé annuellement (CHF)</label>
-              <input type="number" id="p_montant" placeholder="3 000" min="0" />
+
+            <!-- Bloc 3ème pilier existant (conditionnel) -->
+            <div class="fg-p fg-p--full" id="existant-bloc" style="display:none;">
+              <div style="background:var(--accent-pale);border:1px solid rgba(186,117,23,0.2);border-radius:var(--radius);padding:18px 20px;">
+                <p style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;">Votre 3ème pilier actuel</p>
+                <div class="fgrid-p" style="margin:0;">
+                  <div class="fg-p">
+                    <label for="p_3p_type">Type</label>
+                    <select id="p_3p_type">
+                      <option value="">Choisir…</option>
+                      <option value="3a_banque">Pilier 3a bancaire</option>
+                      <option value="3a_assurance">Pilier 3a assurance</option>
+                      <option value="3b">Pilier 3b</option>
+                    </select>
+                  </div>
+                  <div class="fg-p">
+                    <label for="p_3p_avec">Avec qui</label>
+                    <input type="text" id="p_3p_avec" placeholder="ex: UBS, Zurich, AXA…" />
+                  </div>
+                  <div class="fg-p">
+                    <label for="p_montant">Montant versé annuellement (CHF)</label>
+                    <input type="number" id="p_montant" placeholder="3 000" min="0" />
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="fg-p fg-p--full">
@@ -755,17 +777,25 @@
     }
     calcFiscal();
 
-    /* ─── FORMULAIRE — CHAMP CONDITIONNEL ────────────────── */
+    /* ─── SYNC SITUATION CALCULATEUR → FORMULAIRE ───────── */
+    function syncSituation() {
+      var src = document.getElementById('cc_situation');
+      var dst = document.getElementById('p_situation');
+      if (src && dst && src.value) dst.value = src.value;
+    }
+
+    /* ─── FORMULAIRE — 3ÈME PILIER EXISTANT ─────────────── */
     function checkExistant() {
-      var val  = document.getElementById('p_existant').value;
-      var wrap = document.getElementById('montant-verse-wrap');
-      wrap.style.visibility = (val && val !== 'non') ? 'visible' : 'hidden';
+      var val   = document.getElementById('p_existant').value;
+      var bloc  = document.getElementById('existant-bloc');
+      var show  = val === 'oui';
+      bloc.style.display = show ? 'block' : 'none';
     }
 
     /* ─── SUBMIT ─────────────────────────────────────────── */
     function submitPilier(e) {
       e.preventDefault();
-      var required = ['p_prenom', 'p_nom', 'p_tel', 'p_email', 'p_annee', 'p_canton', 'p_situation', 'p_existant', 'p_objectif'];
+      var required = ['p_prenom', 'p_nom', 'p_tel', 'p_email', 'p_dob', 'p_canton', 'p_situation', 'p_existant', 'p_objectif'];
       var valid = true;
       required.forEach(function (id) {
         var el = document.getElementById(id);
