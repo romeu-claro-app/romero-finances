@@ -816,6 +816,16 @@
           <div class="upload-list" id="uploadList">
             <!-- Générée dynamiquement par buildUploadList() -->
           </div>
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px;">
+            <div class="checkbox-field" style="margin-bottom: 0.75rem;">
+              <input type="checkbox" id="marketing" name="marketing">
+              <label for="marketing">J'accepte de recevoir des offres, conseils et actualités personnalisés par e-mail. <span style="color: var(--text-light); font-size: 0.75rem;">(optionnel)</span></label>
+            </div>
+            <div class="checkbox-field">
+              <input type="checkbox" id="fc_rgpd" name="fc_rgpd">
+              <label for="fc_rgpd">J'accepte que mes données soient utilisées pour traiter ma demande de crédit. <a href="confidentialite.html" style="color:var(--blue);text-decoration:underline;">Politique de confidentialité</a> *</label>
+            </div>
+          </div>
         </div>
 
         <!-- SUCCESS -->
@@ -1167,12 +1177,25 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function checkFcRgpd() {
+      var cb = document.getElementById('fc_rgpd');
+      if (!cb.checked) {
+        cb.style.outline = '2px solid #e53e3e';
+        cb.addEventListener('change', function() { cb.style.outline = ''; }, { once: true });
+        cb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+      }
+      return true;
+    }
+
     function submitSansDocs() {
+      if (!checkFcRgpd()) return;
       window.location.href = 'merci.html?produit=credit';
     }
 
     function submitDossier() {
       if (!validateStep(5)) return;
+      if (!checkFcRgpd()) return;
       window.location.href = 'merci.html?produit=credit';
     }
 

@@ -204,6 +204,23 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   color: var(--text-light) !important;
 }
 
+/* ─── CHECKBOX FIELD (marketing, shared across all forms) ── */
+.checkbox-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  grid-column: 1 / -1;
+}
+.checkbox-field input[type="checkbox"] {
+  width: 18px; height: 18px; min-width: 18px;
+  margin-top: 2px; cursor: pointer; flex-shrink: 0;
+  accent-color: var(--accent, var(--blue));
+}
+.checkbox-field label {
+  font-size: 0.83rem; color: var(--text-muted);
+  line-height: 1.55; cursor: pointer;
+}
+
 /* ─── HERO ───────────────────────────────────────────────── */
 .hero {
   padding: calc(var(--nav-h) + 80px) 24px 80px;
