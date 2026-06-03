@@ -153,6 +153,27 @@
       background: var(--accent-pale2); border-color: var(--accent); color: var(--accent); font-weight: 600;
     }
 
+    /* Ligne type + compagnie */
+    .assur-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px;
+      margin-bottom: 10px; position: relative;
+    }
+    .assur-row__remove {
+      position: absolute; top: 50%; right: -8px; transform: translateY(-50%);
+      background: none; border: none; font-size: 1rem; color: var(--text-light);
+      cursor: pointer; line-height: 1; padding: 4px; transition: color 0.15s;
+    }
+    .assur-row__remove:hover { color: var(--accent); }
+    .btn-add-assur {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.83rem; font-weight: 600;
+      color: var(--accent); background: none; border: 1.5px dashed rgba(185,64,32,0.35);
+      border-radius: 8px; padding: 7px 14px; cursor: pointer; margin-top: 4px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-add-assur:hover { background: rgba(185,64,32,0.06); border-color: var(--accent); }
+    .btn-add-assur:disabled { opacity: 0.4; cursor: default; }
+
     /* Toggle Oui/Non déjà assuré */
     .deja-toggle {
       padding: 9px 24px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
@@ -365,29 +386,12 @@
           </div>
           <div id="bloc-deja-assure" style="display:none;margin-top:16px;">
             <div style="background:var(--accent-pale);border:1px solid rgba(185,64,32,0.18);border-radius:var(--radius);padding:18px 20px;">
-              <p style="font-size:0.82rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Pour quel(s) type(s) ?</p>
-              <div class="pill-select" id="pillsDejaType" style="margin-bottom:16px;">
-                <!-- pills générées par JS -->
+              <div id="assur-rows">
+                <!-- lignes générées par JS -->
               </div>
-              <div class="fg-pat">
-                <label for="pat_compagnie">Avec quelle compagnie ?</label>
-                <select id="pat_compagnie" name="compagnie_actuelle">
-                  <option value="">Choisir…</option>
-                  <option>AXA</option>
-                  <option>Zurich</option>
-                  <option>Helvetia</option>
-                  <option>Allianz</option>
-                  <option>Generali</option>
-                  <option>Bâloise</option>
-                  <option>Vaudoise</option>
-                  <option>Mobilière</option>
-                  <option>TCS</option>
-                  <option>CAP</option>
-                  <option>DAS</option>
-                  <option>Protekta</option>
-                  <option>Autre</option>
-                </select>
-              </div>
+              <button type="button" id="btn-add-assur" class="btn-add-assur" onclick="addAssurRow()">
+                + Ajouter une autre assurance
+              </button>
             </div>
           </div>
 
@@ -596,8 +600,53 @@
       });
     }
 
-    buildPills('pillsBesoin',  TYPES);
-    buildPills('pillsDejaType', TYPES);
+    buildPills('pillsBesoin', TYPES);
+
+    /* ─── LIGNES TYPE + COMPAGNIE ────────────────────────── */
+    var COMPAGNIES = ['AXA','Zurich','Helvetia','Allianz','Generali','Bâloise','Vaudoise','Mobilière','TCS','CAP','DAS','Protekta','Autre'];
+    var assurRowCount = 0;
+    var MAX_ROWS = 5;
+
+    function typeOptions() {
+      return '<option value="">Type…</option>' +
+        TYPES.map(function(t) { return '<option>' + t + '</option>'; }).join('');
+    }
+    function compOptions() {
+      return '<option value="">Compagnie…</option>' +
+        COMPAGNIES.map(function(c) { return '<option>' + c + '</option>'; }).join('');
+    }
+
+    function addAssurRow() {
+      if (assurRowCount >= MAX_ROWS) return;
+      assurRowCount++;
+      var n   = assurRowCount;
+      var row = document.createElement('div');
+      row.className = 'assur-row';
+      row.id = 'assur-row-' + n;
+      row.innerHTML =
+        '<div class="fg-pat">' +
+          (n === 1 ? '<label>Type d\'assurance</label>' : '') +
+          '<select name="deja_type_' + n + '">' + typeOptions() + '</select>' +
+        '</div>' +
+        '<div class="fg-pat">' +
+          (n === 1 ? '<label>Avec quelle compagnie ?</label>' : '') +
+          '<select name="deja_comp_' + n + '">' + compOptions() + '</select>' +
+        '</div>' +
+        (n > 1 ? '<button type="button" class="assur-row__remove" onclick="removeAssurRow(' + n + ')" title="Supprimer">✕</button>' : '');
+      document.getElementById('assur-rows').appendChild(row);
+      var btn = document.getElementById('btn-add-assur');
+      if (assurRowCount >= MAX_ROWS) btn.disabled = true;
+    }
+
+    function removeAssurRow(n) {
+      var row = document.getElementById('assur-row-' + n);
+      if (row) row.remove();
+      assurRowCount--;
+      document.getElementById('btn-add-assur').disabled = false;
+    }
+
+    /* Ajouter la première ligne au chargement */
+    addAssurRow();
 
     /* ─── TOGGLE DÉJÀ ASSURÉ ─────────────────────────────── */
     function setDejaAssure(oui) {
