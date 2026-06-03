@@ -124,6 +124,15 @@
     .calcul-result__value { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
     .calcul-result__unit { font-size: 0.9rem; font-weight: 600; color: var(--accent); margin-left: 4px; }
     .calcul-note { font-size: 0.75rem; color: var(--text-light); line-height: 1.5; text-align: center; margin-top: 14px; }
+    /* Toggle montant versé (bloc existant) */
+    .pm-toggle {
+      padding: 4px 12px; font-family: 'DM Sans', sans-serif; font-size: 0.75rem;
+      font-weight: 600; color: var(--text-muted); background: var(--white);
+      border: none; cursor: pointer; transition: background 0.15s, color 0.15s;
+    }
+    .pm-toggle:first-child { border-right: 1.5px solid var(--border); }
+    .pm-toggle--active { background: var(--accent); color: var(--white); }
+
     .cc-toggle-btn {
       padding: 8px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
       font-weight: 600; color: var(--text-muted); background: var(--white);
@@ -536,11 +545,43 @@
                   </div>
                   <div class="fg-p">
                     <label for="p_3p_avec">Avec qui</label>
-                    <input type="text" id="p_3p_avec" placeholder="ex: UBS, Zurich, AXA…" />
+                    <select id="p_3p_avec">
+                      <option value="">Choisir…</option>
+                      <optgroup label="Banques">
+                        <option>UBS</option>
+                        <option>Credit Suisse</option>
+                        <option>Raiffeisen</option>
+                        <option>PostFinance</option>
+                        <option>Banque Cantonale Vaudoise (BCV)</option>
+                        <option>Banque Cantonale de Genève (BCGE)</option>
+                        <option>Migros Bank</option>
+                        <option>Cler</option>
+                      </optgroup>
+                      <optgroup label="Assurances">
+                        <option>AXA</option>
+                        <option>Zurich</option>
+                        <option>Swiss Life</option>
+                        <option>Helvetia</option>
+                        <option>Allianz</option>
+                        <option>Generali</option>
+                        <option>Bâloise</option>
+                        <option>Pax</option>
+                        <option>Vaudoise</option>
+                        <option>Mobilière</option>
+                      </optgroup>
+                      <option value="autre">Autre</option>
+                    </select>
                   </div>
                   <div class="fg-p">
-                    <label for="p_montant">Montant versé annuellement (CHF)</label>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;">
+                      <label for="p_montant" style="margin:0;">Montant versé (CHF)</label>
+                      <div style="display:flex;gap:0;border-radius:7px;overflow:hidden;border:1.5px solid var(--border);">
+                        <button type="button" id="pm_btn_annuel" class="pm-toggle pm-toggle--active" onclick="setPMMode('annuel')">Annuel</button>
+                        <button type="button" id="pm_btn_mensuel" class="pm-toggle" onclick="setPMMode('mensuel')">Mensuel</button>
+                      </div>
+                    </div>
                     <input type="number" id="p_montant" placeholder="3 000" min="0" />
+                    <span id="pm_hint" style="font-size:0.75rem;color:var(--text-light);margin-top:3px;">Montant annuel</span>
                   </div>
                 </div>
               </div>
@@ -776,6 +817,15 @@
       }
     }
     calcFiscal();
+
+    /* ─── TOGGLE MONTANT VERSÉ (BLOC EXISTANT) ──────────── */
+    var pmMode = 'annuel';
+    function setPMMode(mode) {
+      pmMode = mode;
+      document.getElementById('pm_btn_annuel').classList.toggle('pm-toggle--active',  mode === 'annuel');
+      document.getElementById('pm_btn_mensuel').classList.toggle('pm-toggle--active', mode === 'mensuel');
+      document.getElementById('pm_hint').textContent = mode === 'annuel' ? 'Montant annuel' : 'Montant mensuel';
+    }
 
     /* ─── SYNC SITUATION CALCULATEUR → FORMULAIRE ───────── */
     function syncSituation() {
