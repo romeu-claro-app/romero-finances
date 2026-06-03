@@ -168,6 +168,35 @@
     }
     .form-success-am p { color: var(--accent); font-weight: 600; font-size: 0.97rem; line-height: 1.6; }
 
+    /* ── PERSONNE BLOCK ──────────────────────────────────── */
+    .personne-block {
+      background: var(--blue-pale2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 22px; margin-bottom: 12px;
+    }
+    .personne-block__header {
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+    }
+    .fgrid-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px;
+    }
+    .personne-block--disabled { opacity: 0.55; pointer-events: none; }
+
+    /* ── PERSONNE NAISSANCE ───────────────────────────────── */
+    .personne-naissance {
+      display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;
+    }
+    .personne-naissance label { font-size: 0.84rem; font-weight: 600; color: var(--text-muted); }
+    .personne-naissance input {
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--text);
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 11px 14px; outline: none; width: 200px;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .personne-naissance input:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(13,158,107,0.12);
+    }
+
     /* ── CTA FINAL VERT ───────────────────────────────────── */
     .cta-vert {
       background: var(--accent); padding: 88px 24px; text-align: center;
@@ -373,6 +402,7 @@
         <form id="assuranceForm" onsubmit="submitAssurance(event)">
           <div class="form-grid-am">
 
+            <!-- Coordonnées -->
             <div class="fg-am">
               <label for="am_prenom">Prénom *</label>
               <input type="text" id="am_prenom" placeholder="Jean" required />
@@ -381,6 +411,12 @@
               <label for="am_nom">Nom *</label>
               <input type="text" id="am_nom" placeholder="Dupont" required />
             </div>
+
+            <div class="fg-am">
+              <label for="am_annee">Année de naissance *</label>
+              <input type="number" id="am_annee" placeholder="1985" min="1920" max="2020" required />
+            </div>
+            <div class="fg-am" style="visibility:hidden;"></div>
 
             <div class="fg-am">
               <label for="am_tel">Téléphone *</label>
@@ -407,7 +443,7 @@
             </div>
             <div class="fg-am">
               <label for="am_nb">Nombre de personnes à assurer *</label>
-              <select id="am_nb" required>
+              <select id="am_nb" onchange="onNbChange()" required>
                 <option value="">Choisir…</option>
                 <option value="1">1 personne</option>
                 <option value="2">2 personnes</option>
@@ -417,28 +453,56 @@
               </select>
             </div>
 
-            <div class="fg-am">
-              <label for="am_caisse">Caisse maladie actuelle</label>
-              <input type="text" id="am_caisse" placeholder="ex: Swica, CSS, Helsana…" />
-            </div>
-            <div class="fg-am">
-              <label for="am_prime">Prime mensuelle actuelle (CHF)</label>
-              <input type="number" id="am_prime" placeholder="350" min="0" />
+            <!-- Toggle "même assurance pour tous" -->
+            <div class="fg-am fg-am--full" id="meme-assurance-wrap" style="display:none;">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--accent-pale);border:1px solid rgba(13,158,107,0.2);border-radius:10px;">
+                <input type="checkbox" id="meme_assurance" style="width:18px;height:18px;min-width:18px;accent-color:var(--accent);cursor:pointer;" onchange="onMemeAssurance()" />
+                <label for="meme_assurance" style="font-size:0.9rem;font-weight:600;color:var(--accent);cursor:pointer;margin:0;">Tout le monde avec la même assurance</label>
+              </div>
             </div>
 
-            <div class="fg-am">
-              <label for="am_franchise">Franchise actuelle</label>
-              <select id="am_franchise">
-                <option value="">Choisir…</option>
-                <option value="300">300 CHF</option>
-                <option value="500">500 CHF</option>
-                <option value="1000">1 000 CHF</option>
-                <option value="1500">1 500 CHF</option>
-                <option value="2000">2 000 CHF</option>
-                <option value="2500">2 500 CHF</option>
-              </select>
+            <!-- Personne 1 -->
+            <div class="fg-am fg-am--full" id="personne-1-block">
+              <div class="personne-block" data-p="1">
+                <div class="personne-block__header">Assurances actuelles — Personne 1 (vous)</div>
+                <div class="fgrid-inner">
+                  <div class="fg-am">
+                    <label>Caisse LAMal actuelle</label>
+                    <input type="text" id="p1_lamal_caisse" name="p1_lamal_caisse" placeholder="ex: CSS, Swica…" oninput="syncMeme()" />
+                  </div>
+                  <div class="fg-am">
+                    <label>Prime mensuelle LAMal (CHF)</label>
+                    <input type="number" id="p1_lamal_prime" name="p1_lamal_prime" placeholder="320" min="0" oninput="syncMeme()" />
+                  </div>
+                  <div class="fg-am">
+                    <label>Franchise</label>
+                    <select id="p1_lamal_franchise" name="p1_lamal_franchise" onchange="syncMeme()">
+                      <option value="">Choisir…</option>
+                      <option value="300">300 CHF</option>
+                      <option value="500">500 CHF</option>
+                      <option value="1000">1 000 CHF</option>
+                      <option value="1500">1 500 CHF</option>
+                      <option value="2000">2 000 CHF</option>
+                      <option value="2500">2 500 CHF</option>
+                    </select>
+                  </div>
+                  <div class="fg-am">
+                    <label>Caisse LCA actuelle</label>
+                    <input type="text" id="p1_lca_caisse" name="p1_lca_caisse" placeholder="ex: CSS, Swica…" oninput="syncMeme()" />
+                  </div>
+                  <div class="fg-am" style="display:flex;flex-direction:row;align-items:center;gap:8px;padding-top:22px;">
+                    <input type="checkbox" id="p1_lca_same" style="width:16px;height:16px;min-width:16px;accent-color:var(--accent);cursor:pointer;" onchange="toggleLcaSame(1)" />
+                    <label for="p1_lca_same" style="font-size:0.82rem;font-weight:600;color:var(--text-muted);cursor:pointer;margin:0;">Même caisse que LAMal</label>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="fg-am">
+
+            <!-- Personnes supplémentaires (générées dynamiquement) -->
+            <div class="fg-am fg-am--full" id="extra-personnes"></div>
+
+            <!-- Médecin + commentaire -->
+            <div class="fg-am fg-am--full">
               <label for="am_medecin">Médecin de famille ?</label>
               <select id="am_medecin">
                 <option value="">Choisir…</option>
@@ -608,20 +672,135 @@
 
   <script src="js/main.js"></script>
   <script>
-    // Pré-remplir le formulaire depuis le card "Situation actuelle"
+    /* ─── PERSONNE BLOCKS ─────────────────────────────────── */
+    var currentNb = 1;
+
+    function franchiseOptions() {
+      return ['','300','500','1000','1500','2000','2500'].map(function(v) {
+        return '<option value="' + v + '">' + (v ? v.replace(/(\d)(?=(\d{3})+$)/g,'$1 ') + ' CHF' : 'Choisir…') + '</option>';
+      }).join('');
+    }
+
+    function buildPersonneBlock(n) {
+      var label = 'Assurances actuelles — Personne ' + n;
+      return '<div class="personne-block" id="p' + n + '-block" data-p="' + n + '">' +
+        '<div class="personne-block__header">' + label + '</div>' +
+        '<div class="personne-naissance">' +
+          '<label>Année de naissance</label>' +
+          '<input type="number" id="p' + n + '_annee" name="p' + n + '_annee" placeholder="1990" min="1920" max="2020" />' +
+        '</div>' +
+        '<div class="fgrid-inner">' +
+          '<div class="fg-am"><label>Caisse LAMal actuelle</label>' +
+            '<input type="text" id="p' + n + '_lamal_caisse" name="p' + n + '_lamal_caisse" placeholder="ex: CSS, Swica…" /></div>' +
+          '<div class="fg-am"><label>Prime mensuelle LAMal (CHF)</label>' +
+            '<input type="number" id="p' + n + '_lamal_prime" name="p' + n + '_lamal_prime" placeholder="320" min="0" /></div>' +
+          '<div class="fg-am"><label>Franchise</label>' +
+            '<select id="p' + n + '_lamal_franchise" name="p' + n + '_lamal_franchise">' + franchiseOptions() + '</select></div>' +
+          '<div class="fg-am"><label>Caisse LCA actuelle</label>' +
+            '<input type="text" id="p' + n + '_lca_caisse" name="p' + n + '_lca_caisse" placeholder="ex: CSS, Swica…" /></div>' +
+          '<div class="fg-am" style="display:flex;flex-direction:row;align-items:center;gap:8px;padding-top:22px;">' +
+            '<input type="checkbox" id="p' + n + '_lca_same" style="width:16px;height:16px;min-width:16px;accent-color:var(--accent);cursor:pointer;" onchange="toggleLcaSame(' + n + ')" />' +
+            '<label for="p' + n + '_lca_same" style="font-size:0.82rem;font-weight:600;color:var(--text-muted);cursor:pointer;margin:0;">Même caisse que LAMal</label>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function onNbChange() {
+      var nb = parseInt(document.getElementById('am_nb').value) || 1;
+      currentNb = nb;
+      var wrap  = document.getElementById('meme-assurance-wrap');
+      var extra = document.getElementById('extra-personnes');
+      wrap.style.display  = nb > 1 ? 'block' : 'none';
+      extra.innerHTML = '';
+      for (var i = 2; i <= nb; i++) {
+        extra.insertAdjacentHTML('beforeend', buildPersonneBlock(i));
+      }
+      document.getElementById('meme_assurance').checked = false;
+      enableAllBlocks();
+    }
+
+    function toggleLcaSame(n) {
+      var cb    = document.getElementById('p' + n + '_lca_same');
+      var input = document.getElementById('p' + n + '_lca_caisse');
+      if (cb.checked) {
+        var lamal = document.getElementById('p' + n + '_lamal_caisse').value;
+        input.value    = lamal;
+        input.disabled = true;
+      } else {
+        input.disabled = false;
+      }
+    }
+
+    /* ─── TOGGLE "MÊME ASSURANCE POUR TOUS" ──────────────── */
+    function onMemeAssurance() {
+      var locked = document.getElementById('meme_assurance').checked;
+      if (locked) syncAndLockAll();
+      else enableAllBlocks();
+    }
+
+    function getP1Values() {
+      return {
+        lamal_caisse:    document.getElementById('p1_lamal_caisse').value,
+        lamal_prime:     document.getElementById('p1_lamal_prime').value,
+        lamal_franchise: document.getElementById('p1_lamal_franchise').value,
+        lca_caisse:      document.getElementById('p1_lca_caisse').value,
+        lca_same:        document.getElementById('p1_lca_same').checked
+      };
+    }
+
+    function syncAndLockAll() {
+      var v = getP1Values();
+      for (var i = 2; i <= currentNb; i++) {
+        setBlockValues(i, v);
+        var block = document.getElementById('p' + i + '-block');
+        if (block) block.classList.add('personne-block--disabled');
+      }
+    }
+
+    function enableAllBlocks() {
+      for (var i = 2; i <= currentNb; i++) {
+        var block = document.getElementById('p' + i + '-block');
+        if (block) block.classList.remove('personne-block--disabled');
+      }
+    }
+
+    function setBlockValues(n, v) {
+      var f = function(id, val) { var el = document.getElementById(id); if (el) el.value = val; };
+      f('p' + n + '_lamal_caisse', v.lamal_caisse);
+      f('p' + n + '_lamal_prime',  v.lamal_prime);
+      f('p' + n + '_lamal_franchise', v.lamal_franchise);
+      var lcaCaisse = document.getElementById('p' + n + '_lca_caisse');
+      var lcaSame   = document.getElementById('p' + n + '_lca_same');
+      if (v.lca_same) {
+        if (lcaSame)   { lcaSame.checked = true; }
+        if (lcaCaisse) { lcaCaisse.value = v.lamal_caisse; lcaCaisse.disabled = true; }
+      } else {
+        if (lcaSame)   { lcaSame.checked = false; }
+        if (lcaCaisse) { lcaCaisse.value = v.lca_caisse; lcaCaisse.disabled = false; }
+      }
+    }
+
+    function syncMeme() {
+      if (document.getElementById('meme_assurance') && document.getElementById('meme_assurance').checked) {
+        syncAndLockAll();
+      }
+    }
+
+    /* ─── PRÉ-REMPLIR DEPUIS HERO CARD ──────────────────── */
     function prefillForm(e) {
       if (e) e.preventDefault();
-      var map = {
-        'am_canton':    document.getElementById('sc_canton'),
-        'am_caisse':    document.getElementById('sc_caisse'),
-        'am_prime':     document.getElementById('sc_prime'),
-        'am_franchise': document.getElementById('sc_franchise')
-      };
-      Object.keys(map).forEach(function (id) {
-        var src = map[id];
-        var dst = document.getElementById(id);
-        if (src && dst && src.value) dst.value = src.value;
-      });
+      var p1franchise = document.getElementById('p1_lamal_franchise');
+      var p1caisse    = document.getElementById('p1_lamal_caisse');
+      var p1prime     = document.getElementById('p1_lamal_prime');
+      if (document.getElementById('sc_canton').value)
+        document.getElementById('am_canton').value = document.getElementById('sc_canton').value;
+      if (document.getElementById('sc_caisse').value && p1caisse)
+        p1caisse.value = document.getElementById('sc_caisse').value;
+      if (document.getElementById('sc_prime').value && p1prime)
+        p1prime.value = document.getElementById('sc_prime').value;
+      if (document.getElementById('sc_franchise').value && p1franchise)
+        p1franchise.value = document.getElementById('sc_franchise').value;
       var navH   = document.getElementById('nav') ? document.getElementById('nav').offsetHeight : 68;
       var target = document.getElementById('formulaire');
       var top    = target.getBoundingClientRect().top + window.scrollY - navH - 16;
@@ -631,7 +810,7 @@
     // Submit formulaire
     function submitAssurance(e) {
       e.preventDefault();
-      var fields = ['am_prenom', 'am_nom', 'am_tel', 'am_email', 'am_canton', 'am_nb'];
+      var fields = ['am_prenom', 'am_nom', 'am_annee', 'am_tel', 'am_email', 'am_canton', 'am_nb'];
       var valid  = true;
       fields.forEach(function (id) {
         var el = document.getElementById(id);
