@@ -124,6 +124,22 @@
     .calcul-result__value { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
     .calcul-result__unit { font-size: 0.9rem; font-weight: 600; color: var(--accent); margin-left: 4px; }
     .calcul-note { font-size: 0.75rem; color: var(--text-light); line-height: 1.5; text-align: center; margin-top: 14px; }
+    .cc-toggle-btn {
+      padding: 8px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      font-weight: 600; color: var(--text-muted); background: var(--white);
+      border: none; cursor: pointer; transition: background 0.15s, color 0.15s;
+    }
+    .cc-toggle-btn:first-child { border-right: 1.5px solid var(--border); }
+    .cc-toggle-btn--active { background: var(--accent); color: var(--white); }
+    .cc-field input[type="month"] {
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--text);
+      background: var(--blue-pale2); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 11px 14px; outline: none; width: 100%;
+      transition: border-color 0.18s;
+    }
+    .cc-field input[type="month"]:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(186,117,23,0.12);
+    }
 
     /* ── CE QUE C'EST ─────────────────────────────────────── */
     .types-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -279,28 +295,38 @@
       <div class="calcul-card">
         <p class="calcul-card__title">Estimez votre avantage fiscal</p>
 
+        <!-- Situation professionnelle -->
         <div class="cc-field">
-          <label for="cc_revenu">Revenu annuel brut (CHF)</label>
-          <input type="number" id="cc_revenu" value="80000" min="10000" max="500000" step="1000" oninput="calcFiscal()" />
-        </div>
-
-        <div class="cc-field">
-          <label for="cc_canton">Canton</label>
-          <select id="cc_canton" onchange="calcFiscal()">
+          <label for="cc_situation">Situation professionnelle</label>
+          <select id="cc_situation" onchange="calcFiscal()">
             <option value="">Choisir…</option>
-            <option>Vaud</option>
-            <option>Genève</option>
-            <option>Fribourg</option>
-            <option>Neuchâtel</option>
-            <option>Valais</option>
-            <option>Berne</option>
-            <option>Zurich</option>
-            <option>Autre</option>
+            <option value="salarie">Salarié(e)</option>
+            <option value="independant">Indépendant(e)</option>
+            <option value="chef">Chef d'entreprise</option>
+            <option value="fonctionnaire">Fonctionnaire</option>
+            <option value="formation">En formation</option>
           </select>
         </div>
 
+        <!-- Dates en 2 colonnes -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+          <div class="cc-field" style="margin-bottom:0;">
+            <label for="cc_debut">Début du contrat</label>
+            <input type="month" id="cc_debut" oninput="calcFiscal()" />
+          </div>
+          <div class="cc-field" style="margin-bottom:0;">
+            <label for="cc_fin">Fin du contrat estimée</label>
+            <input type="month" id="cc_fin" oninput="calcFiscal()" />
+          </div>
+        </div>
+
+        <!-- Toggle Mensuel / Annuel -->
         <div class="cc-field">
-          <label>Versement annuel 3ème pilier (CHF)</label>
+          <label>Versement</label>
+          <div style="display:flex;gap:0;border-radius:10px;overflow:hidden;border:1.5px solid var(--border);width:fit-content;margin-bottom:10px;">
+            <button type="button" id="cc_btn_annuel" class="cc-toggle-btn cc-toggle-btn--active" onclick="setVersementMode('annuel')">Annuel</button>
+            <button type="button" id="cc_btn_mensuel" class="cc-toggle-btn" onclick="setVersementMode('mensuel')">Mensuel</button>
+          </div>
           <div class="cc-slider-wrap">
             <div class="cc-slider-row">
               <input type="range" class="cc-slider" id="cc_versement"
@@ -311,16 +337,26 @@
           </div>
         </div>
 
-        <div class="calcul-result">
-          <p class="calcul-result__label">Économie d'impôt estimée</p>
-          <div>
-            <span class="calcul-result__value" id="cc_result">1 815</span>
-            <span class="calcul-result__unit">CHF / an</span>
+        <!-- Deux résultats -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0;">
+          <div class="calcul-result" style="margin:0;">
+            <p class="calcul-result__label">Économie d'impôt</p>
+            <div>
+              <span class="calcul-result__value" id="cc_result_impot">2 032</span>
+              <span class="calcul-result__unit" style="font-size:0.78rem;">CHF/an</span>
+            </div>
+          </div>
+          <div class="calcul-result" style="margin:0;background:rgba(186,117,23,0.14);">
+            <p class="calcul-result__label">Capital à l'échéance</p>
+            <div>
+              <span class="calcul-result__value" id="cc_result_capital">—</span>
+              <span class="calcul-result__unit" style="font-size:0.78rem;" id="cc_capital_unit">CHF</span>
+            </div>
           </div>
         </div>
 
         <a href="#formulaire" class="btn--amber" style="width:100%;text-align:center;display:block;">Obtenir mon conseil personnalisé</a>
-        <p class="calcul-note">Estimation indicative. Le taux réel dépend de votre situation fiscale et de votre canton.</p>
+        <p class="calcul-note">Estimations indicatives basées sur un taux de rendement de 3.5% et un taux marginal d'imposition de 28%.</p>
       </div>
 
     </div>
@@ -655,13 +691,61 @@
   <script src="js/main.js"></script>
   <script>
     /* ─── CALCULATEUR FISCAL ─────────────────────────────── */
+    var versementMode = 'annuel';
+
+    // Init default dates: today + 20 ans
+    (function initDates() {
+      var now   = new Date();
+      var debut = now.toISOString().slice(0, 7);
+      var fin   = new Date(now.getFullYear() + 20, now.getMonth()).toISOString().slice(0, 7);
+      document.getElementById('cc_debut').value = debut;
+      document.getElementById('cc_fin').value   = fin;
+    })();
+
+    function setVersementMode(mode) {
+      versementMode = mode;
+      var slider = document.getElementById('cc_versement');
+      document.getElementById('cc_btn_annuel').classList.toggle('cc-toggle-btn--active',  mode === 'annuel');
+      document.getElementById('cc_btn_mensuel').classList.toggle('cc-toggle-btn--active', mode === 'mensuel');
+      if (mode === 'annuel') {
+        slider.max  = 7258;
+        slider.step = 100;
+        if (parseInt(slider.value) > 7258) slider.value = 7258;
+      } else {
+        slider.max  = 605;
+        slider.step = 10;
+        if (parseInt(slider.value) > 605) slider.value = 605;
+      }
+      calcFiscal();
+    }
+
     function calcFiscal() {
-      var versement = parseInt(document.getElementById('cc_versement').value) || 0;
-      document.getElementById('cc_versement_val').textContent =
-        versement.toLocaleString('fr-CH') + ' CHF';
-      var economie = Math.round(versement * 0.25);
-      document.getElementById('cc_result').textContent =
-        economie.toLocaleString('fr-CH');
+      var raw       = parseInt(document.getElementById('cc_versement').value) || 0;
+      var annuel    = versementMode === 'annuel' ? raw : raw * 12;
+      var label     = raw.toLocaleString('fr-CH') + ' CHF';
+      document.getElementById('cc_versement_val').textContent = label;
+
+      // Économie d'impôt
+      var economie = Math.round(annuel * 0.28);
+      document.getElementById('cc_result_impot').textContent = economie.toLocaleString('fr-CH');
+
+      // Capital à l'échéance
+      var debut = document.getElementById('cc_debut').value;
+      var fin   = document.getElementById('cc_fin').value;
+      var capEl = document.getElementById('cc_result_capital');
+      var uEl   = document.getElementById('cc_capital_unit');
+      if (debut && fin && fin > debut) {
+        var dDebut = new Date(debut + '-01');
+        var dFin   = new Date(fin   + '-01');
+        var anos   = (dFin - dDebut) / (1000 * 60 * 60 * 24 * 365.25);
+        anos = Math.max(0, anos);
+        var capital = Math.round(annuel * (Math.pow(1.035, anos) - 1) / 0.035);
+        capEl.textContent = capital.toLocaleString('fr-CH');
+        uEl.textContent   = 'CHF';
+      } else {
+        capEl.textContent = '—';
+        uEl.textContent   = '';
+      }
     }
     calcFiscal();
 
