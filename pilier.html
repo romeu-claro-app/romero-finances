@@ -131,14 +131,20 @@
     }
     .cc-toggle-btn:first-child { border-right: 1.5px solid var(--border); }
     .cc-toggle-btn--active { background: var(--accent); color: var(--white); }
+    .cc-dates-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;
+    }
     .cc-field input[type="month"] {
-      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--text);
       background: var(--blue-pale2); border: 1.5px solid var(--border);
-      border-radius: 10px; padding: 11px 14px; outline: none; width: 100%;
-      transition: border-color 0.18s;
+      border-radius: 10px; padding: 10px 10px; outline: none; width: 100%;
+      transition: border-color 0.18s; min-width: 0;
     }
     .cc-field input[type="month"]:focus {
       border-color: var(--accent); box-shadow: 0 0 0 3px rgba(186,117,23,0.12);
+    }
+    @media (max-width: 600px) {
+      .cc-dates-grid { grid-template-columns: 1fr; }
     }
 
     /* ── CE QUE C'EST ─────────────────────────────────────── */
@@ -309,7 +315,7 @@
         </div>
 
         <!-- Dates en 2 colonnes -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div class="cc-dates-grid">
           <div class="cc-field" style="margin-bottom:0;">
             <label for="cc_debut">Début du contrat</label>
             <input type="month" id="cc_debut" oninput="calcFiscal()" />
