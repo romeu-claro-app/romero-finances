@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dossier de crédit — Romero Finances</title>
+  <meta name="description" content="Complétez votre dossier de crédit en 5 étapes simples." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── PAGE WRAPPER ─────────────────────────────────────── */
+    .form-page {
+      padding: calc(var(--nav-h) + 48px) 24px 72px;
+      min-height: 100vh;
+    }
+    .form-page__inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .form-page__header { text-align: center; margin-bottom: 36px; }
+    .form-page__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .form-page__sub { font-size: 0.97rem; color: var(--text-muted); }
+
+    /* ── PROGRESS BAR ─────────────────────────────────────── */
+    .progress-wrap { margin-bottom: 36px; }
+    .progress-bar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+    }
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 0; right: 0;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .progress-fill {
+      position: absolute;
+      top: 18px;
+      left: 0;
+      height: 2px;
+      background: var(--blue);
+      z-index: 1;
+      transition: width 0.4s ease;
+    }
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 2;
+      flex: 1;
+    }
+    .progress-step__dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-light);
+      transition: background 0.25s, border-color 0.25s, color 0.25s, box-shadow 0.25s;
+    }
+    .progress-step.active .progress-step__dot {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
+      box-shadow: 0 0 0 4px rgba(43, 47, 212, 0.15);
+    }
+    .progress-step.done .progress-step__dot {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
+    }
+    .progress-step__label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-align: center;
+      line-height: 1.3;
+      transition: color 0.2s;
+    }
+    .progress-step.active .progress-step__label { color: var(--blue); }
+    .progress-step.done  .progress-step__label  { color: var(--text-muted); }
+
+    /* ── STEP CARD ────────────────────────────────────────── */
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 44px;
+    }
+    .step-card__title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    /* ── FORM FIELDS ──────────────────────────────────────── */
+    .fg { display: flex; flex-direction: column; gap: 6px; }
+    .fg label {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .fg input[type="text"],
+    .fg input[type="email"],
+    .fg input[type="tel"],
+    .fg input[type="number"],
+    .fg input[type="date"],
+    .fg select {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--blue-pale2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      width: 100%;
+    }
+    .fg select {
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239899B0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+      background-color: var(--blue-pale2);
+    }
+    .fg input:focus,
+    .fg select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(43, 47, 212, 0.1);
+      background: var(--white);
+    }
+    .fg input::placeholder { color: var(--text-light); }
+    .fg input[readonly] {
+      background: var(--blue-pale);
+      border-color: rgba(43, 47, 212, 0.2);
+      color: var(--blue);
+      font-weight: 700;
+      cursor: default;
+    }
+    .fgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 20px;
+      margin-bottom: 18px;
+    }
+    .fgrid .fg--full { grid-column: 1 / -1; }
+
+    /* ── TOGGLE YES/NO ────────────────────────────────────── */
+    .toggle-group { display: flex; gap: 0; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--border); width: fit-content; }
+    .toggle-btn {
+      padding: 9px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--white);
+      border: none;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+    .toggle-btn:first-child { border-right: 1.5px solid var(--border); }
+    .toggle-btn.active { background: var(--blue); color: var(--white); }
+    .toggle-btn.active--green { background: var(--green); color: var(--white); }
+
+    /* ── CONDITIONAL BLOCKS ───────────────────────────────── */
+    .cond-block {
+      background: var(--blue-pale2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-top: 14px;
+    }
+    .cond-block__title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+
+    /* ── ENFANTS ──────────────────────────────────────────── */
+    .enfant-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .enfant-item__remove {
+      position: absolute;
+      top: 12px; right: 14px;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: var(--text-light);
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+    .enfant-item__remove:hover { color: #B94020; }
+    .btn-add {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-pale);
+      border: 1.5px dashed rgba(43, 47, 212, 0.3);
+      border-radius: 10px;
+      padding: 9px 18px;
+      cursor: pointer;
+      transition: background 0.18s, border-color 0.18s;
+      margin-top: 10px;
+    }
+    .btn-add:hover { background: var(--blue-pale); border-color: var(--blue); }
+
+    /* ── UPLOADS ──────────────────────────────────────────── */
+    .upload-list { display: flex; flex-direction: column; gap: 12px; }
+    .upload-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--blue-pale2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+    }
+    .upload-item__label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+    }
+    .upload-item__right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .upload-item__filename {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .upload-item__filename.has-file { color: var(--green); font-weight: 600; }
+    .btn-file {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-pale);
+      border: 1.5px solid rgba(43, 47, 212, 0.2);
+      border-radius: 8px;
+      padding: 7px 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.18s;
+    }
+    .btn-file:hover { background: rgba(43, 47, 212, 0.12); }
+    .upload-input { display: none; }
+
+    /* ── SECTION SEPARATOR ────────────────────────────────── */
+    .section-sep {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 14px;
+    }
+
+    /* ── NAVIGATION BUTTONS ───────────────────────────────── */
+    .step-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+      gap: 12px;
+    }
+    .btn-back {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.93rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      padding: 12px 28px;
+      cursor: pointer;
+      transition: border-color 0.18s, color 0.18s;
+    }
+    .btn-back:hover { border-color: var(--text-muted); color: var(--text); }
+    .btn-next {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--blue);
+      border: none;
+      border-radius: 50px;
+      padding: 13px 36px;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+    }
+    .btn-next:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(43, 47, 212, 0.28);
+    }
+    .btn-submit {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--green);
+      border: none;
+      border-radius: 50px;
+      padding: 13px 36px;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+    }
+    .btn-submit:hover {
+      background: #0a8a5c;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(13, 158, 107, 0.3);
+    }
+    .step-counter {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    /* ── SUCCESS ──────────────────────────────────────────── */
+    .success-block {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+    }
+    .success-block__icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(13, 158, 107, 0.1);
+      color: var(--green);
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .success-block__title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .success-block__msg { color: var(--text-muted); font-size: 0.97rem; line-height: 1.65; }
+
+    /* ── VALIDATION ERROR ─────────────────────────────────── */
+    .field-error { border-color: #e53e3e !important; }
+    .error-msg { font-size: 0.78rem; color: #e53e3e; margin-top: 3px; display: none; }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .step-card { padding: 28px 20px; }
+      .fgrid { grid-template-columns: 1fr; }
+      .fgrid .fg--full { grid-column: 1; }
+      .progress-step__label { font-size: 0.62rem; }
+      .upload-item { flex-direction: column; align-items: flex-start; }
+      .upload-item__right { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.svg" alt="Romero Finances" class="nav__logo" />
+        <span class="nav__name">Romero Finances</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="credit.html">Crédit</a></li>
+        <li><a href="assurance.html">Assurance maladie</a></li>
+        <li><a href="pilier.html">3ème pilier</a></li>
+        <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+      </ul>
+      <a href="credit.html#formulaire" class="btn btn--primary btn--sm nav__cta">Obtenir un conseil</a>
+      <button class="nav__burger" aria-label="Menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="credit.html">Crédit</a>
+      <a href="assurance.html">Assurance maladie</a>
+      <a href="pilier.html">3ème pilier</a>
+      <a href="patrimoine.html">Choses &amp; patrimoine</a>
+      <a href="credit.html#formulaire" class="btn btn--primary">Obtenir un conseil</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="form-page">
+    <div class="form-page__inner">
+
+      <div class="form-page__header">
+        <h1 class="form-page__title">Votre dossier de crédit</h1>
+        <p class="form-page__sub">Complétez les 5 étapes — nous vous contactons sous 24h.</p>
+      </div>
+
+      <!-- PROGRESS BAR -->
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+          <div class="progress-step active" data-step="1">
+            <div class="progress-step__dot">1</div>
+            <span class="progress-step__label">Identité</span>
+          </div>
+          <div class="progress-step" data-step="2">
+            <div class="progress-step__dot">2</div>
+            <span class="progress-step__label">Famille</span>
+          </div>
+          <div class="progress-step" data-step="3">
+            <div class="progress-step__dot">3</div>
+            <span class="progress-step__label">Situation pro</span>
+          </div>
+          <div class="progress-step" data-step="4">
+            <div class="progress-step__dot">4</div>
+            <span class="progress-step__label">Logement &amp; dépenses</span>
+          </div>
+          <div class="progress-step" data-step="5">
+            <div class="progress-step__dot">5</div>
+            <span class="progress-step__label">Documents</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP CARD -->
+      <div class="step-card" id="stepCard">
+
+        <!-- ══ STEP 1 — IDENTITÉ ══════════════════════════════ -->
+        <div class="step-panel active" id="panel-1">
+          <h2 class="step-card__title">Identité</h2>
+
+          <div class="fgrid">
+            <div class="fg">
+              <label for="s1_prenom">Prénom *</label>
+              <input type="text" id="s1_prenom" name="prenom" placeholder="Jean" required />
+            </div>
+            <div class="fg">
+              <label for="s1_nom">Nom *</label>
+              <input type="text" id="s1_nom" name="nom" placeholder="Dupont" required />
+            </div>
+            <div class="fg">
+              <label for="s1_dob">Date de naissance *</label>
+              <input type="date" id="s1_dob" name="dob" required />
+            </div>
+            <div class="fg">
+              <label for="s1_nationalite">Nationalité *</label>
+              <select id="s1_nationalite" name="nationalite" onchange="checkNationalite()" required>
+                <option value="">Choisir…</option>
+                <option value="Suisse">Suisse</option>
+                <option value="Française">Française</option>
+                <option value="Allemande">Allemande</option>
+                <option value="Italienne">Italienne</option>
+                <option value="Portugaise">Portugaise</option>
+                <option value="Espagnole">Espagnole</option>
+                <option value="Autre">Autre</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Permis (si non suisse) -->
+          <div class="cond-block" id="bloc-permis" style="display:none;">
+            <p class="cond-block__title">Titre de séjour</p>
+            <div class="fgrid">
+              <div class="fg">
+                <label for="s1_permis">Type de permis *</label>
+                <select id="s1_permis" name="permis">
+                  <option value="">Choisir…</option>
+                  <option value="B">Permis B</option>
+                  <option value="C">Permis C</option>
+                  <option value="G">Permis G</option>
+                  <option value="L">Permis L</option>
+                  <option value="F">Permis F</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label for="s1_entree">Date d'entrée en Suisse *</label>
+                <input type="date" id="s1_entree" name="entree" />
+              </div>
+            </div>
+          </div>
+
+          <div class="fgrid" style="margin-top:18px;">
+            <div class="fg">
+              <label for="s1_email">Email *</label>
+              <input type="email" id="s1_email" name="email" placeholder="jean@exemple.ch" required />
+            </div>
+            <div class="fg">
+              <label for="s1_tel">Téléphone *</label>
+              <input type="tel" id="s1_tel" name="telephone" placeholder="+41 79 000 00 00" required />
+            </div>
+          </div>
+
+          <hr class="section-sep" />
+          <p class="section-label">Demande de crédit</p>
+          <div class="fgrid">
+            <div class="fg">
+              <label for="s1_montant">Montant souhaité (CHF)</label>
+              <input type="text" id="s1_montant" name="montant" readonly />
+            </div>
+            <div class="fg">
+              <label for="s1_duree">Durée souhaitée</label>
+              <input type="text" id="s1_duree" name="duree" readonly />
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ STEP 2 — FAMILLE ═══════════════════════════════ -->
+        <div class="step-panel" id="panel-2">
+          <h2 class="step-card__title">Situation familiale</h2>
+
+          <div class="fgrid">
+            <div class="fg fg--full">
+              <label for="s2_etatcivil">État civil *</label>
+              <select id="s2_etatcivil" name="etatcivil" onchange="checkEtatCivil()" required>
+                <option value="">Choisir…</option>
+                <option value="celibataire">Célibataire</option>
+                <option value="marie">Marié(e)</option>
+                <option value="partenariat">Partenariat enregistré</option>
+                <option value="divorce">Divorcé(e)</option>
+                <option value="veuf">Veuf / Veuve</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Bloc conjoint(e) -->
+          <div class="cond-block" id="bloc-conjoint" style="display:none;">
+            <p class="cond-block__title">Conjoint(e) / Partenaire</p>
+            <div class="fgrid">
+              <div class="fg">
+                <label for="s2c_prenom">Prénom *</label>
+                <input type="text" id="s2c_prenom" name="c_prenom" placeholder="Marie" />
+              </div>
+              <div class="fg">
+                <label for="s2c_nom">Nom *</label>
+                <input type="text" id="s2c_nom" name="c_nom" placeholder="Dupont" />
+              </div>
+              <div class="fg">
+                <label for="s2c_dob">Date de naissance *</label>
+                <input type="date" id="s2c_dob" name="c_dob" />
+              </div>
+              <div class="fg">
+                <label for="s2c_nat">Nationalité *</label>
+                <select id="s2c_nat" name="c_nationalite" onchange="checkNationaliteConjoint()" >
+                  <option value="">Choisir…</option>
+                  <option value="Suisse">Suisse</option>
+                  <option value="Française">Française</option>
+                  <option value="Allemande">Allemande</option>
+                  <option value="Italienne">Italienne</option>
+                  <option value="Portugaise">Portugaise</option>
+                  <option value="Espagnole">Espagnole</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+            </div>
+            <div class="cond-block" id="bloc-permis-conjoint" style="display:none;margin-top:0;background:var(--white);">
+              <p class="cond-block__title">Titre de séjour du / de la conjoint(e)</p>
+              <div class="fgrid">
+                <div class="fg">
+                  <label for="s2c_permis">Type de permis</label>
+                  <select id="s2c_permis" name="c_permis">
+                    <option value="">Choisir…</option>
+                    <option value="B">Permis B</option>
+                    <option value="C">Permis C</option>
+                    <option value="G">Permis G</option>
+                    <option value="L">Permis L</option>
+                    <option value="F">Permis F</option>
+                    <option value="Autre">Autre</option>
+                  </select>
+                </div>
+                <div class="fg">
+                  <label for="s2c_entree">Date d'entrée en Suisse</label>
+                  <input type="date" id="s2c_entree" name="c_entree" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enfants -->
+          <hr class="section-sep" />
+          <p class="section-label">Enfants à charge</p>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;">
+            <span style="font-size:0.9rem;font-weight:600;color:var(--text-muted);">Avez-vous des enfants à charge ?</span>
+            <div class="toggle-group">
+              <button type="button" class="toggle-btn" id="enfants-non" onclick="toggleEnfants(false)">Non</button>
+              <button type="button" class="toggle-btn" id="enfants-oui" onclick="toggleEnfants(true)">Oui</button>
+            </div>
+          </div>
+
+          <div id="bloc-enfants" style="display:none;margin-top:14px;">
+            <div id="enfants-list"></div>
+            <button type="button" class="btn-add" onclick="addEnfant()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Ajouter un enfant
+            </button>
+          </div>
+        </div>
+
+        <!-- ══ STEP 3 — SITUATION PRO ═════════════════════════ -->
+        <div class="step-panel" id="panel-3">
+          <h2 class="step-card__title">Votre situation</h2>
+
+          <div class="fgrid">
+            <div class="fg">
+              <label for="s3_salaire">Salaire mensuel net (CHF) *</label>
+              <input type="number" id="s3_salaire" name="salaire" placeholder="5 000" min="0" required />
+            </div>
+            <div class="fg">
+              <label for="s3_debut">Date de début d'activité *</label>
+              <input type="date" id="s3_debut" name="debut_activite" required />
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;">
+            <span style="font-size:0.9rem;font-weight:600;color:var(--text-muted);">Activité secondaire ?</span>
+            <div class="toggle-group">
+              <button type="button" class="toggle-btn active" id="sec-non" onclick="toggleSecondaire(false)">Non</button>
+              <button type="button" class="toggle-btn" id="sec-oui" onclick="toggleSecondaire(true)">Oui</button>
+            </div>
+          </div>
+
+          <div class="cond-block" id="bloc-secondaire" style="display:none;">
+            <div class="fg">
+              <label for="s3_salaire2">Salaire net activité secondaire (CHF) *</label>
+              <input type="number" id="s3_salaire2" name="salaire_secondaire" placeholder="1 000" min="0" />
+            </div>
+          </div>
+
+          <!-- Conjoint pro (si marié/partenariat) -->
+          <div id="bloc-conjoint-pro" style="display:none;margin-top:24px;">
+            <hr class="section-sep" style="margin-top:0;" />
+            <p class="section-label">Situation de votre conjoint(e)</p>
+            <div class="fgrid">
+              <div class="fg">
+                <label for="s3c_salaire">Salaire mensuel net (CHF)</label>
+                <input type="number" id="s3c_salaire" name="c_salaire" placeholder="4 000" min="0" />
+              </div>
+              <div class="fg">
+                <label for="s3c_debut">Date de début d'activité</label>
+                <input type="date" id="s3c_debut" name="c_debut_activite" />
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;">
+              <span style="font-size:0.9rem;font-weight:600;color:var(--text-muted);">Activité secondaire ?</span>
+              <div class="toggle-group">
+                <button type="button" class="toggle-btn active" id="csec-non" onclick="toggleSecondaireConjoint(false)">Non</button>
+                <button type="button" class="toggle-btn" id="csec-oui" onclick="toggleSecondaireConjoint(true)">Oui</button>
+              </div>
+            </div>
+            <div class="cond-block" id="bloc-csecondaire" style="display:none;">
+              <div class="fg">
+                <label for="s3c_salaire2">Salaire net activité secondaire (CHF)</label>
+                <input type="number" id="s3c_salaire2" name="c_salaire_secondaire" placeholder="800" min="0" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ STEP 4 — LOGEMENT & DÉPENSES ═══════════════════ -->
+        <div class="step-panel" id="panel-4">
+          <h2 class="step-card__title">Logement &amp; dépenses</h2>
+
+          <p class="section-label">Statut de logement</p>
+          <div class="toggle-group" style="margin-bottom:4px;">
+            <button type="button" class="toggle-btn active" id="loc-btn" onclick="setLogement('locataire')">Locataire</button>
+            <button type="button" class="toggle-btn" id="prop-btn" onclick="setLogement('proprietaire')">Propriétaire</button>
+          </div>
+
+          <div class="cond-block" id="bloc-locataire" style="margin-top:14px;">
+            <div class="fgrid">
+              <div class="fg">
+                <label for="s4_loyer">Loyer mensuel (CHF) *</label>
+                <input type="number" id="s4_loyer" name="loyer" placeholder="1 500" min="0" />
+              </div>
+              <div class="fg">
+                <label for="s4_depuis">Date d'entrée dans le logement</label>
+                <input type="date" id="s4_depuis" name="logement_depuis" />
+              </div>
+            </div>
+          </div>
+
+          <div class="cond-block" id="bloc-proprietaire" style="display:none;margin-top:14px;">
+            <div class="fg">
+              <label for="s4_valeur">Valeur estimée du bien (CHF)</label>
+              <input type="number" id="s4_valeur" name="valeur_bien" placeholder="600 000" min="0" />
+            </div>
+            <p style="font-size:0.82rem;color:var(--text-muted);margin-top:10px;">📎 Un acte de propriété vous sera demandé à l'étape Documents.</p>
+          </div>
+
+          <hr class="section-sep" />
+          <p class="section-label">Dépenses mensuelles</p>
+
+          <div class="fgrid">
+            <div class="fg fg--full">
+              <label for="s4_assurance">Primes d'assurance maladie — total famille (CHF) *</label>
+              <input type="number" id="s4_assurance" name="primes_maladie" placeholder="450" min="0" required />
+            </div>
+
+            <div class="fg">
+              <label for="s4_transport">Déplacements domicile-travail</label>
+              <select id="s4_transport" name="transport" onchange="checkTransport()">
+                <option value="">Choisir…</option>
+                <option value="voiture_privee">Voiture privée</option>
+                <option value="voiture_societe">Voiture de société</option>
+                <option value="velo">Vélo</option>
+                <option value="pied">À pied</option>
+                <option value="tp">Transports publics</option>
+                <option value="trottinette">Trottinette</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label for="s4_transport_cout">Coût mensuel transport (CHF)</label>
+              <input type="number" id="s4_transport_cout" name="transport_cout" placeholder="150" min="0" />
+            </div>
+
+            <div class="fg">
+              <label for="s4_repas">Repas</label>
+              <select id="s4_repas" name="repas" onchange="checkRepas()">
+                <option value="">Choisir…</option>
+                <option value="maison">Repas apportés de maison</option>
+                <option value="achat">Achat sur place</option>
+                <option value="cantine">Cantine de l'entreprise</option>
+                <option value="offerts">Repas offerts par l'employeur</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label for="s4_repas_cout">Coût mensuel repas (CHF)</label>
+              <input type="number" id="s4_repas_cout" name="repas_cout" placeholder="200" min="0" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ STEP 5 — DOCUMENTS ════════════════════════════ -->
+        <div class="step-panel" id="panel-5">
+          <h2 class="step-card__title">Pièces justificatives</h2>
+          <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:24px;">Formats acceptés : PDF, JPG, PNG. Taille max. 10 Mo par fichier.</p>
+          <div class="upload-list" id="uploadList">
+            <!-- Générée dynamiquement par buildUploadList() -->
+          </div>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="success-block" id="successBlock">
+          <div class="success-block__icon">✓</div>
+          <h3 class="success-block__title">Dossier envoyé !</h3>
+          <p class="success-block__msg">Votre dossier a bien été reçu.<br />Nous vous contactons sous 24h.</p>
+        </div>
+
+      </div>
+      <!-- /step-card -->
+
+      <!-- NAV BUTTONS -->
+      <div class="step-nav" id="stepNav">
+        <button type="button" class="btn-back" id="btnBack" onclick="goBack()" style="visibility:hidden;">Retour</button>
+        <span class="step-counter" id="stepCounter">Étape 1 sur 5</span>
+        <button type="button" class="btn-next" id="btnNext" onclick="goNext()">Suivant →</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col footer__col--brand">
+          <div class="footer__brand">
+            <img src="assets/logo.svg" alt="Romero Finances" class="footer__logo" />
+            <span>Romero Finances</span>
+          </div>
+          <p class="footer__desc">Conseil indépendant en finances personnelles pour les résidents de Suisse romande.</p>
+          <div class="footer__contacts">
+            <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a>
+            <a href="tel:+41782044818">+41 78 204 48 18</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Solutions</h5>
+          <ul>
+            <li><a href="credit.html">Crédit privé</a></li>
+            <li><a href="assurance.html">Assurance maladie</a></li>
+            <li><a href="pilier.html">3ème pilier</a></li>
+            <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Légal</h5>
+          <ul>
+            <li><a href="#">Mentions légales</a></li>
+            <li><a href="#">Politique de confidentialité</a></li>
+            <li><a href="#">Conditions générales</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Contact</h5>
+          <ul>
+            <li><a href="merci.html">Demande de conseil</a></li>
+            <li><a href="mailto:contact@romerofinances.ch">Nous écrire</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Romero Finances. Tous droits réservés.</p>
+        <p class="footer__lcc">Intermédiaire en crédit soumis à la Loi sur le crédit à la consommation (LCC). Activité réglementée.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ─── STATE ─────────────────────────────────────────────── */
+    var currentStep  = 1;
+    var totalSteps   = 5;
+    var logementType = 'locataire';
+    var enfantCount  = 0;
+
+    /* ─── URL PARAMS → STEP 1 ───────────────────────────────── */
+    (function prefill() {
+      var p = new URLSearchParams(window.location.search);
+      function set(id, val) {
+        var el = document.getElementById(id);
+        if (el && val) el.value = val;
+      }
+      set('s1_prenom',  p.get('prenom'));
+      set('s1_nom',     p.get('nom'));
+      set('s1_email',   p.get('email'));
+      set('s1_tel',     p.get('telephone'));
+      if (p.get('montant')) {
+        var el = document.getElementById('s1_montant');
+        if (el) el.value = Number(p.get('montant')).toLocaleString('fr-CH') + ' CHF';
+      }
+      if (p.get('duree')) {
+        var el = document.getElementById('s1_duree');
+        if (el) el.value = p.get('duree') + ' mois';
+      }
+    })();
+
+    /* ─── PROGRESS ───────────────────────────────────────────── */
+    function updateProgress() {
+      var steps = document.querySelectorAll('.progress-step');
+      steps.forEach(function (s, i) {
+        var n = i + 1;
+        s.classList.remove('active', 'done');
+        if (n < currentStep)  s.classList.add('done');
+        if (n === currentStep) s.classList.add('active');
+        var dot = s.querySelector('.progress-step__dot');
+        dot.textContent = n < currentStep ? '✓' : n;
+      });
+      var pct = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('stepCounter').textContent = 'Étape ' + currentStep + ' sur ' + totalSteps;
+      document.getElementById('btnBack').style.visibility = currentStep > 1 ? 'visible' : 'hidden';
+      var btnNext = document.getElementById('btnNext');
+      if (currentStep === totalSteps) {
+        btnNext.textContent   = 'Envoyer mon dossier ✓';
+        btnNext.className     = 'btn-submit';
+        btnNext.onclick       = submitDossier;
+      } else {
+        btnNext.textContent   = 'Suivant →';
+        btnNext.className     = 'btn-next';
+        btnNext.onclick       = goNext;
+      }
+    }
+
+    function showStep(n) {
+      document.querySelectorAll('.step-panel').forEach(function (p) { p.classList.remove('active'); });
+      var panel = document.getElementById('panel-' + n);
+      if (panel) panel.classList.add('active');
+      if (n === 5) buildUploadList();
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ─── NAVIGATION ─────────────────────────────────────────── */
+    function goNext() {
+      if (!validateStep(currentStep)) return;
+      if (currentStep < totalSteps) {
+        currentStep++;
+        if (currentStep === 3) syncConjointPro();
+        showStep(currentStep);
+      }
+    }
+    function goBack() {
+      if (currentStep > 1) { currentStep--; showStep(currentStep); }
+    }
+
+    /* ─── VALIDATION ─────────────────────────────────────────── */
+    function validateStep(n) {
+      var panel   = document.getElementById('panel-' + n);
+      var inputs  = panel.querySelectorAll('input[required], select[required]');
+      var valid   = true;
+      inputs.forEach(function (el) {
+        if (!el.value.trim()) {
+          el.classList.add('field-error');
+          el.addEventListener('input', function () { el.classList.remove('field-error'); }, { once: true });
+          valid = false;
+        }
+      });
+      if (!valid) {
+        var first = panel.querySelector('.field-error');
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return valid;
+    }
+
+    /* ─── STEP 1 — CONDITIONS ────────────────────────────────── */
+    function checkNationalite() {
+      var val  = document.getElementById('s1_nationalite').value;
+      var bloc = document.getElementById('bloc-permis');
+      var show = val && val !== 'Suisse';
+      bloc.style.display = show ? 'block' : 'none';
+      setRequired('s1_permis', show);
+      setRequired('s1_entree', show);
+    }
+
+    /* ─── STEP 2 — CONDITIONS ────────────────────────────────── */
+    function checkEtatCivil() {
+      var val    = document.getElementById('s2_etatcivil').value;
+      var couple = val === 'marie' || val === 'partenariat';
+      document.getElementById('bloc-conjoint').style.display = couple ? 'block' : 'none';
+    }
+    function checkNationaliteConjoint() {
+      var val  = document.getElementById('s2c_nat').value;
+      var bloc = document.getElementById('bloc-permis-conjoint');
+      bloc.style.display = (val && val !== 'Suisse') ? 'block' : 'none';
+    }
+    function toggleEnfants(val) {
+      document.getElementById('enfants-oui').classList.toggle('active', val);
+      document.getElementById('enfants-non').classList.toggle('active', !val);
+      document.getElementById('bloc-enfants').style.display = val ? 'block' : 'none';
+    }
+    function addEnfant() {
+      enfantCount++;
+      var id  = 'enfant-' + enfantCount;
+      var div = document.createElement('div');
+      div.className = 'enfant-item';
+      div.id = id;
+      div.innerHTML =
+        '<button type="button" class="enfant-item__remove" onclick="removeEnfant(\'' + id + '\')">✕</button>' +
+        '<div class="fgrid">' +
+          '<div class="fg">' +
+            '<label>Prénom</label>' +
+            '<input type="text" name="enfant_prenom_' + enfantCount + '" placeholder="Lucie" />' +
+          '</div>' +
+          '<div class="fg">' +
+            '<label>Date de naissance</label>' +
+            '<input type="date" name="enfant_dob_' + enfantCount + '" />' +
+          '</div>' +
+          '<div class="fg fg--full" style="flex-direction:row;align-items:center;gap:14px;">' +
+            '<span style="font-size:0.9rem;font-weight:600;color:var(--text-muted);">En apprentissage ?</span>' +
+            '<div class="toggle-group">' +
+              '<button type="button" class="toggle-btn active" onclick="setApprenti(this,false)">Non</button>' +
+              '<button type="button" class="toggle-btn" onclick="setApprenti(this,true)">Oui</button>' +
+            '</div>' +
+            '<input type="hidden" name="enfant_apprenti_' + enfantCount + '" value="non" />' +
+          '</div>' +
+        '</div>';
+      document.getElementById('enfants-list').appendChild(div);
+    }
+    function removeEnfant(id) { var el = document.getElementById(id); if (el) el.remove(); }
+    function setApprenti(btn, val) {
+      var group = btn.closest('.toggle-group');
+      group.querySelectorAll('.toggle-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var hidden = group.parentElement.querySelector('input[type="hidden"]');
+      if (hidden) hidden.value = val ? 'oui' : 'non';
+    }
+
+    /* ─── STEP 3 — CONDITIONS ────────────────────────────────── */
+    function toggleSecondaire(val) {
+      document.getElementById('sec-oui').classList.toggle('active', val);
+      document.getElementById('sec-non').classList.toggle('active', !val);
+      var bloc = document.getElementById('bloc-secondaire');
+      bloc.style.display = val ? 'block' : 'none';
+      setRequired('s3_salaire2', val);
+    }
+    function toggleSecondaireConjoint(val) {
+      document.getElementById('csec-oui').classList.toggle('active', val);
+      document.getElementById('csec-non').classList.toggle('active', !val);
+      document.getElementById('bloc-csecondaire').style.display = val ? 'block' : 'none';
+    }
+    function syncConjointPro() {
+      var val    = document.getElementById('s2_etatcivil').value;
+      var couple = val === 'marie' || val === 'partenariat';
+      document.getElementById('bloc-conjoint-pro').style.display = couple ? 'block' : 'none';
+    }
+
+    /* ─── STEP 4 — CONDITIONS ────────────────────────────────── */
+    function setLogement(type) {
+      logementType = type;
+      document.getElementById('loc-btn').classList.toggle('active',  type === 'locataire');
+      document.getElementById('prop-btn').classList.toggle('active', type === 'proprietaire');
+      document.getElementById('bloc-locataire').style.display    = type === 'locataire'    ? 'block' : 'none';
+      document.getElementById('bloc-proprietaire').style.display = type === 'proprietaire' ? 'block' : 'none';
+      setRequired('s4_loyer', type === 'locataire');
+    }
+    function checkTransport() {
+      var val  = document.getElementById('s4_transport').value;
+      var free = val === 'voiture_societe' || val === 'pied' || val === 'velo';
+      var inp  = document.getElementById('s4_transport_cout');
+      inp.disabled = free;
+      if (free) inp.value = '0';
+    }
+    function checkRepas() {
+      var val  = document.getElementById('s4_repas').value;
+      var free = val === 'offerts';
+      var inp  = document.getElementById('s4_repas_cout');
+      inp.disabled = free;
+      if (free) inp.value = '0';
+    }
+
+    /* ─── STEP 5 — UPLOAD LIST ───────────────────────────────── */
+    function buildUploadList() {
+      var nat       = document.getElementById('s1_nationalite').value;
+      var etat      = document.getElementById('s2_etatcivil').value;
+      var couple    = etat === 'marie' || etat === 'partenariat';
+      var prenom    = document.getElementById('s1_prenom').value || 'le demandeur';
+      var cPrenom   = document.getElementById('s2c_prenom').value || 'le / la conjoint(e)';
+      var hasApprenti = false;
+      document.querySelectorAll('input[type="hidden"][name^="enfant_apprenti_"]').forEach(function (h) {
+        if (h.value === 'oui') hasApprenti = true;
+      });
+
+      var items = [];
+      // Identité — tous les adultes
+      var adultes = couple ? prenom + ' + ' + cPrenom : prenom;
+      items.push({ label: 'Pièce d\'identité — ' + adultes });
+      // Fiches de salaire
+      items.push({ label: '3 dernières fiches de salaire — ' + prenom });
+      if (couple) items.push({ label: '3 dernières fiches de salaire — ' + cPrenom });
+      // Apprenti
+      if (hasApprenti) {
+        items.push({ label: 'Dernière fiche de salaire — apprenti(e)' });
+        items.push({ label: 'Contrat d\'apprentissage' });
+      }
+      // Logement
+      if (logementType === 'locataire')    items.push({ label: 'Contrat de bail' });
+      if (logementType === 'proprietaire') items.push({ label: 'Acte de propriété' });
+      // Assurance maladie
+      items.push({ label: 'Police d\'assurance maladie + facture récente' });
+
+      var list = document.getElementById('uploadList');
+      list.innerHTML = '';
+      items.forEach(function (item, i) {
+        var uid = 'file-' + i;
+        var div = document.createElement('div');
+        div.className = 'upload-item';
+        div.innerHTML =
+          '<span class="upload-item__label">' + item.label + '</span>' +
+          '<div class="upload-item__right">' +
+            '<span class="upload-item__filename" id="fname-' + i + '">Aucun fichier</span>' +
+            '<button type="button" class="btn-file" onclick="document.getElementById(\'' + uid + '\').click()">Choisir un fichier</button>' +
+            '<input type="file" class="upload-input" id="' + uid + '" accept=".pdf,.jpg,.jpeg,.png" onchange="showFilename(this,' + i + ')" />' +
+          '</div>';
+        list.appendChild(div);
+      });
+    }
+    function showFilename(inp, i) {
+      var span = document.getElementById('fname-' + i);
+      if (inp.files && inp.files[0]) {
+        span.textContent = inp.files[0].name;
+        span.classList.add('has-file');
+      }
+    }
+
+    /* ─── SUBMIT ─────────────────────────────────────────────── */
+    function submitDossier() {
+      if (!validateStep(5)) return;
+      document.querySelectorAll('.step-panel').forEach(function (p) { p.classList.remove('active'); });
+      document.getElementById('successBlock').style.display = 'block';
+      document.getElementById('stepNav').style.display      = 'none';
+      document.getElementById('progressFill').style.width   = '100%';
+      document.querySelectorAll('.progress-step').forEach(function (s) {
+        s.classList.remove('active');
+        s.classList.add('done');
+        s.querySelector('.progress-step__dot').textContent = '✓';
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ─── HELPERS ────────────────────────────────────────────── */
+    function setRequired(id, req) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (req) el.setAttribute('required', '');
+      else     el.removeAttribute('required');
+    }
+
+    /* ─── INIT ───────────────────────────────────────────────── */
+    showStep(1);
+  </script>
+</body>
+</html>
