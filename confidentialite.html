@@ -38,7 +38,14 @@
       </a>
       <ul class="nav__links">
         <li><a href="credit.html">Crédit</a></li>
-        <li><a href="assurance.html">Assurance maladie</a></li>
+        <li class="nav__dropdown">
+          <a href="assurance.html" class="nav__dropdown-toggle">Assurance maladie <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+          <div class="nav__dropdown-menu">
+            <a href="assurance.html">Comparer mon assurance</a>
+            <a href="assurance-nouveau-arrive.html">Nouveau arrivé en Suisse</a>
+            <a href="assurance-prenatale.html">Assurance pré-natale</a>
+          </div>
+        </li>
         <li><a href="pilier.html">3ème pilier</a></li>
         <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
       </ul>
@@ -50,6 +57,8 @@
     <div class="nav__mobile" id="navMobile">
       <a href="credit.html">Crédit</a>
       <a href="assurance.html">Assurance maladie</a>
+      <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Nouveau arrivé en Suisse</a>
+      <a href="assurance-prenatale.html" class="nav__mobile-sub">Assurance pré-natale</a>
       <a href="pilier.html">3ème pilier</a>
       <a href="patrimoine.html">Choses &amp; patrimoine</a>
       <a href="index.html#produits" class="btn btn--primary">Obtenir un conseil</a>

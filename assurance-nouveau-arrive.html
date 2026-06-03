@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouveau arrivé en Suisse — Assurance maladie — Romero Finances</title>
+  <meta name="description" content="Vous venez d'arriver en Suisse ? L'assurance maladie LAMal est obligatoire dans les 3 mois. Romero Finances vous guide pour choisir la meilleure caisse maladie selon votre canton." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── ACCENT ───────────────────────────────────────────── */
+    :root { --accent: #0D9E6B; --accent-dark: #0a8a5c; --accent-pale: rgba(13,158,107,0.08); --accent-pale2: rgba(13,158,107,0.12); }
+
+    /* ── NAV ACTIVE ───────────────────────────────────────── */
+    .nav__links a.active { color: var(--accent); font-weight: 600; }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero-am { padding: calc(var(--nav-h) + 88px) 24px 80px; }
+    .hero-am__inner { max-width: 780px; margin: 0 auto; }
+    .hero-am__text { display: flex; flex-direction: column; gap: 22px; }
+    .hero-am__h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.8vw, 2.8rem);
+      font-weight: 700; line-height: 1.2;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .hero-am__sub { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; max-width: 640px; }
+    .hero-am__pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill--green {
+      display: inline-block;
+      background: var(--accent-pale); border: 1px solid rgba(13,158,107,0.2);
+      border-radius: 50px; padding: 7px 18px;
+      font-size: 0.87rem; font-weight: 500; color: var(--accent);
+    }
+    .badge--green {
+      display: inline-block;
+      background: var(--accent-pale); color: var(--accent);
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em;
+      text-transform: uppercase; padding: 6px 16px; border-radius: 50px;
+      border: 1px solid rgba(13,158,107,0.2);
+    }
+    .btn--green {
+      display: inline-block; font-family: 'DM Sans', sans-serif; font-weight: 600;
+      border-radius: 50px; text-decoration: none; cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+      background: var(--accent); color: var(--white);
+      padding: 13px 32px; font-size: 1rem; border: none;
+    }
+    .btn--green:hover {
+      background: var(--accent-dark); transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(13,158,107,0.3);
+    }
+    .btn--green--lg { padding: 16px 40px; font-size: 1.05rem; }
+
+    /* ── INFOS RAPIDES ────────────────────────────────────── */
+    .info-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .info-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px 22px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .info-card__icon {
+      width: 48px; height: 48px; border-radius: 13px;
+      background: var(--accent-pale); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .info-card__title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--text); }
+    .info-card__desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── ÉTAPES ───────────────────────────────────────────── */
+    .etapes-am { background: var(--white); }
+    .etapes-am__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .etape-am {
+      background: var(--blue-pale2); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .etape-am__num {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--accent); color: var(--white);
+      font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 14px rgba(13,158,107,0.25);
+    }
+    .etape-am__title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--text); }
+    .etape-am__desc { font-size: 0.91rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── FORMULAIRE ───────────────────────────────────────── */
+    .formulaire-am { background: var(--blue-pale2); }
+    .form-card-am {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 44px 48px;
+      max-width: 780px; margin: 0 auto;
+    }
+    .form-card-am__title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 32px; }
+    .form-grid-am { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+    .fg-am { display: flex; flex-direction: column; gap: 6px; }
+    .fg-am--full { grid-column: 1 / -1; }
+    .fg-am label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+    .fg-am input, .fg-am select {
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--text);
+      background: var(--blue-pale2); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 11px 14px; outline: none; width: 100%;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .fg-am select {
+      -webkit-appearance: none; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239899B0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px;
+      background-color: var(--blue-pale2);
+    }
+    .fg-am input:focus, .fg-am select:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(13,158,107,0.12); background: var(--white);
+    }
+    .fg-am input::placeholder { color: var(--text-light); }
+    .form-rgpd-am {
+      display: flex; align-items: flex-start; gap: 10px; margin-top: 4px; grid-column: 1 / -1;
+    }
+    .form-rgpd-am input[type="checkbox"] { width: 18px; height: 18px; min-width: 18px; margin-top: 2px; accent-color: var(--accent); cursor: pointer; }
+    .form-rgpd-am label { font-size: 0.83rem; color: var(--text-muted); line-height: 1.55; cursor: pointer; }
+    .form-rgpd-am a { color: var(--accent); text-decoration: underline; }
+    .form-submit-am { grid-column: 1 / -1; margin-top: 8px; }
+    .form-submit-am .btn--green { width: 100%; text-align: center; display: block; padding: 14px; font-size: 1rem; border-radius: var(--radius); }
+    .form-success-am {
+      display: none; background: var(--accent-pale); border: 1.5px solid var(--accent);
+      border-radius: var(--radius); padding: 20px 24px; text-align: center;
+      grid-column: 1 / -1; margin-top: 8px;
+    }
+    .form-success-am p { color: var(--accent); font-weight: 600; font-size: 0.97rem; line-height: 1.6; }
+
+    /* ── TOGGLE OUI/NON ───────────────────────────────────── */
+    .toggle-oui-non {
+      display: flex; width: fit-content;
+      border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden;
+    }
+    .toggle-btn { cursor: pointer; }
+    .toggle-btn input[type="radio"] { display: none; }
+    .toggle-btn span {
+      display: block; padding: 10px 28px;
+      font-size: 0.95rem; font-weight: 500; color: var(--text-muted);
+      background: var(--blue-pale2); transition: background 0.15s, color 0.15s;
+    }
+    .toggle-btn:not(:last-child) span { border-right: 1.5px solid var(--border); }
+    .toggle-btn input[type="radio"]:checked + span {
+      background: var(--accent); color: var(--white); font-weight: 600;
+    }
+
+    /* ── PERMIS FIELDS ────────────────────────────────────── */
+    .permis-fields {
+      display: none; margin-top: 14px;
+      display: none; grid-template-columns: 1fr 1fr; gap: 14px 24px;
+    }
+    .permis-fields.visible { display: grid; }
+
+    /* ── CTA FINAL VERT ───────────────────────────────────── */
+    .cta-vert { background: var(--accent); padding: 88px 24px; text-align: center; }
+    .cta-vert__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700;
+      color: var(--white); margin-bottom: 12px; letter-spacing: -0.02em;
+    }
+    .cta-vert__sub { color: rgba(255,255,255,0.7); font-size: 0.97rem; margin-bottom: 36px; font-weight: 500; letter-spacing: 0.02em; }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .info-grid { grid-template-columns: repeat(2, 1fr); }
+      .etapes-am__grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+      .form-card-am { padding: 32px 24px; }
+    }
+    @media (max-width: 600px) {
+      .hero-am { padding: calc(var(--nav-h) + 48px) 20px 48px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .form-grid-am { grid-template-columns: 1fr; }
+      .fg-am--full, .form-rgpd-am, .form-submit-am, .form-success-am { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.svg" alt="Romero Finances" class="nav__logo" />
+        <span class="nav__name">Romero Finances</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="credit.html">Crédit</a></li>
+        <li class="nav__dropdown">
+          <a href="assurance.html" class="nav__dropdown-toggle active">Assurance maladie <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+          <div class="nav__dropdown-menu">
+            <a href="assurance.html">Comparer mon assurance</a>
+            <a href="assurance-nouveau-arrive.html">Nouveau arrivé en Suisse</a>
+            <a href="assurance-prenatale.html">Assurance pré-natale</a>
+          </div>
+        </li>
+        <li><a href="pilier.html">3ème pilier</a></li>
+        <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+      </ul>
+      <a href="#formulaire" class="btn btn--primary btn--sm nav__cta">Obtenir un conseil</a>
+      <button class="nav__burger" aria-label="Menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="credit.html">Crédit</a>
+      <a href="assurance.html">Assurance maladie</a>
+      <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Nouveau arrivé en Suisse</a>
+      <a href="assurance-prenatale.html" class="nav__mobile-sub">Assurance pré-natale</a>
+      <a href="pilier.html">3ème pilier</a>
+      <a href="patrimoine.html">Choses &amp; patrimoine</a>
+      <a href="#formulaire" class="btn btn--primary">Demander mon affiliation</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-am">
+    <div class="hero-am__inner">
+      <div class="hero-am__text">
+        <span class="badge--green">Nouveau arrivé en Suisse · Bienvenue</span>
+        <h1 class="hero-am__h1">Vous venez d'arriver en Suisse&nbsp;? Trouvez votre assurance maladie rapidement</h1>
+        <p class="hero-am__sub">En Suisse, l'assurance maladie de base (LAMal) est obligatoire dans les 3 mois suivant votre arrivée. Nous vous guidons pour choisir la meilleure caisse maladie selon votre canton.</p>
+        <div class="hero-am__pills">
+          <span class="pill--green">✓ Délai de 3 mois</span>
+          <span class="pill--green">Toutes les caisses</span>
+          <span class="pill--green">Accompagnement personnalisé</span>
+        </div>
+        <a href="#formulaire" class="btn--green btn--green--lg" style="align-self:flex-start;">Demander mon affiliation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFORMATIONS CLÉS -->
+  <section class="section" style="background:var(--white);">
+    <div class="container">
+      <h2 class="section__title">Ce que vous devez savoir</h2>
+      <p class="section__sub">Les points essentiels pour votre affiliation à l'assurance maladie suisse.</p>
+      <div class="info-grid">
+
+        <div class="info-card">
+          <div class="info-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <h3 class="info-card__title">3 mois pour s'affilier</h3>
+          <p class="info-card__desc">Dès votre arrivée en Suisse, vous avez 3 mois pour choisir une caisse maladie. L'affiliation est rétroactive à votre date d'arrivée.</p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3 class="info-card__title">LAMal obligatoire</h3>
+          <p class="info-card__desc">L'assurance de base (LAMal) couvre les soins essentiels. Les primes varient selon la caisse, le canton et la franchise choisie.</p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <h3 class="info-card__title">Subsides possibles</h3>
+          <p class="info-card__desc">En fonction de votre revenu, vous pouvez bénéficier de subsides cantonaux pour réduire le coût de votre prime mensuelle.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT ÇA MARCHE -->
+  <section class="section etapes-am">
+    <div class="container">
+      <h2 class="section__title">Comment nous vous aidons</h2>
+      <p class="section__sub">Trois étapes pour trouver la meilleure caisse maladie dès votre arrivée.</p>
+      <div class="etapes-am__grid">
+        <div class="etape-am">
+          <div class="etape-am__num">1</div>
+          <h4 class="etape-am__title">Vous remplissez le formulaire</h4>
+          <p class="etape-am__desc">Indiquez vos informations personnelles et votre situation. Prend moins de 2 minutes.</p>
+        </div>
+        <div class="etape-am">
+          <div class="etape-am__num">2</div>
+          <h4 class="etape-am__title">Nous analysons les options</h4>
+          <p class="etape-am__desc">Notre expert compare toutes les caisses disponibles dans votre canton pour vous trouver la meilleure offre.</p>
+        </div>
+        <div class="etape-am">
+          <div class="etape-am__num">3</div>
+          <h4 class="etape-am__title">Votre affiliation est faite</h4>
+          <p class="etape-am__desc">Nous vous accompagnons dans toutes les démarches administratives et votre couverture démarre dès votre arrivée.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULAIRE -->
+  <section class="section formulaire-am" id="formulaire">
+    <div class="container">
+      <div class="form-card-am">
+        <h2 class="form-card-am__title">Votre inscription à l'assurance maladie</h2>
+        <form id="naForm" onsubmit="submitNA(event)">
+          <div class="form-grid-am">
+
+            <!-- Prénom + Nom -->
+            <div class="fg-am">
+              <label for="na_prenom">Prénom *</label>
+              <input type="text" id="na_prenom" placeholder="Jean" required />
+            </div>
+            <div class="fg-am">
+              <label for="na_nom">Nom *</label>
+              <input type="text" id="na_nom" placeholder="Dupont" required />
+            </div>
+
+            <!-- Date de naissance -->
+            <div class="fg-am">
+              <label for="na_naissance">Date de naissance *</label>
+              <input type="date" id="na_naissance" required />
+            </div>
+            <div class="fg-am" style="visibility:hidden;"></div>
+
+            <!-- Adresse -->
+            <div class="fg-am fg-am--full">
+              <label for="na_adresse">Adresse complète (rue et numéro) *</label>
+              <input type="text" id="na_adresse" placeholder="Rue des Fleurs 12" required />
+            </div>
+            <div class="fg-am">
+              <label for="na_npa">NPA *</label>
+              <input type="text" id="na_npa" placeholder="1000" maxlength="4" required />
+            </div>
+            <div class="fg-am">
+              <label for="na_localite">Localité *</label>
+              <input type="text" id="na_localite" placeholder="Lausanne" required />
+            </div>
+
+            <!-- Toggle Déjà inscrit -->
+            <div class="fg-am fg-am--full">
+              <label style="margin-bottom:10px;">Déjà inscrit à la commune&nbsp;? *</label>
+              <div class="toggle-oui-non">
+                <label class="toggle-btn">
+                  <input type="radio" name="na_inscrit" value="oui" onchange="onInscritCommune()" />
+                  <span>Oui</span>
+                </label>
+                <label class="toggle-btn">
+                  <input type="radio" name="na_inscrit" value="non" onchange="onInscritCommune()" />
+                  <span>Non</span>
+                </label>
+              </div>
+              <!-- Champs conditionnels -->
+              <div class="permis-fields" id="permis-fields">
+                <div class="fg-am">
+                  <label for="na_permis">Type de permis reçu *</label>
+                  <select id="na_permis">
+                    <option value="">Choisir…</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="G">G</option>
+                    <option value="L">L</option>
+                    <option value="F">F</option>
+                    <option value="Autre">Autre</option>
+                  </select>
+                </div>
+                <div class="fg-am">
+                  <label for="na_date_entree">Date d'entrée en Suisse / d'inscription *</label>
+                  <input type="date" id="na_date_entree" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Canton -->
+            <div class="fg-am fg-am--full">
+              <label for="na_canton">Canton de résidence *</label>
+              <select id="na_canton" required>
+                <option value="">Choisir…</option>
+                <option value="AG">Argovie</option>
+                <option value="AI">Appenzell Rhodes-Intérieures</option>
+                <option value="AR">Appenzell Rhodes-Extérieures</option>
+                <option value="BE">Berne</option>
+                <option value="BL">Bâle-Campagne</option>
+                <option value="BS">Bâle-Ville</option>
+                <option value="FR">Fribourg</option>
+                <option value="GE">Genève</option>
+                <option value="GL">Glaris</option>
+                <option value="GR">Grisons</option>
+                <option value="JU">Jura</option>
+                <option value="LU">Lucerne</option>
+                <option value="NE">Neuchâtel</option>
+                <option value="NW">Nidwald</option>
+                <option value="OW">Obwald</option>
+                <option value="SG">Saint-Gall</option>
+                <option value="SH">Schaffhouse</option>
+                <option value="SO">Soleure</option>
+                <option value="SZ">Schwytz</option>
+                <option value="TG">Thurgovie</option>
+                <option value="TI">Tessin</option>
+                <option value="UR">Uri</option>
+                <option value="VD">Vaud</option>
+                <option value="VS">Valais</option>
+                <option value="ZG">Zoug</option>
+                <option value="ZH">Zurich</option>
+              </select>
+            </div>
+
+            <!-- Nombre de personnes -->
+            <div class="fg-am fg-am--full">
+              <label for="na_nb">Nombre de personnes à assurer *</label>
+              <select id="na_nb" required>
+                <option value="">Choisir…</option>
+                <option value="1">1 personne</option>
+                <option value="2">2 personnes</option>
+                <option value="3">3 personnes</option>
+                <option value="4">4 personnes</option>
+                <option value="5">5 personnes et plus</option>
+              </select>
+            </div>
+
+            <!-- Téléphone + Email -->
+            <div class="fg-am">
+              <label for="na_tel">Téléphone *</label>
+              <input type="tel" id="na_tel" placeholder="+41 79 000 00 00" required />
+            </div>
+            <div class="fg-am">
+              <label for="na_email">Email *</label>
+              <input type="email" id="na_email" placeholder="jean@exemple.ch" required />
+            </div>
+
+            <!-- RGPD -->
+            <div class="form-rgpd-am">
+              <input type="checkbox" id="na_rgpd" required />
+              <label for="na_rgpd">J'accepte que mes données soient utilisées pour traiter ma demande d'affiliation. <a href="confidentialite.html">Politique de confidentialité</a></label>
+            </div>
+
+            <div class="form-submit-am">
+              <button type="submit" class="btn--green">Demander mon affiliation</button>
+            </div>
+
+            <div class="form-success-am" id="naSuccess">
+              <p>✓ Votre demande a bien été reçue. Notre expert vous contacte sous 24h pour finaliser votre affiliation à l'assurance maladie suisse.</p>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq">
+    <div class="container container--sm">
+      <h2 class="section__title">Questions fréquentes</h2>
+      <div class="faq__list">
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Quand dois-je m'affilier à une caisse maladie ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Dès votre arrivée en Suisse, vous avez 3 mois pour choisir une caisse maladie et vous affilier. L'affiliation est rétroactive à votre date d'arrivée — vous êtes donc couvert dès le premier jour, même si vous choisissez votre caisse plus tard dans ce délai.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Que se passe-t-il si je dépasse les 3 mois ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Si vous ne choisissez pas de caisse dans le délai, l'autorité cantonale peut vous en attribuer une d'office, sans garantie que ce soit la plus avantageuse pour votre situation. Il est donc important d'agir rapidement.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Ai-je droit à des subsides ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>En fonction de votre revenu et de votre canton de résidence, vous pouvez bénéficier de subsides qui réduisent votre prime mensuelle. Notre expert vérifiera votre éligibilité lors de votre demande d'affiliation.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Le service est-il gratuit ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Oui, notre service d'accompagnement est entièrement gratuit pour vous. Nous sommes rémunérés par les caisses maladie partenaires. Aucun frais, aucune obligation.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-vert">
+    <div class="container container--sm">
+      <h2 class="cta-vert__title">Affiliez-vous avant la fin de votre délai</h2>
+      <p class="cta-vert__sub">Accompagnement gratuit · Démarches simplifiées · Réponse sous 24h</p>
+      <a href="#formulaire" class="btn btn--white btn--lg">Demander mon affiliation</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col footer__col--brand">
+          <div class="footer__brand">
+            <img src="assets/logo.svg" alt="Romero Finances" class="footer__logo" />
+            <span>Romero Finances</span>
+          </div>
+          <p class="footer__desc">Conseil indépendant en finances personnelles pour les résidents de Suisse romande.</p>
+          <div class="footer__contacts">
+            <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a>
+            <a href="tel:+41782044818">+41 78 204 48 18</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Solutions</h5>
+          <ul>
+            <li><a href="credit.html">Crédit privé</a></li>
+            <li><a href="assurance.html">Assurance maladie</a></li>
+            <li><a href="pilier.html">3ème pilier</a></li>
+            <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Légal</h5>
+          <ul>
+            <li><a href="cgu.html">Conditions générales</a></li>
+            <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+            <li><a href="consentement.html">Consentement</a></li>
+            <li><a href="cookies.html">Cookies</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Contact</h5>
+          <ul>
+            <li><a href="merci.html">Demande de conseil</a></li>
+            <li><a href="mailto:contact@romerofinances.ch">Nous écrire</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Romero Finances. Tous droits réservés.</p>
+        <p class="footer__lcc">Intermédiaire en crédit soumis à la Loi sur le crédit à la consommation (LCC). Activité réglementée.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function onInscritCommune() {
+      var selected = document.querySelector('input[name="na_inscrit"]:checked');
+      var fields = document.getElementById('permis-fields');
+      if (selected && selected.value === 'oui') {
+        fields.classList.add('visible');
+      } else {
+        fields.classList.remove('visible');
+      }
+    }
+
+    function submitNA(e) {
+      e.preventDefault();
+      var fields = ['na_prenom', 'na_nom', 'na_naissance', 'na_adresse', 'na_npa', 'na_localite', 'na_canton', 'na_nb', 'na_tel', 'na_email'];
+      var valid = true;
+      fields.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el || !el.value.trim()) {
+          if (el) { el.style.borderColor = '#e53e3e'; el.addEventListener('input', function() { el.style.borderColor = ''; }, { once: true }); }
+          valid = false;
+        }
+      });
+      var inscrit = document.querySelector('input[name="na_inscrit"]:checked');
+      if (!inscrit) { valid = false; }
+      var rgpd = document.getElementById('na_rgpd');
+      if (!rgpd.checked) {
+        rgpd.style.outline = '2px solid #e53e3e';
+        rgpd.addEventListener('change', function() { rgpd.style.outline = ''; }, { once: true });
+        valid = false;
+      }
+      if (!valid) return;
+      document.getElementById('naForm').querySelectorAll('input, select, button').forEach(function(el) { el.disabled = true; });
+      var s = document.getElementById('naSuccess');
+      s.style.display = 'block';
+      s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+</body>
+</html>

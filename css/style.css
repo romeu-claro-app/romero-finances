@@ -108,6 +108,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   list-style: none;
   gap: 32px;
   margin: 0 auto;
+  align-items: center;
 }
 .nav__links a {
   font-size: 0.92rem;
@@ -156,6 +157,52 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
 }
 .nav__mobile a:last-child { border-bottom: none; margin-top: 12px; text-align: center; }
 .nav__mobile a:hover { color: var(--blue); }
+
+/* ─── NAV DROPDOWN ──────────────────────────────────────── */
+.nav__dropdown {
+  position: relative;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+}
+.nav__dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.nav__dropdown-toggle svg { transition: transform 0.2s; flex-shrink: 0; }
+.nav__dropdown:hover .nav__dropdown-toggle svg { transform: rotate(180deg); }
+.nav__dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  padding: 6px 0;
+  min-width: 240px;
+  z-index: 200;
+  white-space: nowrap;
+}
+.nav__dropdown:hover .nav__dropdown-menu { display: block; }
+.nav__dropdown-menu a {
+  display: block;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+.nav__dropdown-menu a:hover { color: var(--blue); background: var(--blue-pale2); }
+.nav__mobile-sub {
+  padding-left: 28px !important;
+  font-size: 0.88rem !important;
+  color: var(--text-light) !important;
+}
 
 /* ─── HERO ───────────────────────────────────────────────── */
 .hero {
