@@ -1,16 +1,707 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Romero Finances</title>
+  <title>3ème pilier — Romero Finances</title>
+  <meta name="description" content="Préparez votre retraite et réduisez vos impôts grâce au 3ème pilier. Conseil gratuit, réponse sous 24h en Suisse romande." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── ACCENT ───────────────────────────────────────────── */
+    :root {
+      --accent: #BA7517;
+      --accent-dark: #9e6212;
+      --accent-pale: rgba(186,117,23,0.09);
+      --accent-pale2: rgba(186,117,23,0.14);
+    }
+
+    /* ── NAV ACTIVE ───────────────────────────────────────── */
+    .nav__links a.active { color: var(--accent); font-weight: 600; }
+
+    /* ── SHARED AMBER COMPONENTS ──────────────────────────── */
+    .badge--amber {
+      display: inline-block;
+      background: var(--accent-pale); color: var(--accent);
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.04em;
+      text-transform: uppercase; padding: 6px 16px; border-radius: 50px;
+      border: 1px solid rgba(186,117,23,0.2);
+    }
+    .pill--amber {
+      display: inline-block;
+      background: var(--accent-pale); border: 1px solid rgba(186,117,23,0.2);
+      border-radius: 50px; padding: 7px 18px;
+      font-size: 0.87rem; font-weight: 500; color: var(--accent);
+    }
+    .btn--amber {
+      display: inline-block; font-family: 'DM Sans', sans-serif; font-weight: 600;
+      border-radius: 50px; text-decoration: none; cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+      background: var(--accent); color: var(--white);
+      padding: 13px 32px; font-size: 1rem; border: none;
+    }
+    .btn--amber:hover {
+      background: var(--accent-dark); transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(186,117,23,0.32);
+    }
+    .btn--amber--lg { padding: 16px 40px; font-size: 1.05rem; }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero-pilier { padding: calc(var(--nav-h) + 72px) 24px 72px; }
+    .hero-pilier__inner {
+      max-width: 1140px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 400px; gap: 56px; align-items: center;
+    }
+    .hero-pilier__text { display: flex; flex-direction: column; gap: 22px; }
+    .hero-pilier__h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.8vw, 2.8rem);
+      font-weight: 700; line-height: 1.2;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .hero-pilier__sub { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; max-width: 520px; }
+    .hero-pilier__pills { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    /* ── CALCULATEUR FISCAL ───────────────────────────────── */
+    .calcul-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 32px 28px;
+      box-shadow: 0 8px 40px rgba(186,117,23,0.09);
+    }
+    .calcul-card__title {
+      font-family: 'Playfair Display', serif; font-size: 1.15rem;
+      font-weight: 700; color: var(--text); margin-bottom: 22px;
+    }
+    .cc-field { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+    .cc-field label { font-size: 0.84rem; font-weight: 600; color: var(--text-muted); }
+    .cc-field input[type="number"],
+    .cc-field select {
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--text);
+      background: var(--blue-pale2); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 11px 14px; outline: none; width: 100%;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .cc-field select {
+      -webkit-appearance: none; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239899B0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px;
+      background-color: var(--blue-pale2);
+    }
+    .cc-field input:focus, .cc-field select:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(186,117,23,0.12); background: var(--white);
+    }
+    .cc-slider-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .cc-slider-row { display: flex; align-items: center; gap: 10px; }
+    .cc-slider {
+      -webkit-appearance: none; appearance: none;
+      flex: 1; height: 5px; border-radius: 5px;
+      background: var(--border); outline: none; cursor: pointer;
+    }
+    .cc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent); cursor: pointer;
+      box-shadow: 0 2px 8px rgba(186,117,23,0.35);
+      transition: transform 0.15s;
+    }
+    .cc-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+    .cc-slider::-moz-range-thumb {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent); cursor: pointer; border: none;
+      box-shadow: 0 2px 8px rgba(186,117,23,0.35);
+    }
+    .cc-slider-val {
+      font-size: 0.9rem; font-weight: 700; color: var(--accent);
+      min-width: 72px; text-align: right;
+    }
+    .calcul-result {
+      background: var(--accent-pale); border-radius: var(--radius);
+      padding: 16px 20px; margin: 20px 0; text-align: center;
+    }
+    .calcul-result__label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .calcul-result__value { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+    .calcul-result__unit { font-size: 0.9rem; font-weight: 600; color: var(--accent); margin-left: 4px; }
+    .calcul-note { font-size: 0.75rem; color: var(--text-light); line-height: 1.5; text-align: center; margin-top: 14px; }
+
+    /* ── CE QUE C'EST ─────────────────────────────────────── */
+    .types-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .type-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px 22px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .type-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(186,117,23,0.1); }
+    .type-card__icon {
+      width: 48px; height: 48px; border-radius: 13px;
+      background: var(--accent-pale); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .type-card__title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--text); }
+    .type-card__desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── ÉTAPES ───────────────────────────────────────────── */
+    .etapes-p { background: var(--white); }
+    .etapes-p__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .etape-p {
+      background: var(--blue-pale2); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .etape-p__num {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--accent); color: var(--white);
+      font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 14px rgba(186,117,23,0.28);
+    }
+    .etape-p__title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--text); }
+    .etape-p__desc { font-size: 0.91rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── FORMULAIRE ───────────────────────────────────────── */
+    .formulaire-p { background: var(--blue-pale2); }
+    .form-card-p {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 44px 48px;
+      max-width: 780px; margin: 0 auto;
+    }
+    .form-card-p__title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 32px; }
+    .fgrid-p { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+    .fg-p { display: flex; flex-direction: column; gap: 6px; }
+    .fg-p--full { grid-column: 1 / -1; }
+    .fg-p label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+    .fg-p input, .fg-p select, .fg-p textarea {
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--text);
+      background: var(--blue-pale2); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 11px 14px; outline: none; width: 100%;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .fg-p select {
+      -webkit-appearance: none; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239899B0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px;
+      background-color: var(--blue-pale2);
+    }
+    .fg-p textarea { resize: vertical; min-height: 90px; }
+    .fg-p input:focus, .fg-p select:focus, .fg-p textarea:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(186,117,23,0.12); background: var(--white);
+    }
+    .fg-p input::placeholder, .fg-p textarea::placeholder { color: var(--text-light); }
+    .form-rgpd-p {
+      display: flex; align-items: flex-start; gap: 10px; margin-top: 4px; grid-column: 1 / -1;
+    }
+    .form-rgpd-p input[type="checkbox"] { width: 18px; height: 18px; min-width: 18px; margin-top: 2px; accent-color: var(--accent); cursor: pointer; }
+    .form-rgpd-p label { font-size: 0.83rem; color: var(--text-muted); line-height: 1.55; cursor: pointer; }
+    .form-rgpd-p a { color: var(--accent); text-decoration: underline; }
+    .form-submit-p { grid-column: 1 / -1; margin-top: 8px; }
+    .form-submit-p .btn--amber { width: 100%; text-align: center; display: block; padding: 14px; font-size: 1rem; border-radius: var(--radius); }
+    .form-success-p {
+      display: none; background: var(--accent-pale); border: 1.5px solid var(--accent);
+      border-radius: var(--radius); padding: 20px 24px; text-align: center;
+      grid-column: 1 / -1; margin-top: 8px;
+    }
+    .form-success-p p { color: var(--accent); font-weight: 600; font-size: 0.97rem; line-height: 1.6; }
+
+    /* ── CTA FINAL AMBER ──────────────────────────────────── */
+    .cta-amber { background: var(--accent); padding: 88px 24px; text-align: center; }
+    .cta-amber__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700;
+      color: var(--white); margin-bottom: 12px; letter-spacing: -0.02em;
+    }
+    .cta-amber__sub { color: rgba(255,255,255,0.7); font-size: 0.97rem; margin-bottom: 36px; font-weight: 500; }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-pilier__inner { grid-template-columns: 1fr; gap: 40px; }
+      .calcul-card { max-width: 480px; }
+      .types-grid { grid-template-columns: repeat(2, 1fr); }
+      .etapes-p__grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+      .form-card-p { padding: 32px 24px; }
+    }
+    @media (max-width: 600px) {
+      .hero-pilier { padding: calc(var(--nav-h) + 48px) 20px 48px; }
+      .types-grid { grid-template-columns: 1fr 1fr; }
+      .fgrid-p { grid-template-columns: 1fr; }
+      .fg-p--full, .form-rgpd-p, .form-submit-p, .form-success-p { grid-column: 1; }
+    }
+  </style>
 </head>
 <body>
 
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img src="assets/logo.svg" alt="Romero Finances" class="nav__logo" />
+        <span class="nav__name">Romero Finances</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="credit.html">Crédit</a></li>
+        <li><a href="assurance.html">Assurance maladie</a></li>
+        <li><a href="pilier.html" class="active">3ème pilier</a></li>
+        <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+      </ul>
+      <a href="#formulaire" class="btn btn--primary btn--sm nav__cta">Obtenir un conseil</a>
+      <button class="nav__burger" aria-label="Menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="credit.html">Crédit</a>
+      <a href="assurance.html">Assurance maladie</a>
+      <a href="pilier.html">3ème pilier</a>
+      <a href="patrimoine.html">Choses &amp; patrimoine</a>
+      <a href="#formulaire" class="btn btn--primary">Obtenir un conseil</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-pilier">
+    <div class="hero-pilier__inner">
+
+      <!-- Texte -->
+      <div class="hero-pilier__text">
+        <span class="badge--amber">3ème pilier · Prévoyance privée</span>
+        <h1 class="hero-pilier__h1">Préparez votre retraite et réduisez vos impôts dès aujourd'hui</h1>
+        <p class="hero-pilier__sub">Le 3ème pilier vous permet d'épargner pour votre retraite tout en bénéficiant d'avantages fiscaux importants. Nos experts vous guident vers la solution la plus adaptée à votre situation.</p>
+        <div class="hero-pilier__pills">
+          <span class="pill--amber">Déduction fiscale</span>
+          <span class="pill--amber">Retraite sereine</span>
+          <span class="pill--amber">Conseil sur mesure</span>
+        </div>
+        <a href="#formulaire" class="btn--amber btn--amber--lg" style="align-self:flex-start;">Obtenir mon conseil gratuit</a>
+      </div>
+
+      <!-- Calculateur fiscal -->
+      <div class="calcul-card">
+        <p class="calcul-card__title">Estimez votre avantage fiscal</p>
+
+        <div class="cc-field">
+          <label for="cc_revenu">Revenu annuel brut (CHF)</label>
+          <input type="number" id="cc_revenu" value="80000" min="10000" max="500000" step="1000" oninput="calcFiscal()" />
+        </div>
+
+        <div class="cc-field">
+          <label for="cc_canton">Canton</label>
+          <select id="cc_canton" onchange="calcFiscal()">
+            <option value="">Choisir…</option>
+            <option>Vaud</option>
+            <option>Genève</option>
+            <option>Fribourg</option>
+            <option>Neuchâtel</option>
+            <option>Valais</option>
+            <option>Berne</option>
+            <option>Zurich</option>
+            <option>Autre</option>
+          </select>
+        </div>
+
+        <div class="cc-field">
+          <label>Versement annuel 3ème pilier (CHF)</label>
+          <div class="cc-slider-wrap">
+            <div class="cc-slider-row">
+              <input type="range" class="cc-slider" id="cc_versement"
+                min="0" max="7258" step="100" value="7258"
+                oninput="calcFiscal()" />
+              <span class="cc-slider-val" id="cc_versement_val">7 258 CHF</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calcul-result">
+          <p class="calcul-result__label">Économie d'impôt estimée</p>
+          <div>
+            <span class="calcul-result__value" id="cc_result">1 815</span>
+            <span class="calcul-result__unit">CHF / an</span>
+          </div>
+        </div>
+
+        <a href="#formulaire" class="btn--amber" style="width:100%;text-align:center;display:block;">Obtenir mon conseil personnalisé</a>
+        <p class="calcul-note">Estimation indicative. Le taux réel dépend de votre situation fiscale et de votre canton.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CE QUE C'EST -->
+  <section class="section" style="background:var(--white);">
+    <div class="container">
+      <h2 class="section__title">Qu'est-ce que le 3ème pilier&nbsp;?</h2>
+      <p class="section__sub">Quatre solutions adaptées à votre profil et à vos objectifs.</p>
+      <div class="types-grid">
+
+        <div class="type-card">
+          <div class="type-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+          </div>
+          <h3 class="type-card__title">Pilier 3a bancaire</h3>
+          <p class="type-card__desc">Déduction fiscale maximale, rendement lié aux taux d'intérêt. Solution simple et accessible.</p>
+        </div>
+
+        <div class="type-card">
+          <div class="type-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+          </div>
+          <h3 class="type-card__title">Pilier 3a assurance</h3>
+          <p class="type-card__desc">Déduction fiscale + couverture en cas de décès ou d'invalidité. Protection et épargne combinées.</p>
+        </div>
+
+        <div class="type-card">
+          <div class="type-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <h3 class="type-card__title">Pilier 3b</h3>
+          <p class="type-card__desc">Épargne libre, sans plafond de déduction, plus de flexibilité dans les versements et les retraits.</p>
+        </div>
+
+        <div class="type-card">
+          <div class="type-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <h3 class="type-card__title">Retrait anticipé</h3>
+          <p class="type-card__desc">Financement immobilier, départ à l'étranger ou retraite anticipée. Plusieurs cas permettent un retrait avant terme.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT ÇA MARCHE -->
+  <section class="section etapes-p">
+    <div class="container">
+      <h2 class="section__title">Comment ça marche&nbsp;?</h2>
+      <p class="section__sub">Un accompagnement personnalisé de A à Z.</p>
+      <div class="etapes-p__grid">
+        <div class="etape-p">
+          <div class="etape-p__num">1</div>
+          <h4 class="etape-p__title">Vous décrivez votre situation</h4>
+          <p class="etape-p__desc">Âge, revenus, objectifs de retraite — quelques minutes suffisent pour que notre expert cerne votre profil.</p>
+        </div>
+        <div class="etape-p">
+          <div class="etape-p__num">2</div>
+          <h4 class="etape-p__title">Nous analysons les meilleures options</h4>
+          <p class="etape-p__desc">Comparaison des solutions bancaires et assurance disponibles sur le marché pour votre profil et votre canton.</p>
+        </div>
+        <div class="etape-p">
+          <div class="etape-p__num">3</div>
+          <h4 class="etape-p__title">Vous choisissez en toute sérénité</h4>
+          <p class="etape-p__desc">Conseil personnalisé, sans engagement. Vous décidez librement — notre service reste gratuit quelle que soit votre décision.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULAIRE -->
+  <section class="section formulaire-p" id="formulaire">
+    <div class="container">
+      <div class="form-card-p">
+        <h2 class="form-card-p__title">Votre conseil 3ème pilier gratuit</h2>
+        <form id="pilierForm" onsubmit="submitPilier(event)">
+          <div class="fgrid-p">
+
+            <div class="fg-p">
+              <label for="p_prenom">Prénom *</label>
+              <input type="text" id="p_prenom" placeholder="Jean" required />
+            </div>
+            <div class="fg-p">
+              <label for="p_nom">Nom *</label>
+              <input type="text" id="p_nom" placeholder="Dupont" required />
+            </div>
+
+            <div class="fg-p">
+              <label for="p_tel">Téléphone *</label>
+              <input type="tel" id="p_tel" placeholder="+41 79 000 00 00" required />
+            </div>
+            <div class="fg-p">
+              <label for="p_email">Email *</label>
+              <input type="email" id="p_email" placeholder="jean@exemple.ch" required />
+            </div>
+
+            <div class="fg-p">
+              <label for="p_annee">Année de naissance *</label>
+              <input type="number" id="p_annee" placeholder="1985" min="1940" max="2005" required />
+            </div>
+            <div class="fg-p">
+              <label for="p_canton">Canton *</label>
+              <select id="p_canton" required>
+                <option value="">Choisir…</option>
+                <option>Vaud</option>
+                <option>Genève</option>
+                <option>Fribourg</option>
+                <option>Neuchâtel</option>
+                <option>Valais</option>
+                <option>Berne</option>
+                <option>Zurich</option>
+                <option>Autre</option>
+              </select>
+            </div>
+
+            <div class="fg-p">
+              <label for="p_situation">Situation professionnelle *</label>
+              <select id="p_situation" required>
+                <option value="">Choisir…</option>
+                <option value="salarie">Salarié(e)</option>
+                <option value="independant">Indépendant(e)</option>
+                <option value="fonctionnaire">Fonctionnaire</option>
+              </select>
+            </div>
+            <div class="fg-p">
+              <label for="p_revenu">Revenu annuel brut estimé (CHF)</label>
+              <input type="number" id="p_revenu" placeholder="80 000" min="0" />
+            </div>
+
+            <div class="fg-p">
+              <label for="p_existant">Avez-vous déjà un 3ème pilier ? *</label>
+              <select id="p_existant" onchange="checkExistant()" required>
+                <option value="">Choisir…</option>
+                <option value="non">Non, c'est ma première fois</option>
+                <option value="3a_banque">Oui, pilier 3a bancaire</option>
+                <option value="3a_assurance">Oui, pilier 3a assurance</option>
+                <option value="3b">Oui, pilier 3b</option>
+              </select>
+            </div>
+            <div class="fg-p" id="montant-verse-wrap" style="visibility:hidden;">
+              <label for="p_montant">Montant versé annuellement (CHF)</label>
+              <input type="number" id="p_montant" placeholder="3 000" min="0" />
+            </div>
+
+            <div class="fg-p fg-p--full">
+              <label for="p_objectif">Objectif principal *</label>
+              <select id="p_objectif" required>
+                <option value="">Choisir…</option>
+                <option value="impots">Réduire mes impôts</option>
+                <option value="retraite">Préparer ma retraite</option>
+                <option value="famille">Protéger ma famille</option>
+                <option value="immo">Financement immobilier</option>
+              </select>
+            </div>
+
+            <div class="fg-p fg-p--full">
+              <label for="p_commentaire">Commentaire <span style="font-weight:400;color:var(--text-light);">(optionnel)</span></label>
+              <textarea id="p_commentaire" placeholder="Décrivez votre situation ou vos questions…"></textarea>
+            </div>
+
+            <div class="form-rgpd-p">
+              <input type="checkbox" id="p_rgpd" required />
+              <label for="p_rgpd">J'accepte que mes données soient utilisées pour traiter ma demande. <a href="#">Politique de confidentialité.</a></label>
+            </div>
+
+            <div class="form-submit-p">
+              <button type="submit" class="btn--amber">Demander mon conseil gratuit</button>
+            </div>
+
+            <div class="form-success-p" id="pilierSuccess">
+              <p>✓ Votre demande a bien été reçue. Notre expert vous contacte sous 24h avec une proposition personnalisée.</p>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÉMOIGNAGE -->
+  <section class="section temoignages">
+    <div class="container container--sm">
+      <h2 class="section__title">Ce que dit notre client</h2>
+      <div class="temoignages__grid" style="grid-template-columns:1fr;max-width:560px;margin:0 auto;">
+        <div class="temoignage">
+          <div class="temoignage__stars">★★★★★</div>
+          <p class="temoignage__quote">"Offre parfaitement adaptée à ma situation. Processus fluide du début à la fin et vrai gain de temps. Expérience claire et efficace."</p>
+          <div class="temoignage__author">
+            <div class="avatar avatar--amber">CG</div>
+            <div>
+              <strong>Carlos García</strong>
+              <span>Lausanne · 3ème pilier</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq">
+    <div class="container container--sm">
+      <h2 class="section__title">Questions fréquentes</h2>
+      <div class="faq__list">
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Quel est le montant maximum déductible en 2025 ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>CHF 7 258 pour les salariés affiliés au 2ème pilier. CHF 36 288 pour les indépendants sans 2ème pilier (20% du revenu net). Ces montants sont revus périodiquement par le Conseil fédéral.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Quelle est la différence entre le pilier 3a et le pilier 3b ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Le 3a est lié fiscalement : déduction des versements sur le revenu imposable, mais capital bloqué jusqu'à 5 ans avant la retraite ordinaire. Le 3b est libre : pas de déduction fiscale directe, mais aucune restriction sur les retraits.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>À partir de quel âge faut-il commencer ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Le plus tôt possible. Chaque année compte pour maximiser l'épargne et les déductions fiscales cumulées. Commencer à 25 ans plutôt qu'à 35 ans représente des dizaines de milliers de francs supplémentaires à la retraite.</p>
+          </div>
+        </div>
+
+        <div class="faq__item" onclick="toggleFaq(this)">
+          <div class="faq__question">
+            <span>Puis-je avoir plusieurs 3èmes piliers ?</span>
+            <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq__answer">
+            <p>Oui. Il est même recommandé d'avoir plusieurs comptes 3a pour optimiser les retraits et réduire la charge fiscale lors du déblocage. Le montant total déductible reste plafonné, mais peut être réparti entre plusieurs comptes.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-amber">
+    <div class="container container--sm">
+      <h2 class="cta-amber__title">Commencez à épargner intelligemment</h2>
+      <p class="cta-amber__sub">Conseil gratuit · Sans engagement · Réponse sous 24h</p>
+      <a href="#formulaire" class="btn btn--white btn--lg">Obtenir mon conseil gratuit</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col footer__col--brand">
+          <div class="footer__brand">
+            <img src="assets/logo.svg" alt="Romero Finances" class="footer__logo" />
+            <span>Romero Finances</span>
+          </div>
+          <p class="footer__desc">Conseil indépendant en finances personnelles pour les résidents de Suisse romande.</p>
+          <div class="footer__contacts">
+            <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a>
+            <a href="tel:+41782044818">+41 78 204 48 18</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Solutions</h5>
+          <ul>
+            <li><a href="credit.html">Crédit privé</a></li>
+            <li><a href="assurance.html">Assurance maladie</a></li>
+            <li><a href="pilier.html">3ème pilier</a></li>
+            <li><a href="patrimoine.html">Choses &amp; patrimoine</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Légal</h5>
+          <ul>
+            <li><a href="#">Mentions légales</a></li>
+            <li><a href="#">Politique de confidentialité</a></li>
+            <li><a href="#">Conditions générales</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5 class="footer__heading">Contact</h5>
+          <ul>
+            <li><a href="merci.html">Demande de conseil</a></li>
+            <li><a href="mailto:contact@romerofinances.ch">Nous écrire</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Romero Finances. Tous droits réservés.</p>
+        <p class="footer__lcc">Intermédiaire en crédit soumis à la Loi sur le crédit à la consommation (LCC). Activité réglementée.</p>
+      </div>
+    </div>
+  </footer>
+
   <script src="js/main.js"></script>
+  <script>
+    /* ─── CALCULATEUR FISCAL ─────────────────────────────── */
+    function calcFiscal() {
+      var versement = parseInt(document.getElementById('cc_versement').value) || 0;
+      document.getElementById('cc_versement_val').textContent =
+        versement.toLocaleString('fr-CH') + ' CHF';
+      var economie = Math.round(versement * 0.25);
+      document.getElementById('cc_result').textContent =
+        economie.toLocaleString('fr-CH');
+    }
+    calcFiscal();
+
+    /* ─── FORMULAIRE — CHAMP CONDITIONNEL ────────────────── */
+    function checkExistant() {
+      var val  = document.getElementById('p_existant').value;
+      var wrap = document.getElementById('montant-verse-wrap');
+      wrap.style.visibility = (val && val !== 'non') ? 'visible' : 'hidden';
+    }
+
+    /* ─── SUBMIT ─────────────────────────────────────────── */
+    function submitPilier(e) {
+      e.preventDefault();
+      var required = ['p_prenom', 'p_nom', 'p_tel', 'p_email', 'p_annee', 'p_canton', 'p_situation', 'p_existant', 'p_objectif'];
+      var valid = true;
+      required.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el || !el.value.trim()) {
+          if (el) {
+            el.style.borderColor = '#e53e3e';
+            el.addEventListener('input', function () { el.style.borderColor = ''; }, { once: true });
+            el.addEventListener('change', function () { el.style.borderColor = ''; }, { once: true });
+          }
+          valid = false;
+        }
+      });
+      var rgpd = document.getElementById('p_rgpd');
+      if (!rgpd.checked) {
+        rgpd.style.outline = '2px solid #e53e3e';
+        rgpd.addEventListener('change', function () { rgpd.style.outline = ''; }, { once: true });
+        valid = false;
+      }
+      if (!valid) return;
+      document.getElementById('pilierForm').querySelectorAll('input, select, textarea, button').forEach(function (el) {
+        el.disabled = true;
+      });
+      var s = document.getElementById('pilierSuccess');
+      s.style.display = 'block';
+      s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
 </body>
 </html>
