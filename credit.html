@@ -724,15 +724,19 @@
       }
       if (!valid) return;
 
-      var montant = document.getElementById('montant').value || '';
-      var duree   = document.getElementById('duree').value   || '';
+      var montant = document.getElementById('montant').value   || '';
+      var duree   = document.getElementById('duree').value     || '';
+      var salaire = document.getElementById('salaire').value   || '';
+      var loyer   = document.getElementById('loyer').value     || '';
       var params  = new URLSearchParams({
         prenom:    prenom,
         nom:       nom,
         email:     email,
         telephone: telephone,
         montant:   montant,
-        duree:     duree
+        duree:     duree,
+        salaire:   salaire,
+        loyer:     loyer
       });
       window.location.href = 'formulaire-credit.html?' + params.toString();
     }

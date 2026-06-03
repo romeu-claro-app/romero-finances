@@ -888,6 +888,8 @@
         var el = document.getElementById('s1_duree');
         if (el) el.value = p.get('duree') + ' mois';
       }
+      set('s3_salaire', p.get('salaire'));
+      set('s4_loyer',   p.get('loyer'));
     })();
 
     /* ─── PROGRESS ───────────────────────────────────────────── */
