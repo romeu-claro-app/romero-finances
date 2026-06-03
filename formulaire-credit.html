@@ -396,6 +396,22 @@
     }
     .success-block__msg { color: var(--text-muted); font-size: 0.97rem; line-height: 1.65; }
 
+    /* ── BTN LATER ────────────────────────────────────────── */
+    .btn-later {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: border-color 0.18s, color 0.18s;
+      white-space: nowrap;
+    }
+    .btn-later:hover { border-color: var(--text-muted); color: var(--text); }
+
     /* ── VALIDATION ERROR ─────────────────────────────────── */
     .field-error { border-color: #e53e3e !important; }
     .error-msg { font-size: 0.78rem; color: #e53e3e; margin-top: 3px; display: none; }
@@ -807,7 +823,10 @@
       <div class="step-nav" id="stepNav">
         <button type="button" class="btn-back" id="btnBack" onclick="goBack()" style="visibility:hidden;">Retour</button>
         <span class="step-counter" id="stepCounter">Étape 1 sur 5</span>
-        <button type="button" class="btn-next" id="btnNext" onclick="goNext()">Suivant →</button>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+          <button type="button" class="btn-next" id="btnNext" onclick="goNext()">Suivant →</button>
+          <button type="button" class="btn-later" id="btnLater" onclick="submitSansDocs()" style="display:none;">Je préfère envoyer mes documents plus tard</button>
+        </div>
       </div>
 
     </div>
@@ -907,15 +926,18 @@
       document.getElementById('progressFill').style.width = pct + '%';
       document.getElementById('stepCounter').textContent = 'Étape ' + currentStep + ' sur ' + totalSteps;
       document.getElementById('btnBack').style.visibility = currentStep > 1 ? 'visible' : 'hidden';
-      var btnNext = document.getElementById('btnNext');
+      var btnNext  = document.getElementById('btnNext');
+      var btnLater = document.getElementById('btnLater');
       if (currentStep === totalSteps) {
         btnNext.textContent   = 'Envoyer mon dossier ✓';
         btnNext.className     = 'btn-submit';
         btnNext.onclick       = submitDossier;
+        if (btnLater) btnLater.style.display = 'inline-block';
       } else {
         btnNext.textContent   = 'Suivant →';
         btnNext.className     = 'btn-next';
         btnNext.onclick       = goNext;
+        if (btnLater) btnLater.style.display = 'none';
       }
     }
 
@@ -1121,18 +1143,27 @@
     }
 
     /* ─── SUBMIT ─────────────────────────────────────────────── */
-    function submitDossier() {
-      if (!validateStep(5)) return;
+    function showSuccess(msg) {
       document.querySelectorAll('.step-panel').forEach(function (p) { p.classList.remove('active'); });
-      document.getElementById('successBlock').style.display = 'block';
-      document.getElementById('stepNav').style.display      = 'none';
-      document.getElementById('progressFill').style.width   = '100%';
+      document.getElementById('successBlock').style.display   = 'block';
+      document.getElementById('successBlock').querySelector('.success-block__msg').innerHTML = msg;
+      document.getElementById('stepNav').style.display        = 'none';
+      document.getElementById('progressFill').style.width     = '100%';
       document.querySelectorAll('.progress-step').forEach(function (s) {
         s.classList.remove('active');
         s.classList.add('done');
         s.querySelector('.progress-step__dot').textContent = '✓';
       });
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function submitSansDocs() {
+      showSuccess('Votre dossier a bien été reçu. Vous pourrez nous envoyer vos documents lors de votre rendez-vous.<br />Nous vous contactons sous 24h.');
+    }
+
+    function submitDossier() {
+      if (!validateStep(5)) return;
+      showSuccess('Votre dossier a bien été reçu.<br />Nous vous contactons sous 24h.');
     }
 
     /* ─── HELPERS ────────────────────────────────────────────── */
