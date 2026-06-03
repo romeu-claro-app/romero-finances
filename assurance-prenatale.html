@@ -132,6 +132,11 @@
     }
     .form-success-am p { color: var(--accent); font-weight: 600; font-size: 0.97rem; line-height: 1.6; }
 
+    /* ── LCA SAME WRAP ───────────────────────────────────── */
+    .lca-same-wrap { display: flex; align-items: center; gap: 6px; margin-top: 7px; }
+    .lca-same-wrap input[type="checkbox"] { width: 13px; height: 13px; min-width: 13px; accent-color: var(--accent); cursor: pointer; }
+    .lca-same-wrap label { font-size: 0.78rem; font-weight: 500; color: var(--text-light); cursor: pointer; margin: 0; line-height: 1.3; }
+
     /* ── CTA FINAL VERT ───────────────────────────────────── */
     .cta-vert { background: var(--accent); padding: 88px 24px; text-align: center; }
     .cta-vert__title {
@@ -314,71 +319,52 @@
               <input type="text" id="pn_bebe" placeholder="Ex : Léa, Noah…" />
             </div>
 
-            <!-- Caisse maladie actuelle du preneur -->
-            <div class="fg-am fg-am--full">
-              <label for="pn_caisse">Caisse maladie actuelle du preneur *</label>
-              <select id="pn_caisse" required>
+            <!-- Caisse LAMal + LCA -->
+            <div class="fg-am">
+              <label for="pn_lamal_caisse">Caisse LAMal actuelle *</label>
+              <select id="pn_lamal_caisse" onchange="syncPNLca()" required>
                 <option value="">Choisir…</option>
-                <option>Swica</option>
-                <option>CSS</option>
-                <option>Helsana</option>
-                <option>Concordia</option>
-                <option>Groupe Mutuel</option>
-                <option>Assura</option>
-                <option>Visana</option>
-                <option>KPT</option>
-                <option>Sanitas</option>
-                <option>Atupri</option>
-                <option>Aquilana</option>
-                <option>EGK</option>
-                <option>Sana24</option>
-                <option>Sympany</option>
-                <option>Arcosana</option>
-                <option>Avenir</option>
-                <option>Easy Sana</option>
-                <option>First</option>
-                <option>Mutuel Assurance</option>
-                <option>Philos</option>
-                <option>AMB Assurances</option>
-                <option>CMBB</option>
+                <option>Swica</option><option>CSS</option><option>Helsana</option>
+                <option>Concordia</option><option>Groupe Mutuel</option><option>Assura</option>
+                <option>Visana</option><option>KPT</option><option>Sanitas</option>
+                <option>Atupri</option><option>Aquilana</option><option>EGK</option>
+                <option>Sana24</option><option>Sympany</option><option>Arcosana</option>
+                <option>Avenir</option><option>Easy Sana</option><option>First</option>
+                <option>Mutuel Assurance</option><option>Philos</option>
+                <option>AMB Assurances</option><option>CMBB</option>
                 <option>Caisse-maladie de la Vallée</option>
-                <option>Caisse Maladie Universa</option>
-                <option>Autre</option>
+                <option>Caisse Maladie Universa</option><option>Autre</option>
               </select>
             </div>
-
-            <!-- Canton de résidence -->
-            <div class="fg-am fg-am--full">
-              <label for="pn_canton">Canton de résidence *</label>
-              <select id="pn_canton" required>
+            <div class="fg-am">
+              <label for="pn_lca_caisse">Caisse LCA actuelle</label>
+              <select id="pn_lca_caisse">
                 <option value="">Choisir…</option>
-                <option value="AG">Argovie</option>
-                <option value="AI">Appenzell Rhodes-Intérieures</option>
-                <option value="AR">Appenzell Rhodes-Extérieures</option>
-                <option value="BE">Berne</option>
-                <option value="BL">Bâle-Campagne</option>
-                <option value="BS">Bâle-Ville</option>
-                <option value="FR">Fribourg</option>
-                <option value="GE">Genève</option>
-                <option value="GL">Glaris</option>
-                <option value="GR">Grisons</option>
-                <option value="JU">Jura</option>
-                <option value="LU">Lucerne</option>
-                <option value="NE">Neuchâtel</option>
-                <option value="NW">Nidwald</option>
-                <option value="OW">Obwald</option>
-                <option value="SG">Saint-Gall</option>
-                <option value="SH">Schaffhouse</option>
-                <option value="SO">Soleure</option>
-                <option value="SZ">Schwytz</option>
-                <option value="TG">Thurgovie</option>
-                <option value="TI">Tessin</option>
-                <option value="UR">Uri</option>
-                <option value="VD">Vaud</option>
-                <option value="VS">Valais</option>
-                <option value="ZG">Zoug</option>
-                <option value="ZH">Zurich</option>
+                <option>Swica</option><option>CSS</option><option>Helsana</option>
+                <option>Concordia</option><option>Groupe Mutuel</option><option>Assura</option>
+                <option>Visana</option><option>KPT</option><option>Sanitas</option>
+                <option>Atupri</option><option>Aquilana</option><option>EGK</option>
+                <option>Sana24</option><option>Sympany</option><option>Arcosana</option>
+                <option>Avenir</option><option>Easy Sana</option><option>First</option>
+                <option>Mutuel Assurance</option><option>Philos</option>
+                <option>AMB Assurances</option><option>CMBB</option>
+                <option>Caisse-maladie de la Vallée</option>
+                <option>Caisse Maladie Universa</option><option>Autre</option>
               </select>
+              <div class="lca-same-wrap">
+                <input type="checkbox" id="pn_lca_same" onchange="togglePNLcaSame()" />
+                <label for="pn_lca_same">Même caisse que LAMal</label>
+              </div>
+            </div>
+
+            <!-- NPA + Localité -->
+            <div class="fg-am">
+              <label for="pn_npa">NPA *</label>
+              <input type="number" id="pn_npa" placeholder="1000" min="1000" max="9999" required />
+            </div>
+            <div class="fg-am">
+              <label for="pn_localite">Localité *</label>
+              <input type="text" id="pn_localite" placeholder="Lausanne" required />
             </div>
 
             <!-- Téléphone + Email -->
@@ -529,9 +515,27 @@
 
   <script src="js/main.js"></script>
   <script>
+    function syncPNLca() {
+      var cb = document.getElementById('pn_lca_same');
+      if (cb && cb.checked) {
+        document.getElementById('pn_lca_caisse').value = document.getElementById('pn_lamal_caisse').value;
+      }
+    }
+
+    function togglePNLcaSame() {
+      var cb = document.getElementById('pn_lca_same');
+      var sel = document.getElementById('pn_lca_caisse');
+      if (cb.checked) {
+        sel.value = document.getElementById('pn_lamal_caisse').value;
+        sel.disabled = true;
+      } else {
+        sel.disabled = false;
+      }
+    }
+
     function submitPN(e) {
       e.preventDefault();
-      var fields = ['pn_prenom', 'pn_nom', 'pn_naissance', 'pn_accouchement', 'pn_caisse', 'pn_canton', 'pn_tel', 'pn_email'];
+      var fields = ['pn_prenom', 'pn_nom', 'pn_naissance', 'pn_accouchement', 'pn_lamal_caisse', 'pn_npa', 'pn_localite', 'pn_tel', 'pn_email'];
       var valid = true;
       fields.forEach(function(id) {
         var el = document.getElementById(id);

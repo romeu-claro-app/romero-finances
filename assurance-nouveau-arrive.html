@@ -399,40 +399,6 @@
               </div>
             </div>
 
-            <!-- Canton -->
-            <div class="fg-am fg-am--full">
-              <label for="na_canton">Canton de résidence *</label>
-              <select id="na_canton" required>
-                <option value="">Choisir…</option>
-                <option value="AG">Argovie</option>
-                <option value="AI">Appenzell Rhodes-Intérieures</option>
-                <option value="AR">Appenzell Rhodes-Extérieures</option>
-                <option value="BE">Berne</option>
-                <option value="BL">Bâle-Campagne</option>
-                <option value="BS">Bâle-Ville</option>
-                <option value="FR">Fribourg</option>
-                <option value="GE">Genève</option>
-                <option value="GL">Glaris</option>
-                <option value="GR">Grisons</option>
-                <option value="JU">Jura</option>
-                <option value="LU">Lucerne</option>
-                <option value="NE">Neuchâtel</option>
-                <option value="NW">Nidwald</option>
-                <option value="OW">Obwald</option>
-                <option value="SG">Saint-Gall</option>
-                <option value="SH">Schaffhouse</option>
-                <option value="SO">Soleure</option>
-                <option value="SZ">Schwytz</option>
-                <option value="TG">Thurgovie</option>
-                <option value="TI">Tessin</option>
-                <option value="UR">Uri</option>
-                <option value="VD">Vaud</option>
-                <option value="VS">Valais</option>
-                <option value="ZG">Zoug</option>
-                <option value="ZH">Zurich</option>
-              </select>
-            </div>
-
             <!-- Nombre de personnes -->
             <div class="fg-am fg-am--full">
               <label for="na_nb">Nombre de personnes à assurer *</label>
@@ -632,7 +598,7 @@
 
     function submitNA(e) {
       e.preventDefault();
-      var fields = ['na_prenom', 'na_nom', 'na_naissance', 'na_adresse', 'na_npa', 'na_localite', 'na_canton', 'na_nb', 'na_tel', 'na_email'];
+      var fields = ['na_prenom', 'na_nom', 'na_naissance', 'na_adresse', 'na_npa', 'na_localite', 'na_nb', 'na_tel', 'na_email'];
       var valid = true;
       fields.forEach(function(id) {
         var el = document.getElementById(id);
