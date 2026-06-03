@@ -323,9 +323,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
 .card__icon--terracotta { background: rgba(185, 64, 32, 0.1);     color: #B94020; }
 .card__title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text);
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
 }
 .card__desc {
   font-size: 0.93rem;
