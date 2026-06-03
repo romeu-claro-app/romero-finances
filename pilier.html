@@ -536,7 +536,7 @@
                 <div class="fgrid-p" style="margin:0;">
                   <div class="fg-p">
                     <label for="p_3p_type">Type</label>
-                    <select id="p_3p_type">
+                    <select id="p_3p_type" onchange="filterInstitution()">
                       <option value="">Choisir…</option>
                       <option value="3a_banque">Pilier 3a bancaire</option>
                       <option value="3a_assurance">Pilier 3a assurance</option>
@@ -547,29 +547,6 @@
                     <label for="p_3p_avec">Avec qui</label>
                     <select id="p_3p_avec">
                       <option value="">Choisir…</option>
-                      <optgroup label="Banques">
-                        <option>UBS</option>
-                        <option>Credit Suisse</option>
-                        <option>Raiffeisen</option>
-                        <option>PostFinance</option>
-                        <option>Banque Cantonale Vaudoise (BCV)</option>
-                        <option>Banque Cantonale de Genève (BCGE)</option>
-                        <option>Migros Bank</option>
-                        <option>Cler</option>
-                      </optgroup>
-                      <optgroup label="Assurances">
-                        <option>AXA</option>
-                        <option>Zurich</option>
-                        <option>Swiss Life</option>
-                        <option>Helvetia</option>
-                        <option>Allianz</option>
-                        <option>Generali</option>
-                        <option>Bâloise</option>
-                        <option>Pax</option>
-                        <option>Vaudoise</option>
-                        <option>Mobilière</option>
-                      </optgroup>
-                      <option value="autre">Autre</option>
                     </select>
                   </div>
                   <div class="fg-p">
@@ -817,6 +794,39 @@
       }
     }
     calcFiscal();
+
+    /* ─── FILTER INSTITUTION PAR TYPE DE PILIER ─────────── */
+    var BANQUES    = ['UBS','Credit Suisse','Raiffeisen','PostFinance','Banque Cantonale Vaudoise (BCV)','Banque Cantonale de Genève (BCGE)','Migros Bank','Cler'];
+    var ASSURANCES = ['AXA','Zurich','Swiss Life','Helvetia','Allianz','Generali','Bâloise','Pax','Vaudoise','Mobilière'];
+
+    function buildOptgroup(label, items) {
+      var g = document.createElement('optgroup');
+      g.label = label;
+      items.forEach(function(name) {
+        var o = document.createElement('option');
+        o.value = o.textContent = name;
+        g.appendChild(o);
+      });
+      return g;
+    }
+
+    function filterInstitution() {
+      var type = document.getElementById('p_3p_type').value;
+      var sel  = document.getElementById('p_3p_avec');
+      sel.innerHTML = '<option value="">Choisir…</option>';
+      if (!type) return;
+      if (type === '3a_banque') {
+        sel.appendChild(buildOptgroup('Banques', BANQUES));
+      } else if (type === '3a_assurance') {
+        sel.appendChild(buildOptgroup('Assurances', ASSURANCES));
+      } else {
+        sel.appendChild(buildOptgroup('Banques', BANQUES));
+        sel.appendChild(buildOptgroup('Assurances', ASSURANCES));
+      }
+      var autre = document.createElement('option');
+      autre.value = 'autre'; autre.textContent = 'Autre';
+      sel.appendChild(autre);
+    }
 
     /* ─── TOGGLE MONTANT VERSÉ (BLOC EXISTANT) ──────────── */
     var pmMode = 'annuel';
