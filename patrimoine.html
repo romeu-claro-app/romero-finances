@@ -140,6 +140,28 @@
     }
     .fg-pat input::placeholder, .fg-pat textarea::placeholder { color: var(--text-light); }
 
+    /* Pills multi-select (besoin + déjà assuré) */
+    .pill-select { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+    .pill-sel {
+      display: inline-block; padding: 8px 16px; border-radius: 50px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
+      background: var(--blue-pale2); border: 1.5px solid var(--border);
+      color: var(--text-muted); transition: background 0.18s, border-color 0.18s, color 0.18s;
+      user-select: none;
+    }
+    .pill-sel--active {
+      background: var(--accent-pale2); border-color: var(--accent); color: var(--accent); font-weight: 600;
+    }
+
+    /* Toggle Oui/Non déjà assuré */
+    .deja-toggle {
+      padding: 9px 24px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      font-weight: 600; color: var(--text-muted); background: var(--white);
+      border: none; cursor: pointer; transition: background 0.15s, color 0.15s;
+    }
+    .deja-toggle:first-child { border-right: 1.5px solid var(--border); }
+    .deja-toggle--active { background: var(--accent); color: var(--white); }
+
     /* Checkboxes souhaits */
     .souhait-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
     .souhait-chip {
@@ -327,15 +349,51 @@
         <h2 class="form-card-pat__title">Votre situation actuelle</h2>
         <form id="patrimoineForm" onsubmit="submitPatrimoine(event)">
 
-          <!-- Section 1 — Ce que vous avez déjà -->
-          <p class="form-section-label">Ce que vous avez déjà</p>
-          <div class="assur-list" id="assurList">
-            <!-- items générés par JS -->
+          <!-- Section 1 — Votre besoin -->
+          <p class="form-section-label">Quelles assurances vous intéressent ?</p>
+          <div class="pill-select" id="pillsBesoin">
+            <!-- pills générées par JS -->
           </div>
 
           <hr class="form-sep" />
 
-          <!-- Section 2 — Ce que vous souhaitez -->
+          <!-- Section 2 — Déjà assuré ? -->
+          <p class="form-section-label">Êtes-vous déjà assuré ?</p>
+          <div style="display:flex;gap:0;border-radius:10px;overflow:hidden;border:1.5px solid var(--border);width:fit-content;margin-bottom:4px;">
+            <button type="button" id="deja-non" class="deja-toggle deja-toggle--active" onclick="setDejaAssure(false)">Non</button>
+            <button type="button" id="deja-oui" class="deja-toggle" onclick="setDejaAssure(true)">Oui</button>
+          </div>
+          <div id="bloc-deja-assure" style="display:none;margin-top:16px;">
+            <div style="background:var(--accent-pale);border:1px solid rgba(185,64,32,0.18);border-radius:var(--radius);padding:18px 20px;">
+              <p style="font-size:0.82rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Pour quel(s) type(s) ?</p>
+              <div class="pill-select" id="pillsDejaType" style="margin-bottom:16px;">
+                <!-- pills générées par JS -->
+              </div>
+              <div class="fg-pat">
+                <label for="pat_compagnie">Avec quelle compagnie ?</label>
+                <select id="pat_compagnie" name="compagnie_actuelle">
+                  <option value="">Choisir…</option>
+                  <option>AXA</option>
+                  <option>Zurich</option>
+                  <option>Helvetia</option>
+                  <option>Allianz</option>
+                  <option>Generali</option>
+                  <option>Bâloise</option>
+                  <option>Vaudoise</option>
+                  <option>Mobilière</option>
+                  <option>TCS</option>
+                  <option>CAP</option>
+                  <option>DAS</option>
+                  <option>Protekta</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <hr class="form-sep" />
+
+          <!-- Section 3 — Ce que vous souhaitez -->
           <p class="form-section-label">Ce que vous souhaitez</p>
           <div class="souhait-list">
             <label class="souhait-chip"><input type="checkbox" name="souhait" value="nouvelle" /> Nouvelle assurance</label>
@@ -351,7 +409,7 @@
 
           <hr class="form-sep" />
 
-          <!-- Section 3 — Coordonnées -->
+          <!-- Section 4 — Vos coordonnées -->
           <p class="form-section-label">Vos coordonnées</p>
           <div class="coords-grid">
             <div class="fg-pat">
@@ -369,6 +427,14 @@
             <div class="fg-pat">
               <label for="pat_email">Email *</label>
               <input type="email" id="pat_email" placeholder="jean@exemple.ch" required />
+            </div>
+            <div class="fg-pat">
+              <label for="pat_dob">Date de naissance</label>
+              <input type="date" id="pat_dob" name="dob" />
+            </div>
+            <div class="fg-pat">
+              <label for="pat_npa">Code postal</label>
+              <input type="text" id="pat_npa" name="npa" placeholder="1000" maxlength="6" />
             </div>
           </div>
 
@@ -507,47 +573,37 @@
 
   <script src="js/main.js"></script>
   <script>
-    /* ─── LISTE DES ASSURANCES ───────────────────────────── */
-    var ASSURANCES = [
-      { id: 'rc',     label: 'RC personnelle' },
-      { id: 'menage', label: 'Assurance ménage' },
-      { id: 'voiture',label: 'Véhicule (voiture)' },
-      { id: 'moto',   label: 'Véhicule (moto)' },
-      { id: 'juridique', label: 'Protection juridique' },
-      { id: 'rc_ent', label: 'RC entreprise' },
-      { id: 'autre',  label: 'Autre' }
+    /* ─── TYPES D'ASSURANCES ─────────────────────────────── */
+    var TYPES = [
+      'RC personnelle', 'Assurance ménage', 'Véhicule (voiture)',
+      'Véhicule (moto)', 'Protection juridique', 'RC entreprise',
+      'Assurance voyage', 'Assurance animaux', 'Autre'
     ];
 
-    /* Construire la liste dynamiquement */
-    (function buildAssurList() {
-      var list = document.getElementById('assurList');
-      ASSURANCES.forEach(function(a) {
-        var item = document.createElement('div');
-        item.className = 'assur-item';
-        item.innerHTML =
-          '<div class="assur-item__header">' +
-            '<input type="checkbox" id="cb_' + a.id + '" onchange="toggleAssurDetail(this, \'' + a.id + '\')" />' +
-            '<label for="cb_' + a.id + '">' + a.label + '</label>' +
-          '</div>' +
-          '<div class="assur-item__detail" id="detail_' + a.id + '">' +
-            '<div class="assur-item__detail-grid">' +
-              '<div class="fg-pat">' +
-                '<label>Compagnie actuelle</label>' +
-                '<input type="text" name="compagnie_' + a.id + '" placeholder="ex: AXA, Zurich, Mobilière…" />' +
-              '</div>' +
-              '<div class="fg-pat">' +
-                '<label>Prime annuelle (CHF)</label>' +
-                '<input type="number" name="prime_' + a.id + '" placeholder="350" min="0" />' +
-              '</div>' +
-            '</div>' +
-          '</div>';
-        list.appendChild(item);
+    /* ─── PILLS MULTI-SELECT ─────────────────────────────── */
+    function buildPills(containerId, items) {
+      var wrap = document.getElementById(containerId);
+      wrap.innerHTML = '';
+      items.forEach(function(label) {
+        var pill = document.createElement('span');
+        pill.className = 'pill-sel';
+        pill.textContent = label;
+        pill.dataset.value = label;
+        pill.addEventListener('click', function() {
+          pill.classList.toggle('pill-sel--active');
+        });
+        wrap.appendChild(pill);
       });
-    })();
+    }
 
-    function toggleAssurDetail(cb, id) {
-      var detail = document.getElementById('detail_' + id);
-      detail.style.display = cb.checked ? 'block' : 'none';
+    buildPills('pillsBesoin',  TYPES);
+    buildPills('pillsDejaType', TYPES);
+
+    /* ─── TOGGLE DÉJÀ ASSURÉ ─────────────────────────────── */
+    function setDejaAssure(oui) {
+      document.getElementById('deja-oui').classList.toggle('deja-toggle--active',  oui);
+      document.getElementById('deja-non').classList.toggle('deja-toggle--active', !oui);
+      document.getElementById('bloc-deja-assure').style.display = oui ? 'block' : 'none';
     }
 
     /* ─── SUBMIT ─────────────────────────────────────────── */
