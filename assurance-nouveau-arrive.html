@@ -156,6 +156,30 @@
     }
     .permis-fields.visible { display: grid; }
 
+    /* ── PERSONNE BLOCK NA ───────────────────────────────── */
+    .na-personne-block {
+      background: var(--blue-pale2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 22px; margin-top: 4px;
+    }
+    .na-personne-block__header {
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    }
+    .na-personne-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px;
+    }
+    .na-personne-inner .fg-am input {
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--text);
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 11px 14px; outline: none; width: 100%;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .na-personne-inner .fg-am input:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(13,158,107,0.12);
+    }
+    .na-personne-inner .fg-am input::placeholder { color: var(--text-light); }
+    @media (max-width: 600px) { .na-personne-inner { grid-template-columns: 1fr; } }
+
     /* ── CTA FINAL VERT ───────────────────────────────────── */
     .cta-vert { background: var(--accent); padding: 88px 24px; text-align: center; }
     .cta-vert__title {
@@ -412,7 +436,7 @@
             <!-- Nombre de personnes -->
             <div class="fg-am fg-am--full">
               <label for="na_nb">Nombre de personnes à assurer *</label>
-              <select id="na_nb" required>
+              <select id="na_nb" onchange="onNbChangeNA()" required>
                 <option value="">Choisir…</option>
                 <option value="1">1 personne</option>
                 <option value="2">2 personnes</option>
@@ -421,6 +445,9 @@
                 <option value="5">5 personnes et plus</option>
               </select>
             </div>
+
+            <!-- Personnes supplémentaires -->
+            <div class="fg-am fg-am--full" id="na-extra-personnes"></div>
 
             <!-- Téléphone + Email -->
             <div class="fg-am">
@@ -570,6 +597,29 @@
 
   <script src="js/main.js"></script>
   <script>
+    function buildNAPersonneBlock(n) {
+      return '<div class="na-personne-block" id="na-p' + n + '-block">' +
+        '<div class="na-personne-block__header">Personne ' + n + '</div>' +
+        '<div class="na-personne-inner">' +
+          '<div class="fg-am"><label>Prénom *</label>' +
+            '<input type="text" id="na_p' + n + '_prenom" name="na_p' + n + '_prenom" placeholder="Prénom" /></div>' +
+          '<div class="fg-am"><label>Nom *</label>' +
+            '<input type="text" id="na_p' + n + '_nom" name="na_p' + n + '_nom" placeholder="Nom" /></div>' +
+          '<div class="fg-am"><label>Date de naissance *</label>' +
+            '<input type="date" id="na_p' + n + '_naissance" name="na_p' + n + '_naissance" /></div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function onNbChangeNA() {
+      var nb = Math.min(parseInt(document.getElementById('na_nb').value) || 1, 5);
+      var container = document.getElementById('na-extra-personnes');
+      container.innerHTML = '';
+      for (var i = 2; i <= nb; i++) {
+        container.insertAdjacentHTML('beforeend', buildNAPersonneBlock(i));
+      }
+    }
+
     function onInscritCommune() {
       var selected = document.querySelector('input[name="na_inscrit"]:checked');
       var fields = document.getElementById('permis-fields');
@@ -591,6 +641,16 @@
           valid = false;
         }
       });
+      var nb = Math.min(parseInt(document.getElementById('na_nb').value) || 1, 5);
+      for (var i = 2; i <= nb; i++) {
+        ['na_p' + i + '_prenom', 'na_p' + i + '_nom', 'na_p' + i + '_naissance'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (!el || !el.value.trim()) {
+            if (el) { el.style.borderColor = '#e53e3e'; el.addEventListener('input', function() { el.style.borderColor = ''; }, { once: true }); }
+            valid = false;
+          }
+        });
+      }
       var inscrit = document.querySelector('input[name="na_inscrit"]:checked');
       if (!inscrit) { valid = false; }
       var rgpd = document.getElementById('na_rgpd');
