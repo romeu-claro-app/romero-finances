@@ -181,6 +181,17 @@
       display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px;
     }
     .personne-block--disabled { opacity: 0.55; pointer-events: none; }
+    .lca-same-wrap {
+      display: flex; align-items: center; gap: 6px; margin-top: 7px;
+    }
+    .lca-same-wrap input[type="checkbox"] {
+      width: 13px; height: 13px; min-width: 13px;
+      accent-color: var(--accent); cursor: pointer;
+    }
+    .lca-same-wrap label {
+      font-size: 0.78rem; font-weight: 500; color: var(--text-light);
+      cursor: pointer; margin: 0; line-height: 1.3;
+    }
 
     /* ── PERSONNE NAISSANCE ───────────────────────────────── */
     .personne-naissance {
@@ -466,10 +477,20 @@
               <div class="personne-block" data-p="1">
                 <div class="personne-block__header">Assurances actuelles — Personne 1 (vous)</div>
                 <div class="fgrid-inner">
+                  <!-- Ligne 1 : LAMal (gauche) | LCA + checkbox (droite) -->
                   <div class="fg-am">
                     <label>Caisse LAMal actuelle</label>
                     <input type="text" id="p1_lamal_caisse" name="p1_lamal_caisse" placeholder="ex: CSS, Swica…" oninput="syncMeme()" />
                   </div>
+                  <div class="fg-am">
+                    <label>Caisse LCA actuelle</label>
+                    <input type="text" id="p1_lca_caisse" name="p1_lca_caisse" placeholder="ex: CSS, Swica…" oninput="syncMeme()" />
+                    <div class="lca-same-wrap">
+                      <input type="checkbox" id="p1_lca_same" onchange="toggleLcaSame(1)" />
+                      <label for="p1_lca_same">Même caisse que LAMal</label>
+                    </div>
+                  </div>
+                  <!-- Ligne 2 : Prime (gauche) | Franchise (droite) -->
                   <div class="fg-am">
                     <label>Prime mensuelle LAMal (CHF)</label>
                     <input type="number" id="p1_lamal_prime" name="p1_lamal_prime" placeholder="320" min="0" oninput="syncMeme()" />
@@ -485,14 +506,6 @@
                       <option value="2000">2 000 CHF</option>
                       <option value="2500">2 500 CHF</option>
                     </select>
-                  </div>
-                  <div class="fg-am">
-                    <label>Caisse LCA actuelle</label>
-                    <input type="text" id="p1_lca_caisse" name="p1_lca_caisse" placeholder="ex: CSS, Swica…" oninput="syncMeme()" />
-                  </div>
-                  <div class="fg-am" style="display:flex;flex-direction:row;align-items:center;gap:8px;padding-top:22px;">
-                    <input type="checkbox" id="p1_lca_same" style="width:16px;height:16px;min-width:16px;accent-color:var(--accent);cursor:pointer;" onchange="toggleLcaSame(1)" />
-                    <label for="p1_lca_same" style="font-size:0.82rem;font-weight:600;color:var(--text-muted);cursor:pointer;margin:0;">Même caisse que LAMal</label>
                   </div>
                 </div>
               </div>
@@ -692,16 +705,16 @@
         '<div class="fgrid-inner">' +
           '<div class="fg-am"><label>Caisse LAMal actuelle</label>' +
             '<input type="text" id="p' + n + '_lamal_caisse" name="p' + n + '_lamal_caisse" placeholder="ex: CSS, Swica…" /></div>' +
+          '<div class="fg-am"><label>Caisse LCA actuelle</label>' +
+            '<input type="text" id="p' + n + '_lca_caisse" name="p' + n + '_lca_caisse" placeholder="ex: CSS, Swica…" />' +
+            '<div class="lca-same-wrap">' +
+              '<input type="checkbox" id="p' + n + '_lca_same" onchange="toggleLcaSame(' + n + ')" />' +
+              '<label for="p' + n + '_lca_same">Même caisse que LAMal</label>' +
+            '</div></div>' +
           '<div class="fg-am"><label>Prime mensuelle LAMal (CHF)</label>' +
             '<input type="number" id="p' + n + '_lamal_prime" name="p' + n + '_lamal_prime" placeholder="320" min="0" /></div>' +
           '<div class="fg-am"><label>Franchise</label>' +
             '<select id="p' + n + '_lamal_franchise" name="p' + n + '_lamal_franchise">' + franchiseOptions() + '</select></div>' +
-          '<div class="fg-am"><label>Caisse LCA actuelle</label>' +
-            '<input type="text" id="p' + n + '_lca_caisse" name="p' + n + '_lca_caisse" placeholder="ex: CSS, Swica…" /></div>' +
-          '<div class="fg-am" style="display:flex;flex-direction:row;align-items:center;gap:8px;padding-top:22px;">' +
-            '<input type="checkbox" id="p' + n + '_lca_same" style="width:16px;height:16px;min-width:16px;accent-color:var(--accent);cursor:pointer;" onchange="toggleLcaSame(' + n + ')" />' +
-            '<label for="p' + n + '_lca_same" style="font-size:0.82rem;font-weight:600;color:var(--text-muted);cursor:pointer;margin:0;">Même caisse que LAMal</label>' +
-          '</div>' +
         '</div>' +
       '</div>';
     }
