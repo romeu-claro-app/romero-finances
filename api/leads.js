@@ -8,6 +8,8 @@ const CORS = {
 };
 
 export default async function handler(req, res) {
+  console.log('ENV CHECK:', { url: process.env.SUPABASE_URL ? 'OK' : 'MISSING', key: process.env.SUPABASE_SECRET_KEY ? 'OK' : 'MISSING' });
+
   // Preflight CORS
   if (req.method === 'OPTIONS') {
     return res.status(204).set(CORS).end();
@@ -29,6 +31,8 @@ export default async function handler(req, res) {
   } catch {
     return res.status(400).set(CORS).json({ success: false, error: 'Invalid JSON body' });
   }
+
+  console.log('BODY:', JSON.stringify(body));
 
   if (!body || !body.email || !body.produit) {
     return res.status(400).set(CORS).json({ success: false, error: 'Champs obligatoires manquants: email, produit' });
@@ -59,7 +63,11 @@ export default async function handler(req, res) {
       body: JSON.stringify(record),
     });
 
-    const data = await response.json();
+    console.log('SUPABASE RESPONSE STATUS:', response.status);
+    const rawText = await response.text();
+    console.log('SUPABASE RESPONSE:', rawText);
+    let data;
+    try { data = JSON.parse(rawText); } catch { data = rawText; }
 
     if (!response.ok) {
       const message = data?.message || data?.error || `Supabase error ${response.status}`;
