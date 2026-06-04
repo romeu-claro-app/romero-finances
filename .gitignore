@@ -1,0 +1,11 @@
+# Variáveis de ambiente — nunca enviar para o GitHub
+.env
+.env.local
+.env.*.local
+
+# Dependências
+node_modules/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
