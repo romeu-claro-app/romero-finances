@@ -81,15 +81,35 @@ function toggleFaq(item) {
   }
 }
 
-// Carrossel testemunhos — swipe + dots (mobile)
+// Carrossel testemunhos — swipe + dots + setas
 function initCarousels() {
   document.querySelectorAll('.temoignages__grid').forEach(function (grid) {
     var items = grid.querySelectorAll('.temoignage');
     if (items.length < 2) return;
 
+    // Wrapper com position: relative para as setas
+    var wrap = document.createElement('div');
+    wrap.className = 'temoignages__carousel-wrap';
+    grid.parentNode.insertBefore(wrap, grid);
+    wrap.appendChild(grid);
+
+    // Setas prev/next
+    var btnPrev = document.createElement('button');
+    btnPrev.className = 'temoignages__arrow temoignages__arrow--prev';
+    btnPrev.setAttribute('aria-label', 'Précédent');
+    btnPrev.innerHTML = '&#8249;';
+    wrap.appendChild(btnPrev);
+
+    var btnNext = document.createElement('button');
+    btnNext.className = 'temoignages__arrow temoignages__arrow--next';
+    btnNext.setAttribute('aria-label', 'Suivant');
+    btnNext.innerHTML = '&#8250;';
+    wrap.appendChild(btnNext);
+
+    // Dots abaixo do wrapper
     var dotsWrap = document.createElement('div');
     dotsWrap.className = 'temoignages__dots';
-    grid.parentNode.insertBefore(dotsWrap, grid.nextSibling);
+    wrap.parentNode.insertBefore(dotsWrap, wrap.nextSibling);
 
     var dots = [];
     var current = 0;
@@ -114,6 +134,9 @@ function initCarousels() {
       grid.scrollTo({ left: current * grid.offsetWidth, behavior: 'smooth' });
       updateDots(current);
     }
+
+    btnPrev.addEventListener('click', function () { goTo(current - 1); });
+    btnNext.addEventListener('click', function () { goTo(current + 1); });
 
     // Touch swipe
     var touchX = 0;

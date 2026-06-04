@@ -721,6 +721,37 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   color: rgba(255,255,255,0.25);
 }
 
+/* ─── CARROSSEL SETAS ────────────────────────────────────── */
+.temoignages__carousel-wrap { position: relative; }
+.temoignages__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+  z-index: 10;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  padding: 0;
+  font-family: inherit;
+}
+.temoignages__arrow:hover {
+  background: var(--blue-pale);
+  color: var(--blue);
+  border-color: rgba(43, 47, 212, 0.2);
+}
+.temoignages__arrow--prev { left: -18px; }
+.temoignages__arrow--next { right: -18px; }
+
 /* ─── TESTEMUNHOS DOTS ───────────────────────────────────── */
 .temoignages__dots { display: none; justify-content: center; gap: 8px; margin-top: 16px; }
 .temoignages__dot {
@@ -770,9 +801,19 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   .step__divider { width: 100%; height: 1px; margin: 0; }
 
   /* ── CARDS "COMMENT ÇA MARCHE" — padding/gap réduits ──────── */
-  .etape, .etape-am { padding: 1rem !important; }
-  .etapes__grid, .etapes-am__grid { gap: 0.75rem !important; }
-  .etape__title, .etape-am__title { font-size: 0.95rem !important; }
+  .etape, .etape-am, .etape-p { padding: 0.875rem !important; }
+  .etapes__grid, .etapes-am__grid, .etapes-p__grid { gap: 0.5rem !important; }
+  .etape__title, .etape-am__title, .etape-p__title { font-size: 0.9rem !important; }
+  .etape__desc, .etape-am__desc, .etape-p__desc { font-size: 0.82rem !important; }
+  /* patrimoine.html — couvertures */
+  .couv-card { padding: 0.875rem !important; }
+  .couv-grid { gap: 0.5rem !important; }
+  .couv-card__title { font-size: 0.9rem !important; }
+  .couv-card__desc { font-size: 0.82rem !important; }
+
+  /* ── SETAS CARROSSEL — ajuste mobile ─────────────────────── */
+  .temoignages__arrow--prev { left: 4px; }
+  .temoignages__arrow--next { right: 4px; }
 
   /* ── TÉMOIGNAGES — carrossel swipe ──────────────────────── */
   .temoignages__grid {
