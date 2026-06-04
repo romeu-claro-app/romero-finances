@@ -699,37 +699,92 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
 }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
-@media (max-width: 900px) {
+
+/* Burger open state — 3 barras animam para X */
+.nav__burger--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__burger--open span:nth-child(2) { opacity: 0; }
+.nav__burger--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+
+  /* ── NAV ─────────────────────────────────────────────────── */
   .nav__links, .nav__cta { display: none; }
   .nav__burger { display: flex; }
+  .nav__mobile .btn { padding: 10px 22px; font-size: 0.9rem; }
 
+  /* ── HERO (index.html) ───────────────────────────────────── */
+  .hero { padding: calc(var(--nav-h) + 48px) 20px 56px; }
+  .hero__h1 { font-size: 1.85rem; }
+  .hero__sub { font-size: 1rem; }
+
+  /* ── STATS BAR — 2 colunas ───────────────────────────────── */
   .stats-bar__inner { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .stat__num { font-size: 1.75rem; }
 
-  .cards { grid-template-columns: repeat(2, 1fr); max-width: 720px; margin: 0 auto; }
+  /* ── SECTIONS ────────────────────────────────────────────── */
+  .section { padding: 60px 0; }
+  .cta-final { padding: 60px 20px; }
 
-  .steps__card {
-    grid-template-columns: 1fr;
-    padding: 32px 28px;
-  }
+  /* ── CARDS DE PRODUIT — 1 coluna ─────────────────────────── */
+  .cards { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .card { padding: 24px 20px 72px; }
+
+  /* ── STEPS ───────────────────────────────────────────────── */
+  .steps__card { grid-template-columns: 1fr; padding: 28px 24px; }
   .step { text-align: left; flex-direction: row; align-items: flex-start; }
   .step__body { text-align: left; }
   .step__divider { width: 100%; height: 1px; margin: 0; }
 
-  .cards { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  /* ── TÉMOIGNAGES — 1 coluna ──────────────────────────────── */
   .temoignages__grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
 
-  .footer__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-}
+  /* ── FAQ — padding reduzido ──────────────────────────────── */
+  .faq__question { padding: 15px 18px; font-size: 0.93rem; }
+  .faq__answer { padding: 0 18px; }
 
-@media (max-width: 600px) {
-  .hero { padding: calc(var(--nav-h) + 48px) 20px 56px; }
-  .hero__h1 { font-size: 1.75rem; }
-
-  .stats-bar__inner { grid-template-columns: 1fr 1fr; }
-  .stat__num { font-size: 1.7rem; }
-
-  .section { padding: 60px 0; }
-
-  .footer__grid { grid-template-columns: 1fr; }
+  /* ── FOOTER — 1 coluna ───────────────────────────────────── */
+  .footer { padding: 48px 0 0; }
+  .footer__grid { grid-template-columns: 1fr; gap: 28px; }
   .footer__bottom { flex-direction: column; }
+
+  /* ── HERO PRODUTO — 1 coluna (override inline styles) ────── */
+  .hero-credit__inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .hero-am__inner     { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .hero-pilier__inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+  /* Hero produto padding */
+  .hero-credit { padding: calc(var(--nav-h) + 48px) 20px 56px !important; }
+  .hero-am     { padding: calc(var(--nav-h) + 48px) 20px 56px !important; }
+  .hero-pilier { padding: calc(var(--nav-h) + 48px) 20px 56px !important; }
+  .hero-pat    { padding: calc(var(--nav-h) + 48px) 20px 56px !important; }
+
+  /* Simulateur / calcul-card / situation-card — 100% largeur */
+  .simulateur, .calcul-card, .situation-card { width: 100%; }
+
+  /* Hero h1 produto */
+  .hero-credit__h1 { font-size: 1.85rem !important; }
+  .hero-am__h1     { font-size: 1.85rem !important; }
+  .hero-pilier__h1 { font-size: 1.85rem !important; }
+  .hero-pat__h1    { font-size: 1.85rem !important; }
+
+  /* ── GRIDS DE SECÇÕES PRODUTO — 1 coluna ─────────────────── */
+  .etapes__grid { grid-template-columns: 1fr !important; }
+  .info-grid    { grid-template-columns: 1fr !important; }
+
+  /* ── FORMULÁRIOS — 1 coluna ──────────────────────────────── */
+  .fgrid    { grid-template-columns: 1fr !important; }
+  .form-row { grid-template-columns: 1fr !important; }
+  .step-card { padding: 28px 20px !important; }
+  .form-page { padding: calc(var(--nav-h) + 32px) 16px 56px !important; }
+  .progress-step__label { font-size: 0.65rem; }
+
+  /* ── INPUTS — 16px mínimo (evita zoom automático no iOS) ─── */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  input[type="password"],
+  select,
+  textarea { font-size: 16px !important; }
 }

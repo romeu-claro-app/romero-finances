@@ -12,6 +12,13 @@ document.addEventListener('DOMContentLoaded', function () {
       window.scrollTo({ top: top, behavior: 'smooth' });
     });
   });
+
+  // Fecha menu mobile ao clicar num link dentro dele
+  document.querySelectorAll('#navMobile a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      closeMobileMenu();
+    });
+  });
 });
 
 // Nav scroll shadow
@@ -25,12 +32,32 @@ window.addEventListener('scroll', function () {
   }
 });
 
-// Mobile menu toggle
+// Fecha o menu mobile (helper reutilizável)
+function closeMobileMenu() {
+  var mobile = document.getElementById('navMobile');
+  var burger = document.querySelector('.nav__burger');
+  if (mobile) mobile.classList.remove('nav__mobile--open');
+  if (burger) burger.classList.remove('nav__burger--open');
+}
+
+// Toggle menu mobile — chamado via onclick no HTML
 function toggleMenu() {
   var mobile = document.getElementById('navMobile');
+  var burger = document.querySelector('.nav__burger');
   if (!mobile) return;
-  mobile.classList.toggle('nav__mobile--open');
+  var isOpen = mobile.classList.toggle('nav__mobile--open');
+  if (burger) burger.classList.toggle('nav__burger--open', isOpen);
 }
+
+// Fecha menu mobile ao clicar fora da nav
+document.addEventListener('click', function (e) {
+  var nav = document.getElementById('nav');
+  var mobile = document.getElementById('navMobile');
+  if (!mobile || !nav) return;
+  if (mobile.classList.contains('nav__mobile--open') && !nav.contains(e.target)) {
+    closeMobileMenu();
+  }
+});
 
 // FAQ accordion
 function toggleFaq(item) {
