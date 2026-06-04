@@ -777,7 +777,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   /* ── TÉMOIGNAGES — carrossel swipe ──────────────────────── */
   .temoignages__grid {
     display: flex !important;
-    overflow-x: hidden;
+    overflow: hidden;
     gap: 0 !important;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
@@ -787,9 +787,19 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   }
   .temoignages__grid .temoignage {
     min-width: 100%;
+    max-width: 100%;
+    width: 100%;
     flex-shrink: 0;
     scroll-snap-align: start;
     border-radius: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .temoignages__grid .temoignage__quote {
+    overflow: hidden;
+    word-break: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
   }
   .temoignages__dots { display: flex; }
 
