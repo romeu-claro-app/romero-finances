@@ -49,9 +49,14 @@
     </div>
     <div class="nav__mobile" id="navMobile">
       <a href="credit.html">Crédit</a>
-      <a href="assurance.html">Assurance maladie</a>
-      <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Nouveau arrivé en Suisse</a>
-      <a href="assurance-prenatale.html" class="nav__mobile-sub">Assurance pré-natale</a>
+      <div class="nav__mobile-acc" id="accAssurance">
+        <button type="button" class="nav__mobile-acc-toggle" onclick="toggleMobileAcc()">Assurance maladie <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+        <div class="nav__mobile-acc-items">
+          <a href="assurance.html" class="nav__mobile-sub">Comparer mon assurance</a>
+          <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Nouveau arrivé en Suisse</a>
+          <a href="assurance-prenatale.html" class="nav__mobile-sub">Assurance pré-natale</a>
+        </div>
+      </div>
       <a href="pilier.html">3ème pilier</a>
       <a href="#produits" class="btn btn--primary">Obtenir un conseil</a>
     </div>
@@ -289,6 +294,18 @@
             <div>
               <strong>Carlos García</strong>
               <span>Lausanne · 3ème pilier</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="temoignage">
+          <div class="temoignage__stars">★★★★★</div>
+          <p class="temoignage__quote">"Un service vraiment à l'écoute. Pas de pression, des réponses claires à toutes mes questions et un conseiller toujours disponible. Je recommande sans hésiter."</p>
+          <div class="temoignage__author">
+            <div class="avatar avatar--blue">SB</div>
+            <div>
+              <strong>Sophie Bernard</strong>
+              <span>Fribourg · 3ème pilier</span>
             </div>
           </div>
         </div>

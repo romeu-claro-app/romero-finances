@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
       closeMobileMenu();
     });
   });
+
+  // Carrossel testemunhos
+  initCarousels();
 });
 
 // Nav scroll shadow
@@ -36,8 +39,10 @@ window.addEventListener('scroll', function () {
 function closeMobileMenu() {
   var mobile = document.getElementById('navMobile');
   var burger = document.querySelector('.nav__burger');
+  var acc = document.getElementById('accAssurance');
   if (mobile) mobile.classList.remove('nav__mobile--open');
   if (burger) burger.classList.remove('nav__burger--open');
+  if (acc) acc.classList.remove('nav__mobile-acc--open');
 }
 
 // Toggle menu mobile — chamado via onclick no HTML
@@ -47,6 +52,12 @@ function toggleMenu() {
   if (!mobile) return;
   var isOpen = mobile.classList.toggle('nav__mobile--open');
   if (burger) burger.classList.toggle('nav__burger--open', isOpen);
+}
+
+// Toggle accordion assurance no menu mobile
+function toggleMobileAcc() {
+  var acc = document.getElementById('accAssurance');
+  if (acc) acc.classList.toggle('nav__mobile-acc--open');
 }
 
 // Fecha menu mobile ao clicar fora da nav
@@ -68,4 +79,58 @@ function toggleFaq(item) {
   if (!isOpen) {
     item.classList.add('faq__item--open');
   }
+}
+
+// Carrossel testemunhos — swipe + dots (mobile)
+function initCarousels() {
+  document.querySelectorAll('.temoignages__grid').forEach(function (grid) {
+    var items = grid.querySelectorAll('.temoignage');
+    if (items.length < 2) return;
+
+    var dotsWrap = document.createElement('div');
+    dotsWrap.className = 'temoignages__dots';
+    grid.parentNode.insertBefore(dotsWrap, grid.nextSibling);
+
+    var dots = [];
+    var current = 0;
+
+    items.forEach(function (_, i) {
+      var dot = document.createElement('button');
+      dot.className = 'temoignages__dot' + (i === 0 ? ' temoignages__dot--active' : '');
+      dot.setAttribute('aria-label', 'Témoignage ' + (i + 1));
+      dot.addEventListener('click', function () { goTo(i); });
+      dotsWrap.appendChild(dot);
+      dots.push(dot);
+    });
+
+    function updateDots(idx) {
+      dots.forEach(function (d, i) {
+        d.classList.toggle('temoignages__dot--active', i === idx);
+      });
+    }
+
+    function goTo(idx) {
+      current = Math.max(0, Math.min(idx, items.length - 1));
+      grid.scrollTo({ left: current * grid.offsetWidth, behavior: 'smooth' });
+      updateDots(current);
+    }
+
+    // Touch swipe
+    var touchX = 0;
+    grid.addEventListener('touchstart', function (e) {
+      touchX = e.touches[0].clientX;
+    }, { passive: true });
+    grid.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) {
+        goTo(dx < 0 ? current + 1 : current - 1);
+      }
+    }, { passive: true });
+
+    // Sync dots on scroll
+    grid.addEventListener('scroll', function () {
+      var idx = Math.round(grid.scrollLeft / grid.offsetWidth);
+      if (idx !== current) { current = idx; updateDots(current); }
+    }, { passive: true });
+  });
 }

@@ -456,9 +456,14 @@
     </div>
     <div class="nav__mobile" id="navMobile">
       <a href="credit.html">Crédit</a>
-      <a href="assurance.html">Assurance maladie</a>
-      <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Nouveau arrivé en Suisse</a>
-      <a href="assurance-prenatale.html" class="nav__mobile-sub">Assurance pré-natale</a>
+      <div class="nav__mobile-acc" id="accAssurance">
+        <button type="button" class="nav__mobile-acc-toggle" onclick="toggleMobileAcc()">Assurance maladie <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+        <div class="nav__mobile-acc-items">
+          <a href="assurance.html" class="nav__mobile-sub">Comparer mon assurance</a>
+          <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Nouveau arrivé en Suisse</a>
+          <a href="assurance-prenatale.html" class="nav__mobile-sub">Assurance pré-natale</a>
+        </div>
+      </div>
       <a href="pilier.html">3ème pilier</a>
       <a href="patrimoine.html">Choses &amp; patrimoine</a>
       <a href="credit.html#formulaire" class="btn btn--primary">Obtenir un conseil</a>
@@ -815,16 +820,6 @@
           <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:24px;">Formats acceptés : PDF, JPG, PNG. Taille max. 10 Mo par fichier.</p>
           <div class="upload-list" id="uploadList">
             <!-- Générée dynamiquement par buildUploadList() -->
-          </div>
-          <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px;">
-            <div class="checkbox-field" style="margin-bottom: 0.75rem;">
-              <input type="checkbox" id="marketing" name="marketing">
-              <label for="marketing">J'accepte de recevoir des offres, conseils et actualités personnalisés par e-mail. <span style="color: var(--text-light); font-size: 0.75rem;">(optionnel)</span></label>
-            </div>
-            <div class="checkbox-field">
-              <input type="checkbox" id="fc_rgpd" name="fc_rgpd">
-              <label for="fc_rgpd">J'accepte que mes données soient utilisées pour traiter ma demande de crédit. <a href="confidentialite.html" style="color:var(--blue);text-decoration:underline;">Politique de confidentialité</a> *</label>
-            </div>
           </div>
         </div>
 

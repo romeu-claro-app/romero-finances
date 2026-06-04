@@ -155,8 +155,31 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   text-decoration: none;
   border-bottom: 1px solid var(--border);
 }
-.nav__mobile a:last-child { border-bottom: none; margin-top: 12px; text-align: center; }
+.nav__mobile > a:last-child { border-bottom: none; margin-top: 12px; text-align: center; }
 .nav__mobile a:hover { color: var(--blue); }
+
+/* ── NAV MOBILE ACCORDION ─────────────────────────────────── */
+.nav__mobile-acc-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  text-align: left;
+}
+.nav__mobile-acc-toggle:hover { color: var(--blue); }
+.nav__mobile-acc-toggle svg { transition: transform 0.2s; flex-shrink: 0; }
+.nav__mobile-acc--open .nav__mobile-acc-toggle svg { transform: rotate(180deg); }
+.nav__mobile-acc-items { display: none; flex-direction: column; }
+.nav__mobile-acc--open .nav__mobile-acc-items { display: flex; }
 
 /* ─── NAV DROPDOWN ──────────────────────────────────────── */
 .nav__dropdown {
@@ -698,6 +721,15 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   color: rgba(255,255,255,0.25);
 }
 
+/* ─── TESTEMUNHOS DOTS ───────────────────────────────────── */
+.temoignages__dots { display: none; justify-content: center; gap: 8px; margin-top: 16px; }
+.temoignages__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border); border: none; cursor: pointer;
+  padding: 0; transition: background 0.2s; flex-shrink: 0;
+}
+.temoignages__dot--active { background: var(--blue); }
+
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
 
 /* Burger open state — 3 barras animam para X */
@@ -725,18 +757,40 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   .section { padding: 60px 0; }
   .cta-final { padding: 60px 20px; }
 
-  /* ── CARDS DE PRODUIT — 1 coluna ─────────────────────────── */
-  .cards { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
-  .card { padding: 24px 20px 72px; }
+  /* ── CARDS DE PRODUIT — 2 colunas ───────────────────────── */
+  .cards { grid-template-columns: repeat(2, 1fr) !important; max-width: none; margin: 0; }
+  .card { padding: 1.25rem 1rem 3.5rem; }
+  .card__title { font-size: 1rem; min-height: auto; }
 
-  /* ── STEPS ───────────────────────────────────────────────── */
+  /* ── STEPS (index) ───────────────────────────────────────── */
   .steps__card { grid-template-columns: 1fr; padding: 28px 24px; }
   .step { text-align: left; flex-direction: row; align-items: flex-start; }
   .step__body { text-align: left; }
   .step__divider { width: 100%; height: 1px; margin: 0; }
 
-  /* ── TÉMOIGNAGES — 1 coluna ──────────────────────────────── */
-  .temoignages__grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  /* ── CARDS "COMMENT ÇA MARCHE" — padding/gap réduits ──────── */
+  .etape, .etape-am { padding: 1rem !important; }
+  .etapes__grid, .etapes-am__grid { gap: 0.75rem !important; }
+  .etape__title, .etape-am__title { font-size: 0.95rem !important; }
+
+  /* ── TÉMOIGNAGES — carrossel swipe ──────────────────────── */
+  .temoignages__grid {
+    display: flex !important;
+    overflow-x: hidden;
+    gap: 0 !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    max-width: none !important;
+    margin: 0 !important;
+    border-radius: var(--radius-lg);
+  }
+  .temoignages__grid .temoignage {
+    min-width: 100%;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    border-radius: 0;
+  }
+  .temoignages__dots { display: flex; }
 
   /* ── FAQ — padding reduzido ──────────────────────────────── */
   .faq__question { padding: 15px 18px; font-size: 0.93rem; }
@@ -777,6 +831,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   .step-card { padding: 28px 20px !important; }
   .form-page { padding: calc(var(--nav-h) + 32px) 16px 56px !important; }
   .progress-step__label { font-size: 0.65rem; }
+
+  /* ── STEP COUNTER + BOTÕES STEP 5 ───────────────────────── */
+  .step-counter { font-size: 0.75rem !important; white-space: nowrap; }
+  .btn-later { white-space: normal !important; width: 100%; text-align: center; }
+  .btn-submit { width: 100%; text-align: center; }
+  .step-nav > div { width: 100%; align-items: stretch; }
 
   /* ── INPUTS — 16px mínimo (evita zoom automático no iOS) ─── */
   input[type="text"],

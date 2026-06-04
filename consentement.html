@@ -66,9 +66,14 @@
     </div>
     <div class="nav__mobile" id="navMobile">
       <a href="credit.html">Crédit</a>
-      <a href="assurance.html">Assurance maladie</a>
-      <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Nouveau arrivé en Suisse</a>
-      <a href="assurance-prenatale.html" class="nav__mobile-sub">Assurance pré-natale</a>
+      <div class="nav__mobile-acc" id="accAssurance">
+        <button type="button" class="nav__mobile-acc-toggle" onclick="toggleMobileAcc()">Assurance maladie <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+        <div class="nav__mobile-acc-items">
+          <a href="assurance.html" class="nav__mobile-sub">Comparer mon assurance</a>
+          <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Nouveau arrivé en Suisse</a>
+          <a href="assurance-prenatale.html" class="nav__mobile-sub">Assurance pré-natale</a>
+        </div>
+      </div>
       <a href="pilier.html">3ème pilier</a>
       <a href="patrimoine.html">Choses &amp; patrimoine</a>
       <a href="index.html#produits" class="btn btn--primary">Obtenir un conseil</a>
