@@ -772,21 +772,47 @@
       }
       if (!valid) return;
 
-      var montant = document.getElementById('montant').value   || '';
-      var duree   = document.getElementById('duree').value     || '';
-      var salaire = document.getElementById('salaire').value   || '';
-      var loyer   = document.getElementById('loyer').value     || '';
-      var params  = new URLSearchParams({
-        prenom:    prenom,
-        nom:       nom,
-        email:     email,
-        telephone: telephone,
-        montant:   montant,
-        duree:     duree,
-        salaire:   salaire,
-        loyer:     loyer
+      var btn      = e.target.querySelector('[type="submit"]');
+      var origText = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = '···'; }
+
+      var errEl = document.getElementById('cr-err');
+      if (!errEl) {
+        errEl = document.createElement('p');
+        errEl.id = 'cr-err';
+        errEl.style.cssText = 'color:#e53e3e;font-size:.84rem;margin-top:10px;display:none;text-align:center;';
+        errEl.textContent = 'Une erreur est survenue. Veuillez réessayer.';
+        if (btn && btn.parentNode) btn.parentNode.appendChild(errEl);
+      }
+      errEl.style.display = 'none';
+
+      var marketing = document.getElementById('marketing') ? document.getElementById('marketing').checked : false;
+      var montant   = (document.getElementById('montant')   || {}).value || '';
+      var duree     = (document.getElementById('duree')     || {}).value || '';
+      var salaire   = (document.getElementById('salaire')   || {}).value || '';
+      var loyer     = (document.getElementById('loyer')     || {}).value || '';
+
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          produit: 'credit', prenom: prenom, nom: nom,
+          email: email, telephone: telephone, marketing: marketing,
+          dados: { montant: montant, duree: duree, salaire: salaire, loyer: loyer }
+        })
+      }).then(function(res) {
+        return res.json().then(function(d) { return { ok: res.ok, d: d }; });
+      }).then(function(r) {
+        if (r.ok && r.d.success) {
+          window.location.href = 'merci.html?produit=credit';
+        } else {
+          errEl.style.display = 'block';
+          if (btn) { btn.disabled = false; btn.textContent = origText; }
+        }
+      }).catch(function() {
+        errEl.style.display = 'block';
+        if (btn) { btn.disabled = false; btn.textContent = origText; }
       });
-      window.location.href = 'formulaire-credit.html?' + params.toString();
     }
   </script>
 </body>

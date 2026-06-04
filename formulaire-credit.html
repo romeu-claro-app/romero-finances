@@ -1170,6 +1170,7 @@
 
     function checkFcRgpd() {
       var cb = document.getElementById('fc_rgpd');
+      if (!cb) return true; // checkbox removido — consentimento dado no formulário curto
       if (!cb.checked) {
         cb.style.outline = '2px solid #e53e3e';
         cb.addEventListener('change', function() { cb.style.outline = ''; }, { once: true });
@@ -1179,15 +1180,79 @@
       return true;
     }
 
+    function _fcCollectDados() {
+      var skip = ['s1_prenom','s1_nom','s1_email','s1_tel','marketing','fc_rgpd'];
+      var dados = {};
+      document.querySelectorAll('#panel-1,#panel-2,#panel-3,#panel-4').forEach(function(panel) {
+        panel.querySelectorAll('input,select,textarea').forEach(function(el) {
+          var k = el.name || el.id;
+          if (!k || skip.indexOf(k) >= 0) return;
+          if (el.type === 'checkbox') dados[k] = el.checked;
+          else if (el.type === 'radio') { if (el.checked) dados[k] = el.value; }
+          else if (el.value) dados[k] = el.value;
+        });
+      });
+      return dados;
+    }
+
+    function _fcSendApi(withDocs) {
+      var btn      = document.getElementById('btnNext');
+      var origText = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = '···'; }
+      var later = document.getElementById('btnLater');
+      if (later) later.disabled = true;
+
+      var errEl = document.getElementById('fc-err');
+      if (!errEl) {
+        errEl = document.createElement('p');
+        errEl.id = 'fc-err';
+        errEl.style.cssText = 'color:#e53e3e;font-size:.84rem;margin-top:10px;display:none;text-align:center;';
+        errEl.textContent = 'Une erreur est survenue. Veuillez réessayer.';
+        var nav = document.getElementById('stepNav');
+        if (nav) nav.parentNode.insertBefore(errEl, nav.nextSibling);
+      }
+      errEl.style.display = 'none';
+
+      var prenom    = (document.getElementById('s1_prenom') || {}).value || '';
+      var nom       = (document.getElementById('s1_nom')    || {}).value || '';
+      var email     = (document.getElementById('s1_email')  || {}).value || '';
+      var telephone = (document.getElementById('s1_tel')    || {}).value || '';
+      var marketing = document.getElementById('marketing') ? document.getElementById('marketing').checked : false;
+
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          produit: 'credit', prenom: prenom, nom: nom,
+          email: email, telephone: telephone, marketing: marketing,
+          dados: Object.assign(_fcCollectDados(), { docs_envoyes: withDocs })
+        })
+      }).then(function(res) {
+        return res.json().then(function(d) { return { ok: res.ok, d: d }; });
+      }).then(function(r) {
+        if (r.ok && r.d.success) {
+          window.location.href = 'merci.html?produit=credit';
+        } else {
+          errEl.style.display = 'block';
+          if (btn) { btn.disabled = false; btn.textContent = origText; }
+          if (later) later.disabled = false;
+        }
+      }).catch(function() {
+        errEl.style.display = 'block';
+        if (btn) { btn.disabled = false; btn.textContent = origText; }
+        if (later) later.disabled = false;
+      });
+    }
+
     function submitSansDocs() {
       if (!checkFcRgpd()) return;
-      window.location.href = 'merci.html?produit=credit';
+      _fcSendApi(false);
     }
 
     function submitDossier() {
       if (!validateStep(5)) return;
       if (!checkFcRgpd()) return;
-      window.location.href = 'merci.html?produit=credit';
+      _fcSendApi(true);
     }
 
     /* ─── HELPERS ────────────────────────────────────────────── */

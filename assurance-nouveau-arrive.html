@@ -684,7 +684,57 @@
         valid = false;
       }
       if (!valid) return;
-      window.location.href = 'merci.html?produit=assurance-nouveau-arrive';
+
+      var btn      = e.target.querySelector('[type="submit"]');
+      var origText = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = '···'; }
+
+      var errEl = document.getElementById('na-err');
+      if (!errEl) {
+        errEl = document.createElement('p');
+        errEl.id = 'na-err';
+        errEl.style.cssText = 'color:#e53e3e;font-size:.84rem;margin-top:10px;display:none;text-align:center;';
+        errEl.textContent = 'Une erreur est survenue. Veuillez réessayer.';
+        if (btn && btn.parentNode) btn.parentNode.appendChild(errEl);
+      }
+      errEl.style.display = 'none';
+
+      var prenom    = document.getElementById('na_prenom').value.trim();
+      var nom       = document.getElementById('na_nom').value.trim();
+      var email     = document.getElementById('na_email').value.trim();
+      var telephone = document.getElementById('na_tel').value.trim();
+      var marketing = document.getElementById('marketing') ? document.getElementById('marketing').checked : false;
+
+      var skip = ['na_prenom','na_nom','na_email','na_tel','na_rgpd','marketing'];
+      var dados = {};
+      e.target.querySelectorAll('input,select,textarea').forEach(function(el) {
+        var k = el.name || el.id;
+        if (!k || skip.indexOf(k) >= 0) return;
+        if (el.type === 'checkbox') dados[k] = el.checked;
+        else if (el.type === 'radio') { if (el.checked) dados[k] = el.value; }
+        else if (el.value) dados[k] = el.value;
+      });
+
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          produit: 'assurance-nouveau-arrive', prenom: prenom, nom: nom,
+          email: email, telephone: telephone, marketing: marketing, dados: dados
+        })
+      }).then(function(res) {
+        return res.json().then(function(d) { return { ok: res.ok, d: d }; });
+      }).then(function(r) {
+        if (r.ok && r.d.success) {
+          window.location.href = 'merci.html?produit=assurance-nouveau-arrive';
+        } else {
+          errEl.style.display = 'block';
+          if (btn) { btn.disabled = false; btn.textContent = origText; }
+        }
+      }).catch(function() {
+        errEl.style.display = 'block';
+        if (btn) { btn.disabled = false; btn.textContent = origText; }
+      });
     }
   </script>
 </body>
