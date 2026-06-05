@@ -1129,8 +1129,8 @@
       });
 
       // 2. FICHES DE SALAIRE
-      items.push({ slug: 'salaires_req', label: '3 dernières fiches de salaire — ' + prenom });
-      if (couple) items.push({ slug: 'salaires_conjoint', label: '3 dernières fiches de salaire — ' + cPrenom });
+      items.push({ slug: 'salaires_req',     label: '3 dernières fiches de salaire — ' + prenom,  multiple: true });
+      if (couple) items.push({ slug: 'salaires_conjoint', label: '3 dernières fiches de salaire — ' + cPrenom, multiple: true });
       apprentis.forEach(function(ap, i) {
         items.push({ slug: 'salaire_apprenti_' + i,     label: 'Dernière fiche de salaire — ' + ap });
         items.push({ slug: 'contrat_apprentissage_' + i, label: 'Contrat d\'apprentissage — ' + ap });
@@ -1154,17 +1154,26 @@
       list.innerHTML = '';
       items.forEach(function(item) {
         var uid     = 'file-' + item.slug;
-        var hasFile = !!_fcFiles[item.slug];
+        var stored  = _fcFiles[item.slug];
+        var hasFile = !!stored;
+        var fnLabel = hasFile
+          ? (Array.isArray(stored)
+              ? stored.length + ' fichier' + (stored.length > 1 ? 's' : '') + ' sélectionné' + (stored.length > 1 ? 's' : '')
+              : stored.name)
+          : 'Aucun fichier';
         var div = document.createElement('div');
         div.className = 'upload-item';
         div.innerHTML =
           '<span class="upload-item__label">' + item.label + '</span>' +
           '<div class="upload-item__right">' +
             '<span class="upload-item__filename' + (hasFile ? ' has-file' : '') + '" id="fname-' + item.slug + '">' +
-              (hasFile ? _fcFiles[item.slug].name : 'Aucun fichier') +
+              fnLabel +
             '</span>' +
-            '<button type="button" class="btn-file" onclick="document.getElementById(\'' + uid + '\').click()">Choisir un fichier</button>' +
+            '<button type="button" class="btn-file" onclick="document.getElementById(\'' + uid + '\').click()">' +
+              (item.multiple ? 'Choisir les fichiers' : 'Choisir un fichier') +
+            '</button>' +
             '<input type="file" class="upload-input" id="' + uid + '" accept=".pdf,.jpg,.jpeg,.png"' +
+            (item.multiple ? ' multiple' : '') +
             ' data-slug="' + item.slug + '" onchange="storeFile(this)" />' +
           '</div>';
         list.appendChild(div);
@@ -1174,9 +1183,18 @@
     function storeFile(inp) {
       var slug = inp.dataset.slug;
       var span = document.getElementById('fname-' + slug);
-      if (inp.files && inp.files[0]) {
-        _fcFiles[slug] = inp.files[0];
-        if (span) { span.textContent = inp.files[0].name; span.classList.add('has-file'); }
+      if (inp.files && inp.files.length > 0) {
+        if (inp.multiple) {
+          _fcFiles[slug] = Array.from(inp.files);
+          var n = inp.files.length;
+          if (span) {
+            span.textContent = n + ' fichier' + (n > 1 ? 's' : '') + ' sélectionné' + (n > 1 ? 's' : '');
+            span.classList.add('has-file');
+          }
+        } else {
+          _fcFiles[slug] = inp.files[0];
+          if (span) { span.textContent = inp.files[0].name; span.classList.add('has-file'); }
+        }
       } else {
         delete _fcFiles[slug];
         if (span) { span.textContent = 'Aucun fichier'; span.classList.remove('has-file'); }
@@ -1286,10 +1304,8 @@
     async function _fcUploadFiles(leadId) {
       var SUPABASE_URL = 'https://npfvppuprhbycbhmthxi.supabase.co';
       var ANON_KEY     = 'sb_publishable_cdQew7JvhMuBpj3aU6LDCg_gU2D3pya';
-      var slugs = Object.keys(_fcFiles);
-      for (var i = 0; i < slugs.length; i++) {
-        var slug = slugs[i];
-        var file = _fcFiles[slug];
+
+      async function uploadOne(slug, file) {
         var path = 'documentos/' + leadId + '/' + slug + '/' + file.name;
         try {
           await fetch(SUPABASE_URL + '/storage/v1/object/' + path, {
@@ -1302,7 +1318,18 @@
             body: file
           });
         } catch(e) {
-          console.warn('Upload failed for', slug, e);
+          console.warn('Upload failed for', slug, file.name, e);
+        }
+      }
+
+      var slugs = Object.keys(_fcFiles);
+      for (var i = 0; i < slugs.length; i++) {
+        var slug  = slugs[i];
+        var value = _fcFiles[slug];
+        if (Array.isArray(value)) {
+          for (var j = 0; j < value.length; j++) await uploadOne(slug, value[j]);
+        } else {
+          await uploadOne(slug, value);
         }
       }
     }
