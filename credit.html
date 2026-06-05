@@ -765,10 +765,11 @@
         nom:       document.getElementById('nom').value.trim(),
         email:     document.getElementById('email').value.trim(),
         telephone: document.getElementById('telephone').value.trim(),
-        montant:   document.getElementById('montant').value   || '',
-        duree:     document.getElementById('duree').value     || '',
-        salaire:   document.getElementById('salaire').value   || '',
-        loyer:     document.getElementById('loyer').value     || ''
+        montant:      document.getElementById('montant').value      || '',
+        duree:        document.getElementById('duree').value        || '',
+        objet_credit: document.getElementById('objet').value        || '',
+        salaire:      document.getElementById('salaire').value      || '',
+        loyer:        document.getElementById('loyer').value        || ''
       });
       window.location.href = 'formulaire-credit.html?' + params.toString();
     }
