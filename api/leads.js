@@ -39,6 +39,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, error: 'Unknown produit: ' + produit });
   }
 
+  const payload = rest;
+  console.log('INSERTING INTO:', table, JSON.stringify(payload));
+
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: 'POST',
     headers: {
@@ -47,10 +50,14 @@ export default async function handler(req, res) {
       'Content-Type': 'application/json',
       'Prefer': 'return=representation'
     },
-    body: JSON.stringify(rest)
+    body: JSON.stringify(payload)
   });
 
-  const data = await response.json();
+  const responseText = await response.text();
+  console.log('SUPABASE STATUS:', response.status);
+  console.log('SUPABASE RESPONSE:', responseText);
+
+  const data = JSON.parse(responseText);
 
   if (!response.ok) {
     return res.status(500).json({ success: false, error: data });
