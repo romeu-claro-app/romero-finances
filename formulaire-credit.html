@@ -899,6 +899,7 @@
     var totalSteps   = 5;
     var logementType = 'locataire';
     var enfantCount  = 0;
+    var _fcFiles     = {};  // slug → File
 
     /* ─── URL PARAMS → STEP 1 ───────────────────────────────── */
     (function prefill() {
@@ -1104,7 +1105,6 @@
 
     /* ─── STEP 5 — UPLOAD LIST ───────────────────────────────── */
     function buildUploadList() {
-      var nat       = document.getElementById('s1_nationalite').value;
       var etat      = document.getElementById('s2_etatcivil').value;
       var couple    = etat === 'marie' || etat === 'partenariat';
       var prenom    = document.getElementById('s1_prenom').value || 'le demandeur';
@@ -1115,44 +1115,52 @@
       });
 
       var items = [];
-      // Identité — tous les adultes
       var adultes = couple ? prenom + ' + ' + cPrenom : prenom;
-      items.push({ label: 'Pièce d\'identité — ' + adultes });
-      // Fiches de salaire
-      items.push({ label: '3 dernières fiches de salaire — ' + prenom });
-      if (couple) items.push({ label: '3 dernières fiches de salaire — ' + cPrenom });
-      // Apprenti
-      if (hasApprenti) {
-        items.push({ label: 'Dernière fiche de salaire — apprenti(e)' });
-        items.push({ label: 'Contrat d\'apprentissage' });
-      }
-      // Logement
-      if (logementType === 'locataire')    items.push({ label: 'Contrat de bail' });
-      if (logementType === 'proprietaire') items.push({ label: 'Acte de propriété' });
-      // Assurance maladie
-      items.push({ label: 'Police d\'assurance maladie + facture récente' });
+      items.push({ slug: 'identite',               label: 'Pièce d\'identité — ' + adultes });
+      items.push({ slug: 'salaires',               label: '3 dernières fiches de salaire — ' + prenom });
+      if (couple)      items.push({ slug: 'salaires_conjoint',    label: '3 dernières fiches de salaire — ' + cPrenom });
+      if (hasApprenti) items.push({ slug: 'salaire_apprenti',     label: 'Dernière fiche de salaire — apprenti(e)' });
+      if (hasApprenti) items.push({ slug: 'contrat_apprentissage',label: 'Contrat d\'apprentissage' });
+      if (logementType === 'locataire')    items.push({ slug: 'bail',      label: 'Contrat de bail' });
+      if (logementType === 'proprietaire') items.push({ slug: 'propriete', label: 'Acte de propriété' });
+      items.push({ slug: 'assurance', label: 'Police d\'assurance maladie + facture récente' });
+
+      // Drop stored files for slugs no longer in the list (e.g. conjoint removed)
+      var validSlugs = items.map(function(it) { return it.slug; });
+      Object.keys(_fcFiles).forEach(function(s) {
+        if (validSlugs.indexOf(s) < 0) delete _fcFiles[s];
+      });
 
       var list = document.getElementById('uploadList');
       list.innerHTML = '';
-      items.forEach(function (item, i) {
-        var uid = 'file-' + i;
+      items.forEach(function (item) {
+        var uid     = 'file-' + item.slug;
+        var hasFile = !!_fcFiles[item.slug];
         var div = document.createElement('div');
         div.className = 'upload-item';
         div.innerHTML =
           '<span class="upload-item__label">' + item.label + '</span>' +
           '<div class="upload-item__right">' +
-            '<span class="upload-item__filename" id="fname-' + i + '">Aucun fichier</span>' +
+            '<span class="upload-item__filename' + (hasFile ? ' has-file' : '') + '" id="fname-' + item.slug + '">' +
+              (hasFile ? _fcFiles[item.slug].name : 'Aucun fichier') +
+            '</span>' +
             '<button type="button" class="btn-file" onclick="document.getElementById(\'' + uid + '\').click()">Choisir un fichier</button>' +
-            '<input type="file" class="upload-input" id="' + uid + '" accept=".pdf,.jpg,.jpeg,.png" onchange="showFilename(this,' + i + ')" />' +
+            '<input type="file" class="upload-input" id="' + uid + '" accept=".pdf,.jpg,.jpeg,.png"' +
+            ' data-slug="' + item.slug + '" onchange="storeFile(this)" />' +
           '</div>';
         list.appendChild(div);
       });
     }
-    function showFilename(inp, i) {
-      var span = document.getElementById('fname-' + i);
+
+    function storeFile(inp) {
+      var slug = inp.dataset.slug;
+      var span = document.getElementById('fname-' + slug);
       if (inp.files && inp.files[0]) {
-        span.textContent = inp.files[0].name;
-        span.classList.add('has-file');
+        _fcFiles[slug] = inp.files[0];
+        if (span) { span.textContent = inp.files[0].name; span.classList.add('has-file'); }
+      } else {
+        delete _fcFiles[slug];
+        if (span) { span.textContent = 'Aucun fichier'; span.classList.remove('has-file'); }
       }
     }
 
@@ -1198,7 +1206,7 @@
       return dados;
     }
 
-    function _fcSendApi(withDocs) {
+    async function _fcSendApi(withDocs) {
       var btn      = document.getElementById('btnNext');
       var origText = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = '···'; }
@@ -1216,35 +1224,68 @@
       }
       errEl.style.display = 'none';
 
+      function onError() {
+        errEl.style.display = 'block';
+        if (btn) { btn.disabled = false; btn.textContent = origText; }
+        if (later) later.disabled = false;
+      }
+
       var prenom    = (document.getElementById('s1_prenom') || {}).value || '';
       var nom       = (document.getElementById('s1_nom')    || {}).value || '';
       var email     = (document.getElementById('s1_email')  || {}).value || '';
       var telephone = (document.getElementById('s1_tel')    || {}).value || '';
       var marketing = document.getElementById('marketing') ? document.getElementById('marketing').checked : false;
 
-      fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.assign({
-          produit: 'credit', prenom: prenom, nom: nom,
-          email: email, telephone: telephone, marketing: marketing,
-          docs_envoyes: withDocs
-        }, _fcCollectDados()))
-      }).then(function(res) {
-        return res.json().then(function(d) { return { ok: res.ok, d: d }; });
-      }).then(function(r) {
-        if (r.ok && r.d.success) {
-          window.location.href = 'merci.html?produit=credit';
-        } else {
-          errEl.style.display = 'block';
-          if (btn) { btn.disabled = false; btn.textContent = origText; }
-          if (later) later.disabled = false;
+      try {
+        // 1. Save lead — get back the id
+        var res  = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.assign({
+            produit: 'credit', prenom: prenom, nom: nom,
+            email: email, telephone: telephone, marketing: marketing,
+            docs_envoyes: withDocs
+          }, _fcCollectDados()))
+        });
+        var data = await res.json();
+        if (!res.ok || !data.success) { onError(); return; }
+
+        var leadId = data.id;
+
+        // 2. Upload files (only when "Envoyer mon dossier" and files were selected)
+        if (withDocs && leadId && Object.keys(_fcFiles).length > 0) {
+          if (btn) btn.textContent = 'Envoi des documents…';
+          await _fcUploadFiles(leadId);
         }
-      }).catch(function() {
-        errEl.style.display = 'block';
-        if (btn) { btn.disabled = false; btn.textContent = origText; }
-        if (later) later.disabled = false;
-      });
+
+        window.location.href = 'merci.html?produit=credit';
+      } catch(e) {
+        onError();
+      }
+    }
+
+    async function _fcUploadFiles(leadId) {
+      var SUPABASE_URL = 'https://npfvppuprhbycbhmthxi.supabase.co';
+      var ANON_KEY     = 'sb_publishable_cdQew7JvhMuBpj3aU6LDCg_gU2D3pya';
+      var slugs = Object.keys(_fcFiles);
+      for (var i = 0; i < slugs.length; i++) {
+        var slug = slugs[i];
+        var file = _fcFiles[slug];
+        var path = 'documentos/' + leadId + '/' + slug + '/' + file.name;
+        try {
+          await fetch(SUPABASE_URL + '/storage/v1/object/' + path, {
+            method: 'POST',
+            headers: {
+              'apikey':        ANON_KEY,
+              'Authorization': 'Bearer ' + ANON_KEY,
+              'Content-Type':  file.type || 'application/octet-stream'
+            },
+            body: file
+          });
+        } catch(e) {
+          console.warn('Upload failed for', slug, e);
+        }
+      }
     }
 
     function submitSansDocs() {
