@@ -764,7 +764,7 @@
       var telephone = document.getElementById('pat_tel').value.trim();
       var marketing = document.getElementById('marketing') ? document.getElementById('marketing').checked : false;
 
-      var skip = ['pat_prenom','pat_nom','pat_email','pat_tel','pat_rgpd','marketing'];
+      var skip = ['pat_prenom','pat_nom','pat_email','pat_tel','pat_rgpd','marketing','souhait'];
       var dados = {};
       e.target.querySelectorAll('input,select,textarea').forEach(function(el) {
         var k = el.name || el.id;
@@ -773,14 +773,26 @@
         else if (el.type === 'radio') { if (el.checked) dados[k] = el.value; }
         else if (el.value) dados[k] = el.value;
       });
+      // Souhait checkboxes (multiple, same name)
+      var souhait = [];
+      e.target.querySelectorAll('input[name="souhait"]').forEach(function(el) {
+        if (el.checked) souhait.push(el.value);
+      });
+      if (souhait.length) dados.souhait = souhait;
+      // Assurances besoin pills (spans, not inputs)
+      var besoin = [];
+      document.querySelectorAll('#pillsBesoin .pill-sel--active').forEach(function(p) {
+        besoin.push(p.dataset.value);
+      });
+      if (besoin.length) dados.besoin = besoin;
 
       fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(Object.assign({
           produit: 'patrimoine', prenom: prenom, nom: nom,
-          email: email, telephone: telephone, marketing: marketing, dados: dados
-        })
+          email: email, telephone: telephone, marketing: marketing
+        }, dados))
       }).then(function(res) {
         return res.json().then(function(d) { return { ok: res.ok, d: d }; });
       }).then(function(r) {

@@ -19,14 +19,27 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, error: 'Missing env vars' });
   }
 
-  const body = req.body;
-  const { produit, prenom, nom, email, telephone, marketing, ...rest } = body;
+  const TABLE_MAP = {
+    'credit': 'leads_credit',
+    'assurance': 'leads_assurance',
+    'assurance-nouveau-arrive': 'leads_assurance_nouveau_arrive',
+    'assurance-prenatale': 'leads_assurance_prenatale',
+    'pilier': 'leads_pilier',
+    'patrimoine': 'leads_patrimoine'
+  };
 
-  if (!email || !produit) {
+  const { produit, ...rest } = req.body;
+
+  if (!produit || !rest.email) {
     return res.status(400).json({ success: false, error: 'Missing required fields' });
   }
 
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+  const table = TABLE_MAP[produit];
+  if (!table) {
+    return res.status(400).json({ success: false, error: 'Unknown produit: ' + produit });
+  }
+
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
     method: 'POST',
     headers: {
       'apikey': SUPABASE_SECRET_KEY,
@@ -34,7 +47,7 @@ export default async function handler(req, res) {
       'Content-Type': 'application/json',
       'Prefer': 'return=representation'
     },
-    body: JSON.stringify({ produit, prenom, nom, email, telephone, marketing: !!marketing, dados: rest })
+    body: JSON.stringify(rest)
   });
 
   const data = await response.json();

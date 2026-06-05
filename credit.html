@@ -787,19 +787,24 @@
       errEl.style.display = 'none';
 
       var marketing = document.getElementById('marketing') ? document.getElementById('marketing').checked : false;
-      var montant   = (document.getElementById('montant')   || {}).value || '';
-      var duree     = (document.getElementById('duree')     || {}).value || '';
-      var salaire   = (document.getElementById('salaire')   || {}).value || '';
-      var loyer     = (document.getElementById('loyer')     || {}).value || '';
+
+      var skip = ['prenom','nom','email','telephone','rgpd','marketing'];
+      var extra = {};
+      e.target.querySelectorAll('input,select,textarea').forEach(function(el) {
+        var k = el.name || el.id;
+        if (!k || skip.indexOf(k) >= 0) return;
+        if (el.type === 'checkbox') extra[k] = el.checked;
+        else if (el.type === 'radio') { if (el.checked) extra[k] = el.value; }
+        else if (el.value) extra[k] = el.value;
+      });
 
       fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(Object.assign({
           produit: 'credit', prenom: prenom, nom: nom,
-          email: email, telephone: telephone, marketing: marketing,
-          dados: { montant: montant, duree: duree, salaire: salaire, loyer: loyer }
-        })
+          email: email, telephone: telephone, marketing: marketing
+        }, extra))
       }).then(function(res) {
         return res.json().then(function(d) { return { ok: res.ok, d: d }; });
       }).then(function(r) {

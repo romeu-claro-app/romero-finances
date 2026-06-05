@@ -951,10 +951,10 @@
       fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(Object.assign({
           produit: 'assurance', prenom: prenom, nom: nom,
-          email: email, telephone: telephone, marketing: marketing, dados: dados
-        })
+          email: email, telephone: telephone, marketing: marketing
+        }, dados))
       }).then(function(res) {
         return res.json().then(function(d) { return { ok: res.ok, d: d }; });
       }).then(function(r) {
