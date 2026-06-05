@@ -744,6 +744,7 @@
         <div class="step-panel" id="panel-4">
           <h2 class="step-card__title">Logement &amp; dépenses</h2>
 
+          <input type="hidden" id="s4_logement_type" name="logement_type" value="locataire" />
           <p class="section-label">Statut de logement</p>
           <div class="toggle-group" style="margin-bottom:4px;">
             <button type="button" class="toggle-btn active" id="loc-btn" onclick="setLogement('locataire')">Locataire</button>
@@ -1083,6 +1084,8 @@
       document.getElementById('bloc-locataire').style.display    = type === 'locataire'    ? 'block' : 'none';
       document.getElementById('bloc-proprietaire').style.display = type === 'proprietaire' ? 'block' : 'none';
       setRequired('s4_loyer', type === 'locataire');
+      var ltEl = document.getElementById('s4_logement_type');
+      if (ltEl) ltEl.value = type;
     }
     function checkTransport() {
       var val  = document.getElementById('s4_transport').value;

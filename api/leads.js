@@ -43,17 +43,70 @@ export default async function handler(req, res) {
 
   // ── leads_credit ──────────────────────────────────────────────────────────
   if (table === 'leads_credit') {
+    // montant/duree arrive as formatted strings ("50 000 CHF", "24 mois") — strip non-digits
+    const montantNum = payload.montant ? parseInt(String(payload.montant).replace(/[^\d]/g, '')) || null : null;
+    const dureeNum   = payload.duree   ? parseInt(String(payload.duree).replace(/[^\d]/g, ''))   || null : null;
+
+    // Collect dynamic enfant_* fields into an array (handles gaps from removed items)
+    const enfantsMap = {};
+    for (const k of Object.keys(payload)) {
+      const m = k.match(/^enfant_(\w+)_(\d+)$/);
+      if (m) {
+        const [, field, idx] = m;
+        if (!enfantsMap[idx]) enfantsMap[idx] = {};
+        enfantsMap[idx][field] = payload[k];
+      }
+    }
+    const enfants = Object.keys(enfantsMap)
+      .sort((a, b) => +a - +b)
+      .map(idx => ({
+        prenom:         enfantsMap[idx].prenom  || null,
+        date_naissance: enfantsMap[idx].dob     || null,
+        apprenti:       enfantsMap[idx].apprenti|| null
+      }));
+
     payload = {
-      prenom:      payload.prenom,
-      nom:         payload.nom,
-      email:       payload.email,
-      telephone:   payload.telephone,
-      marketing:   payload.marketing,
-      montant:     payload.montant     ? parseInt(payload.montant)  : null,
-      duree:       payload.duree       ? parseInt(payload.duree)    : null,
-      objet_credit: payload.objet      || null,
-      salaire_net: payload.salaire     ? parseInt(payload.salaire)  : null,
-      loyer:       payload.loyer       ? parseInt(payload.loyer)    : null
+      // Identité
+      prenom:          payload.prenom,
+      nom:             payload.nom,
+      email:           payload.email,
+      telephone:       payload.telephone,
+      marketing:       payload.marketing,
+      date_naissance:  payload.dob          || null,
+      nationalite:     payload.nationalite  || null,
+      permis:          payload.permis       || null,
+      date_entree:     payload.entree       || null,
+      // Demande
+      montant:         montantNum,
+      duree:           dureeNum,
+      objet_credit:    payload.objet        || null,
+      docs_envoyes:    payload.docs_envoyes ?? null,
+      // Famille
+      etat_civil:                payload.etatcivil          || null,
+      conjoint_prenom:           payload.c_prenom           || null,
+      conjoint_nom:              payload.c_nom              || null,
+      conjoint_date_naissance:   payload.c_dob              || null,
+      conjoint_nationalite:      payload.c_nationalite      || null,
+      conjoint_permis:           payload.c_permis           || null,
+      conjoint_date_entree:      payload.c_entree           || null,
+      enfants:                   enfants.length ? enfants   : null,
+      // Revenus
+      salaire_net:               payload.salaire            ? parseInt(payload.salaire)            : null,
+      debut_activite:            payload.debut_activite     || null,
+      salaire_secondaire:        payload.salaire_secondaire ? parseInt(payload.salaire_secondaire) : null,
+      conjoint_salaire_net:      payload.c_salaire          ? parseInt(payload.c_salaire)          : null,
+      conjoint_debut_activite:   payload.c_debut_activite   || null,
+      conjoint_salaire_sec:      payload.c_salaire_secondaire ? parseInt(payload.c_salaire_secondaire) : null,
+      // Logement & dépenses
+      logement_type:   payload.logement_type   || null,
+      loyer:           payload.loyer           ? parseInt(payload.loyer)           : null,
+      logement_depuis: payload.logement_depuis || null,
+      valeur_bien:     payload.valeur_bien     ? parseInt(payload.valeur_bien)     : null,
+      primes_maladie:  payload.primes_maladie  ? parseInt(payload.primes_maladie)  : null,
+      transport:       payload.transport       || null,
+      transport_cout:  payload.transport_cout  ? parseInt(payload.transport_cout)  : null,
+      repas:           payload.repas           || null,
+      repas_cout:      payload.repas_cout      ? parseInt(payload.repas_cout)      : null
     };
   }
 
