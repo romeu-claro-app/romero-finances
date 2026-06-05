@@ -749,75 +749,28 @@
 
     function submitForm(e) {
       e.preventDefault();
-      var prenom    = document.getElementById('prenom').value.trim();
-      var nom       = document.getElementById('nom').value.trim();
-      var email     = document.getElementById('email').value.trim();
-      var telephone = document.getElementById('telephone').value.trim();
-      var rgpd      = document.getElementById('rgpd').checked;
-      var valid     = true;
-
-      [document.getElementById('prenom'), document.getElementById('nom'),
-       document.getElementById('email'), document.getElementById('telephone')].forEach(function (el) {
+      var valid = true;
+      ['prenom','nom','email','telephone'].forEach(function(id) {
+        var el = document.getElementById(id);
         if (!el.value.trim()) {
           el.classList.add('field-error');
-          el.addEventListener('input', function () { el.classList.remove('field-error'); }, { once: true });
+          el.addEventListener('input', function() { el.classList.remove('field-error'); }, { once: true });
           valid = false;
         }
       });
-      if (!rgpd) {
-        var cb = document.getElementById('rgpd');
-        cb.style.outline = '2px solid #e53e3e';
-        cb.addEventListener('change', function () { cb.style.outline = ''; }, { once: true });
-        valid = false;
-      }
       if (!valid) return;
 
-      var btn      = e.target.querySelector('[type="submit"]');
-      var origText = btn ? btn.textContent : '';
-      if (btn) { btn.disabled = true; btn.textContent = '···'; }
-
-      var errEl = document.getElementById('cr-err');
-      if (!errEl) {
-        errEl = document.createElement('p');
-        errEl.id = 'cr-err';
-        errEl.style.cssText = 'color:#e53e3e;font-size:.84rem;margin-top:10px;display:none;text-align:center;';
-        errEl.textContent = 'Une erreur est survenue. Veuillez réessayer.';
-        if (btn && btn.parentNode) btn.parentNode.appendChild(errEl);
-      }
-      errEl.style.display = 'none';
-
-      var marketing = document.getElementById('marketing') ? document.getElementById('marketing').checked : false;
-
-      var skip = ['prenom','nom','email','telephone','rgpd','marketing'];
-      var extra = {};
-      e.target.querySelectorAll('input,select,textarea').forEach(function(el) {
-        var k = el.name || el.id;
-        if (!k || skip.indexOf(k) >= 0) return;
-        if (el.type === 'checkbox') extra[k] = el.checked;
-        else if (el.type === 'radio') { if (el.checked) extra[k] = el.value; }
-        else if (el.value) extra[k] = el.value;
+      var params = new URLSearchParams({
+        prenom:    document.getElementById('prenom').value.trim(),
+        nom:       document.getElementById('nom').value.trim(),
+        email:     document.getElementById('email').value.trim(),
+        telephone: document.getElementById('telephone').value.trim(),
+        montant:   document.getElementById('montant').value   || '',
+        duree:     document.getElementById('duree').value     || '',
+        salaire:   document.getElementById('salaire').value   || '',
+        loyer:     document.getElementById('loyer').value     || ''
       });
-
-      fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.assign({
-          produit: 'credit', prenom: prenom, nom: nom,
-          email: email, telephone: telephone, marketing: marketing
-        }, extra))
-      }).then(function(res) {
-        return res.json().then(function(d) { return { ok: res.ok, d: d }; });
-      }).then(function(r) {
-        if (r.ok && r.d.success) {
-          window.location.href = 'merci.html?produit=credit';
-        } else {
-          errEl.style.display = 'block';
-          if (btn) { btn.disabled = false; btn.textContent = origText; }
-        }
-      }).catch(function() {
-        errEl.style.display = 'block';
-        if (btn) { btn.disabled = false; btn.textContent = origText; }
-      });
+      window.location.href = 'formulaire-credit.html?' + params.toString();
     }
   </script>
 </body>
