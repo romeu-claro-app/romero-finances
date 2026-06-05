@@ -1105,27 +1105,46 @@
 
     /* ─── STEP 5 — UPLOAD LIST ───────────────────────────────── */
     function buildUploadList() {
-      var etat      = document.getElementById('s2_etatcivil').value;
-      var couple    = etat === 'marie' || etat === 'partenariat';
-      var prenom    = document.getElementById('s1_prenom').value || 'le demandeur';
-      var cPrenom   = document.getElementById('s2c_prenom').value || 'le / la conjoint(e)';
-      var hasApprenti = false;
-      document.querySelectorAll('input[type="hidden"][name^="enfant_apprenti_"]').forEach(function (h) {
-        if (h.value === 'oui') hasApprenti = true;
+      var etat   = document.getElementById('s2_etatcivil').value;
+      var couple = etat === 'marie' || etat === 'partenariat';
+      var prenom  = document.getElementById('s1_prenom').value  || 'le demandeur';
+      var cPrenom = document.getElementById('s2c_prenom').value || 'le / la conjoint(e)';
+
+      // Collect apprentis with their prenoms
+      var apprentis = [];
+      document.querySelectorAll('input[type="hidden"][name^="enfant_apprenti_"]').forEach(function(h) {
+        if (h.value !== 'oui') return;
+        var n = h.name.replace('enfant_apprenti_', '');
+        var prenomEl = document.querySelector('input[name="enfant_prenom_' + n + '"]');
+        apprentis.push((prenomEl && prenomEl.value) ? prenomEl.value : 'l\'apprenti(e)');
       });
 
       var items = [];
-      var adultes = couple ? prenom + ' + ' + cPrenom : prenom;
-      items.push({ slug: 'identite',               label: 'Pièce d\'identité — ' + adultes });
-      items.push({ slug: 'salaires',               label: '3 dernières fiches de salaire — ' + prenom });
-      if (couple)      items.push({ slug: 'salaires_conjoint',    label: '3 dernières fiches de salaire — ' + cPrenom });
-      if (hasApprenti) items.push({ slug: 'salaire_apprenti',     label: 'Dernière fiche de salaire — apprenti(e)' });
-      if (hasApprenti) items.push({ slug: 'contrat_apprentissage',label: 'Contrat d\'apprentissage' });
+
+      // 1. PIÈCES D'IDENTITÉ — une par personne
+      items.push({ slug: 'identite_req', label: 'Pièce d\'identité — ' + prenom });
+      if (couple) items.push({ slug: 'identite_conjoint', label: 'Pièce d\'identité — ' + cPrenom });
+      apprentis.forEach(function(ap, i) {
+        items.push({ slug: 'identite_apprenti_' + i, label: 'Pièce d\'identité — ' + ap });
+      });
+
+      // 2. FICHES DE SALAIRE
+      items.push({ slug: 'salaires_req', label: '3 dernières fiches de salaire — ' + prenom });
+      if (couple) items.push({ slug: 'salaires_conjoint', label: '3 dernières fiches de salaire — ' + cPrenom });
+      apprentis.forEach(function(ap, i) {
+        items.push({ slug: 'salaire_apprenti_' + i,     label: 'Dernière fiche de salaire — ' + ap });
+        items.push({ slug: 'contrat_apprentissage_' + i, label: 'Contrat d\'apprentissage — ' + ap });
+      });
+
+      // 3. LOGEMENT
       if (logementType === 'locataire')    items.push({ slug: 'bail',      label: 'Contrat de bail' });
       if (logementType === 'proprietaire') items.push({ slug: 'propriete', label: 'Acte de propriété' });
-      items.push({ slug: 'assurance', label: 'Police d\'assurance maladie + facture récente' });
 
-      // Drop stored files for slugs no longer in the list (e.g. conjoint removed)
+      // 4. ASSURANCE MALADIE — toujours deux champs séparés
+      items.push({ slug: 'police_assurance',  label: 'Police d\'assurance maladie' });
+      items.push({ slug: 'facture_assurance', label: 'Facture d\'assurance maladie récente' });
+
+      // Drop stored files for slugs no longer in the list
       var validSlugs = items.map(function(it) { return it.slug; });
       Object.keys(_fcFiles).forEach(function(s) {
         if (validSlugs.indexOf(s) < 0) delete _fcFiles[s];
@@ -1133,7 +1152,7 @@
 
       var list = document.getElementById('uploadList');
       list.innerHTML = '';
-      items.forEach(function (item) {
+      items.forEach(function(item) {
         var uid     = 'file-' + item.slug;
         var hasFile = !!_fcFiles[item.slug];
         var div = document.createElement('div');
