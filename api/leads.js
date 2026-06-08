@@ -122,7 +122,8 @@ export default async function handler(req, res) {
       canton:           payload.am_canton  || null,
       nombre_personnes: payload.am_nb      ? parseInt(payload.am_nb)    : null,
       medecin_famille:  payload.am_medecin || null,
-      commentaire:      payload.am_commentaire || null,
+      // TODO: rename DB column to commentaire once migration is applied
+      notes:            payload.am_commentaire || null,
       personnes: (() => {
         const nb = parseInt(payload.am_nb) || 1;
         const personnes = [];
@@ -144,9 +145,9 @@ export default async function handler(req, res) {
   // ── leads_assurance_nouveau_arrive ────────────────────────────────────────
   if (table === 'leads_assurance_nouveau_arrive') {
     const nb = parseInt(payload.na_nb) || 1;
-    const personnes_supplementaires = [];
+    const personnes_additionnelles = [];
     for (let i = 2; i <= nb; i++) {
-      personnes_supplementaires.push({
+      personnes_additionnelles.push({
         prenom:         payload[`na_p${i}_prenom`]    || null,
         nom:            payload[`na_p${i}_nom`]        || null,
         date_naissance: payload[`na_p${i}_naissance`]  || null
@@ -163,11 +164,11 @@ export default async function handler(req, res) {
       npa:                      payload.na_npa         || null,
       localite:                 payload.na_localite    || null,
       inscrit_commune:          payload.na_inscrit     || null,
-      permis:                   payload.na_permis      || null,
+      type_permis:              payload.na_permis      || null,
       date_entree:              payload.na_date_entree || null,
       nombre_personnes:         nb,
-      personnes_supplementaires: personnes_supplementaires.length
-        ? personnes_supplementaires
+      personnes_additionnelles: personnes_additionnelles.length
+        ? personnes_additionnelles
         : null
     };
   }
@@ -175,18 +176,18 @@ export default async function handler(req, res) {
   // ── leads_assurance_prenatale ─────────────────────────────────────────────
   if (table === 'leads_assurance_prenatale') {
     payload = {
-      prenom:                 payload.prenom,
-      nom:                    payload.nom,
-      email:                  payload.email,
-      telephone:              payload.telephone,
-      marketing:              payload.marketing,
-      date_naissance_preneur: payload.pn_naissance    || null,
-      date_accouchement:      payload.pn_accouchement || null,
-      prenom_bebe:            payload.pn_bebe         || null,
-      lamal_caisse:           payload.pn_lamal_caisse || null,
-      lca_caisse:             payload.pn_lca_caisse   || null,
-      npa:                    payload.pn_npa          || null,
-      localite:               payload.pn_localite     || null
+      prenom:           payload.prenom,
+      nom:              payload.nom,
+      email:            payload.email,
+      telephone:        payload.telephone,
+      marketing:        payload.marketing,
+      date_naissance:   payload.pn_naissance    || null,
+      date_accouchement: payload.pn_accouchement || null,
+      prenom_bebe:      payload.pn_bebe         || null,
+      caisse_lamal:     payload.pn_lamal_caisse || null,
+      caisse_lca:       payload.pn_lca_caisse   || null,
+      npa:              payload.pn_npa          || null,
+      localite:         payload.pn_localite     || null
     };
   }
 
@@ -226,10 +227,10 @@ export default async function handler(req, res) {
       telephone:            payload.telephone,
       marketing:            payload.marketing,
       date_naissance:       payload.dob        || null,
-      npa:                  payload.npa        || null,
-      commentaire:          payload.commentaire || null,
-      souhait:              payload.souhait    || null,
-      besoin:               payload.besoin     || null,
+      code_postal:           payload.npa        || null,
+      commentaire:           payload.commentaire || null,
+      souhaits:              payload.souhait    || null,
+      assurances_souhaitees: payload.besoin     || null,
       assurances_actuelles: assurances_actuelles.length ? assurances_actuelles : null
     };
   }
