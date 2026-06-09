@@ -203,9 +203,9 @@ export default async function handler(req, res) {
       canton:                     payload.p_canton    || null,
       situation_professionnelle:  payload.p_situation || null,
       revenu_annuel:              payload.p_revenu    ? parseInt(payload.p_revenu) : null,
-      troisieme_pilier_existant:  payload.p_existant  || null,
+      pilier_existant:            payload.p_existant  || null,
       type_pilier_existant:       payload.p_3p_type   || null,
-      institution_existante:      payload.p_3p_avec   || null,
+      institution_pilier:         payload.p_3p_avec   || null,
       montant_verse:              payload.p_montant   || null,
       objectif:                   payload.p_objectif  || null,
       commentaire:                payload.p_commentaire || null
