@@ -948,37 +948,23 @@ function folderLabel(name){
   return name.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
 }
 async function loadDocumentos(leadId){
-  var base=SUPABASE_URL+'/storage/v1/object/list/documentos';
-  var hdrs={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'};
-  var prefix=leadId+'/';
-  function stripPfx(n,p){return n.indexOf(p)===0?n.slice(p.length):n;}
-  function pubUrl(p){return SUPABASE_URL+'/storage/v1/object/public/documentos/'+p;}
-  var r1=await fetch(base,{method:'POST',headers:hdrs,body:JSON.stringify({prefix:prefix,limit:100,delimiter:'/'})});
-  if(!r1.ok) return {};
-  var items1=await r1.json();
-  if(!Array.isArray(items1)) return {};
-  var folders=[],topFiles=[];
-  items1.forEach(function(item){
-    if(!item.name) return;
-    var rel=stripPfx(item.name,prefix);
-    if(!rel) return;
-    if(item.id===null){var fn=rel.replace(/\/$/,'');if(fn) folders.push(fn);}
-    else topFiles.push({name:rel,url:pubUrl(prefix+rel)});
+  var r=await fetch('/api/storage-list',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({leadId:leadId})
   });
+  if(!r.ok) return {};
+  var data=await r.json();
+  if(!data.success||!data.pastas) return {};
   var result={};
-  for(var i=0;i<folders.length;i++){
-    var folder=folders[i],fp=prefix+folder+'/';
-    var r2=await fetch(base,{method:'POST',headers:hdrs,body:JSON.stringify({prefix:fp,limit:100})});
-    if(!r2.ok) continue;
-    var items2=await r2.json();
-    if(!Array.isArray(items2)) continue;
-    var files=items2.filter(function(it){return it.name&&it.id!==null;}).map(function(it){
-      var rel2=stripPfx(it.name,fp)||it.name.split('/').pop();
-      return {name:rel2,url:pubUrl(fp+rel2)};
-    }).filter(function(f){return f.name;});
-    if(files.length) result[folder]=files;
-  }
-  if(topFiles.length) result['']=topFiles;
+  Object.keys(data.pastas).forEach(function(pasta){
+    result[pasta]=data.pastas[pasta].map(function(nome){
+      return {
+        name:nome,
+        url:SUPABASE_URL+'/storage/v1/object/public/documentos/'+leadId+'/'+pasta+'/'+nome
+      };
+    });
+  });
   return result;
 }
 function renderDocumentosSection(grouped){
