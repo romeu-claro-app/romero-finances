@@ -810,21 +810,18 @@ function renderFiche(){
 }
 function saveLeadToSupabase(lead){
   if(lead._local) return Promise.resolve();
-  var t=TABLES.find(function(t){return t.produit===lead.produit;});
-  if(!t) return Promise.resolve();
-  return fetch(SUPABASE_URL+'/rest/v1/'+t.table+'?id=eq.'+lead.id,{
-    method:'PATCH',
-    headers:{
-      'apikey':SUPABASE_KEY,
-      'Authorization':'Bearer '+SUPABASE_KEY,
-      'Content-Type':'application/json',
-      'Prefer':'return=minimal'
-    },
+  return fetch('/api/leads-update',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
+      id:             lead.id,
+      produit:        lead.produit,
       notes:          lead.notes||null,
       follow_up_date: lead.followup||null,
       statut:         lead.statut.charAt(0).toUpperCase()+lead.statut.slice(1)
     })
+  }).then(function(r){return r.json();}).then(function(d){
+    if(!d.success) throw new Error(d.error||'Erreur Supabase');
   });
 }
 function changeStatutFiche(val){
