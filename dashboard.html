@@ -808,18 +808,41 @@ function renderFiche(){
     +'</div></div></div></div>';
   document.getElementById('view-fiche').innerHTML=html;
 }
+function saveLeadToSupabase(lead){
+  if(lead._local) return Promise.resolve();
+  var t=TABLES.find(function(t){return t.produit===lead.produit;});
+  if(!t) return Promise.resolve();
+  return fetch(SUPABASE_URL+'/rest/v1/'+t.table+'?id=eq.'+lead.id,{
+    method:'PATCH',
+    headers:{
+      'apikey':SUPABASE_KEY,
+      'Authorization':'Bearer '+SUPABASE_KEY,
+      'Content-Type':'application/json',
+      'Prefer':'return=minimal'
+    },
+    body:JSON.stringify({
+      notes:          lead.notes||null,
+      follow_up_date: lead.followup||null,
+      statut:         lead.statut
+    })
+  });
+}
 function changeStatutFiche(val){
   var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
   if(!l||l.statut===val) return;
   l.historique.push({d:today(),a:'Statut → '+STATUT_LABELS[val],t:'statut'});
   l.statut=val; l._dirty=true;
-  saveData(); renderStats(); renderFiche();
+  saveData();
+  saveLeadToSupabase(l).catch(function(){});
+  renderStats(); renderFiche();
 }
 function saveFollowup(val){
   var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
   if(!l) return;
   l.followup=val; l._dirty=true;
-  saveData(); renderStats();
+  saveData();
+  saveLeadToSupabase(l).catch(function(){});
+  renderStats();
 }
 function saveNotes(){
   var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
@@ -831,7 +854,16 @@ function saveNotes(){
   l._dirty=true;
   saveData(); renderFiche();
   var btn=document.querySelector('.fiche-main .btn-primary');
-  if(btn){btn.textContent='✓ Sauvegardé';setTimeout(function(){btn.innerHTML='<i class="ti ti-device-floppy"></i> Sauvegarder';},1500);}
+  if(btn){
+    btn.disabled=true;
+    saveLeadToSupabase(l).then(function(){
+      btn.textContent='✓ Sauvegardé';
+      setTimeout(function(){btn.innerHTML='<i class="ti ti-device-floppy"></i> Sauvegarder';btn.disabled=false;},1500);
+    }).catch(function(){
+      btn.disabled=false;
+      alert('Erreur lors de la sauvegarde.');
+    });
+  }
 }
 function exportPDF(){
   alert('Export PDF disponible prochainement.\n\nNom : '+
