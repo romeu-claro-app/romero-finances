@@ -209,6 +209,31 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
 /* ── LOADING ─────────────────────────────────────────────── */
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── DOC VIEWER MODAL ────────────────────────────────────── */
+#modal-doc-viewer{z-index:300;}
+#modal-doc-viewer .modal{max-width:900px;width:95vw;height:85vh;display:flex;flex-direction:column;padding:0;overflow:hidden;}
+.docviewer-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:12px;}
+.docviewer-title{font-weight:600;font-size:0.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;}
+.docviewer-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.docviewer-body{flex:1;min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center;background:#f0f0ee;}
+.docviewer-body iframe{width:100%;height:100%;border:none;display:block;}
+.docviewer-body img{max-width:100%;max-height:100%;object-fit:contain;display:block;}
+.docviewer-fallback{text-align:center;padding:40px;color:var(--muted);}
+.docviewer-fallback a{color:var(--blue);text-decoration:underline;}
+
+/* ── DOCS SECTION ────────────────────────────────────────── */
+.docs-loading{color:var(--muted);font-size:0.85rem;display:flex;align-items:center;gap:8px;padding:4px 0;}
+.docs-folder{margin-bottom:14px;}
+.docs-folder-title{font-size:0.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px;}
+.docs-list{display:flex;flex-direction:column;gap:5px;}
+.docs-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--gray-pale);border-radius:var(--rad-sm);cursor:pointer;transition:background .15s;}
+.docs-item:hover{background:var(--blue-pale);}
+.docs-item-icon{font-size:1rem;flex-shrink:0;line-height:1;}
+.docs-item-name{font-size:0.84rem;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.docs-item-dl{color:var(--muted);padding:3px 5px;border-radius:4px;cursor:pointer;flex-shrink:0;transition:color .15s;}
+.docs-item-dl:hover{color:var(--blue);}
+.docs-empty{color:var(--light);font-size:0.83rem;padding:4px 0;}
 </style>
 </head>
 <body>
@@ -365,6 +390,20 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
       <button class="btn btn-ghost" onclick="closeModal('modal-statut')">Annuler</button>
       <button class="btn btn-primary" onclick="applyBulkStatut()">Appliquer</button>
     </div>
+  </div>
+</div>
+
+<!-- ══ MODAL DOC VIEWER ════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-doc-viewer">
+  <div class="modal">
+    <div class="docviewer-header">
+      <div class="docviewer-title" id="docviewer-title">Document</div>
+      <div class="docviewer-actions">
+        <button class="btn btn-ghost btn-sm" onclick="downloadDoc(_docViewerUrl,_docViewerNome)"><i class="ti ti-download"></i> Télécharger</button>
+        <button class="modal-close" onclick="closeModal('modal-doc-viewer')">&times;</button>
+      </div>
+    </div>
+    <div class="docviewer-body" id="docviewer-body"></div>
   </div>
 </div>
 
@@ -887,14 +926,108 @@ function renderProduitData(l){
   pairs.forEach(function(p){
     html+='<div class="fiche-field"><label>'+p[0]+'</label><span>'+p[1]+'</span></div>';
   });
-  html+='</div>';
+  html+='</div></div>';
   if(l.produit==='credit'&&raw.docs_envoyes){
-    html+='<div style="margin-top:12px;">'
-      +'<a href="https://npfvppuprhbycbhmthxi.supabase.co/storage/v1/object/public/documentos/'+l.id+'/" '
-      +'target="_blank" rel="noopener" class="btn btn-ghost btn-sm">📎 Ver documentos</a></div>';
+    html+='<div id="docs-section" class="fiche-section">'
+      +'<div class="fiche-section-title">Documents</div>'
+      +'<div class="docs-loading"><div class="spinner" style="width:16px;height:16px;border-width:2px;flex-shrink:0;"></div>Chargement des documents…</div>'
+      +'</div>';
   }
-  html+='</div>';
   return html;
+}
+
+/* ── Document viewer helpers ────────────────────────────── */
+var FOLDER_LABELS={
+  fiches_salaire:'Fiches de salaire',fiche_salaire:'Fiche de salaire',
+  identite:'Pièce d\'identité',identite_conjoint:'Pièce d\'identité (conjoint)',
+  poursuites:'Extrait de poursuites',impots:'Déclaration d\'impôts',
+  contrat:'Contrat',contrats:'Contrats',autres:'Autres documents'
+};
+function folderLabel(name){
+  if(Object.prototype.hasOwnProperty.call(FOLDER_LABELS,name)) return FOLDER_LABELS[name];
+  return name.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+}
+async function loadDocumentos(leadId){
+  var base=SUPABASE_URL+'/storage/v1/object/list/documentos';
+  var hdrs={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'};
+  var prefix=leadId+'/';
+  function stripPfx(n,p){return n.indexOf(p)===0?n.slice(p.length):n;}
+  function pubUrl(p){return SUPABASE_URL+'/storage/v1/object/public/documentos/'+p;}
+  var r1=await fetch(base,{method:'POST',headers:hdrs,body:JSON.stringify({prefix:prefix,limit:100,delimiter:'/'})});
+  if(!r1.ok) return {};
+  var items1=await r1.json();
+  if(!Array.isArray(items1)) return {};
+  var folders=[],topFiles=[];
+  items1.forEach(function(item){
+    if(!item.name) return;
+    var rel=stripPfx(item.name,prefix);
+    if(!rel) return;
+    if(item.id===null){var fn=rel.replace(/\/$/,'');if(fn) folders.push(fn);}
+    else topFiles.push({name:rel,url:pubUrl(prefix+rel)});
+  });
+  var result={};
+  for(var i=0;i<folders.length;i++){
+    var folder=folders[i],fp=prefix+folder+'/';
+    var r2=await fetch(base,{method:'POST',headers:hdrs,body:JSON.stringify({prefix:fp,limit:100})});
+    if(!r2.ok) continue;
+    var items2=await r2.json();
+    if(!Array.isArray(items2)) continue;
+    var files=items2.filter(function(it){return it.name&&it.id!==null;}).map(function(it){
+      var rel2=stripPfx(it.name,fp)||it.name.split('/').pop();
+      return {name:rel2,url:pubUrl(fp+rel2)};
+    }).filter(function(f){return f.name;});
+    if(files.length) result[folder]=files;
+  }
+  if(topFiles.length) result['']=topFiles;
+  return result;
+}
+function renderDocumentosSection(grouped){
+  var el=document.getElementById('docs-section');
+  if(!el) return;
+  var folders=Object.keys(grouped);
+  var html='<div class="fiche-section-title">Documents</div>';
+  if(!folders.length){html+='<p class="docs-empty">Aucun document disponible.</p>';el.innerHTML=html;return;}
+  folders.forEach(function(folder){
+    var files=grouped[folder];
+    html+='<div class="docs-folder">';
+    if(folder) html+='<div class="docs-folder-title">'+esc(folderLabel(folder))+'</div>';
+    html+='<div class="docs-list">';
+    files.forEach(function(f){
+      var ext=(f.name.split('.').pop()||'').toLowerCase();
+      var icon=ext==='pdf'?'📄':['jpg','jpeg','png','gif','webp'].indexOf(ext)!==-1?'🖼️':'📎';
+      html+='<div class="docs-item" data-url="'+esc(f.url)+'" data-name="'+esc(f.name)+'" onclick="openDocViewer(this.dataset.url,this.dataset.name)">'
+        +'<span class="docs-item-icon">'+icon+'</span>'
+        +'<span class="docs-item-name">'+esc(f.name)+'</span>'
+        +'<span class="docs-item-dl" data-url="'+esc(f.url)+'" data-name="'+esc(f.name)+'" '
+        +'onclick="event.stopPropagation();downloadDoc(this.dataset.url,this.dataset.name)" title="Télécharger">'
+        +'<i class="ti ti-download"></i></span></div>';
+    });
+    html+='</div></div>';
+  });
+  el.innerHTML=html;
+}
+var _docViewerUrl=null,_docViewerNome=null;
+function openDocViewer(url,nome){
+  _docViewerUrl=url;_docViewerNome=nome;
+  document.getElementById('docviewer-title').textContent=nome;
+  var body=document.getElementById('docviewer-body');
+  var ext=(nome.split('.').pop()||'').toLowerCase();
+  if(ext==='pdf'){
+    body.innerHTML='<iframe src="'+esc(url)+'" style="width:100%;height:100%;border:none;" frameborder="0"></iframe>';
+  }else if(['jpg','jpeg','png','gif','webp','bmp'].indexOf(ext)!==-1){
+    body.innerHTML='<img src="'+esc(url)+'" alt="'+esc(nome)+'" style="max-width:100%;max-height:100%;object-fit:contain;" />';
+  }else{
+    body.innerHTML='<div class="docviewer-fallback"><p style="margin-bottom:12px;">Prévisualisation non disponible.</p>'
+      +'<a href="'+esc(url)+'" target="_blank" rel="noopener">Ouvrir dans un nouvel onglet</a></div>';
+  }
+  openModal('modal-doc-viewer');
+}
+function downloadDoc(url,nome){
+  var a=document.createElement('a');
+  a.href=url||_docViewerUrl||'';
+  a.download=nome||_docViewerNome||'document';
+  a.target='_blank';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 
 function renderFiche(){
@@ -942,6 +1075,13 @@ function renderFiche(){
     +'<div class="historique-list">'+hist+'</div>'
     +'</div></div></div></div>';
   document.getElementById('view-fiche').innerHTML=html;
+  if(l.produit==='credit'&&l.raw&&l.raw.docs_envoyes){
+    loadDocumentos(l.id).then(function(grouped){renderDocumentosSection(grouped);}).catch(function(){
+      var el=document.getElementById('docs-section');
+      if(el) el.innerHTML='<div class="fiche-section-title">Documents</div>'
+        +'<p class="docs-empty" style="color:var(--red);">Erreur lors du chargement.</p>';
+    });
+  }
 }
 function saveLeadToSupabase(lead){
   if(lead._local) return Promise.resolve();
