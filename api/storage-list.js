@@ -25,6 +25,19 @@ export default async function handler(req, res) {
     'Content-Type':  'application/json'
   };
 
+  // Gera signed URL para um único ficheiro (expira em 1 hora)
+  async function signFile(path) {
+    const r = await fetch(`${SUPABASE_URL}/storage/v1/object/sign/documentos/${path}`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ expiresIn: 3600 })
+    });
+    if (!r.ok) return null;
+    const data = await r.json();
+    if (!data.signedURL) return null;
+    return SUPABASE_URL + '/storage/v1' + data.signedURL;
+  }
+
   // ── FASE 1: listar pastas sob leadId/ ────────────────────────────────────
   const r1 = await fetch(storageBase, {
     method: 'POST',
@@ -47,9 +60,8 @@ export default async function handler(req, res) {
 
   const pastas = {};
 
-  // ── FASE 2: para cada pasta, listar ficheiros ─────────────────────────────
+  // ── FASE 2: para cada pasta, listar ficheiros e assinar em paralelo ───────
   for (const item of folderItems) {
-    // Determinar o prefix a usar na fase 2
     let folderPrefix = item.prefix;
     if (!folderPrefix) {
       const name = (item.name || '').replace(/\/$/, '');
@@ -68,17 +80,26 @@ export default async function handler(req, res) {
     const items2 = await r2.json();
     if (!Array.isArray(items2)) continue;
 
-    const ficheiros = items2
+    const nomes = items2
       .filter(f => f.name && f.id !== null)
       .map(f => f.name.split('/').pop())
       .filter(Boolean);
 
-    if (!ficheiros.length) continue;
+    if (!nomes.length) continue;
 
-    // Extrair nome da pasta a partir do prefix (ex: "uuid/bail/" → "bail")
     const parts = folderPrefix.split('/').filter(Boolean);
     const pastaName = parts[parts.length - 1];
-    pastas[pastaName] = ficheiros;
+
+    // Gerar signed URLs em paralelo para todos os ficheiros desta pasta
+    const entries = await Promise.all(
+      nomes.map(async nome => {
+        const url = await signFile(`${leadId}/${pastaName}/${nome}`);
+        return url ? { name: nome, url } : null;
+      })
+    );
+
+    const valid = entries.filter(Boolean);
+    if (valid.length) pastas[pastaName] = valid;
   }
 
   return res.status(200).json({ success: true, pastas });

@@ -956,16 +956,7 @@ async function loadDocumentos(leadId){
   if(!r.ok) return {};
   var data=await r.json();
   if(!data.success||!data.pastas) return {};
-  var result={};
-  Object.keys(data.pastas).forEach(function(pasta){
-    result[pasta]=data.pastas[pasta].map(function(nome){
-      return {
-        name:nome,
-        url:SUPABASE_URL+'/storage/v1/object/public/documentos/'+leadId+'/'+pasta+'/'+nome
-      };
-    });
-  });
-  return result;
+  return data.pastas;
 }
 function renderDocumentosSection(grouped){
   var el=document.getElementById('docs-section');
