@@ -959,7 +959,8 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.assign({
           produit: 'pilier', prenom: prenom, nom: nom,
-          email: email, telephone: telephone, marketing: marketing
+          email: email, telephone: telephone, marketing: marketing,
+          periodicite_versement: pmMode
         }, dados))
       }).then(function(res) {
         return res.json().then(function(d) { return { ok: res.ok, d: d }; });

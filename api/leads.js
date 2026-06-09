@@ -206,8 +206,9 @@ export default async function handler(req, res) {
       pilier_existant:            payload.p_existant  || null,
       type_pilier_existant:       payload.p_3p_type   || null,
       institution_pilier:         payload.p_3p_avec   || null,
-      montant_verse:              payload.p_montant   || null,
-      objectif:                   payload.p_objectif  || null,
+      montant_verse:              payload.p_montant              || null,
+      periodicite_versement:      payload.periodicite_versement  || null,
+      objectif:                   payload.p_objectif             || null,
       commentaire:                payload.p_commentaire || null
     };
   }
