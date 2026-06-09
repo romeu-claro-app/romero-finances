@@ -63,7 +63,7 @@ input,select,textarea{font-family:inherit;}
 .btn-xs{padding:4px 9px;font-size:0.76rem;}
 
 /* ── MAIN ───────────────────────────────────────────────── */
-.main{padding:24px;flex:1;}
+.main{padding:24px;flex:1;position:relative;}
 
 /* ── STATS ──────────────────────────────────────────────── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
@@ -205,6 +205,10 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
   .topbar{padding:0 16px;}
   .pipeline-wrap{grid-template-columns:1fr;}
 }
+
+/* ── LOADING ─────────────────────────────────────────────── */
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
@@ -249,6 +253,12 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
 
   <div class="main">
 
+    <!-- LOADING OVERLAY -->
+    <div id="loading-overlay" style="display:none;position:absolute;inset:0;background:rgba(240,240,238,.88);z-index:20;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
+      <div class="spinner"></div>
+      <p style="font-size:.88rem;color:var(--muted);">Chargement des leads…</p>
+    </div>
+
     <!-- STATS -->
     <div class="stats-row" id="stats-row"></div>
 
@@ -272,7 +282,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
         <option value="assurance-nouveau-arrive">Assurance nouveau arrivé</option>
         <option value="assurance-prenatale">Assurance pré-natale</option>
         <option value="pilier">3ème pilier</option>
-        <option value="biens">Choses &amp; Biens</option>
+        <option value="patrimoine">Choses &amp; Biens</option>
       </select>
       <button class="btn btn-ghost btn-sm" onclick="clearFilters()" id="clear-btn" style="display:none;"><i class="ti ti-x"></i> Effacer filtres</button>
     </div>
@@ -313,7 +323,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
           <option value="assurance-nouveau-arrive">Assurance nouveau arrivé</option>
           <option value="assurance-prenatale">Assurance pré-natale</option>
           <option value="pilier">3ème pilier</option>
-          <option value="biens">Choses &amp; Biens</option>
+          <option value="patrimoine">Choses &amp; Biens</option>
         </select>
       </div>
       <div class="modal-field"><label>Statut initial</label>
@@ -360,115 +370,158 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
 
 <script>
 /* ════════════════════════════════════════════════════════════
-   DATA
+   CONFIG — SUPABASE
    ════════════════════════════════════════════════════════════ */
-var DEFAULT_LEADS = [
-  {id:1,prenom:'Lukas',nom:'Meier',email:'lukas.meier@gmail.ch',telephone:'+41 79 123 45 67',produit:'credit',statut:'converti',date:'2026-04-15',followup:'',notes:'Dossier bien complété. Offre de CHF 25 000 sur 60 mois acceptée.',
-   historique:[{d:'2026-04-15',a:'Lead créé',t:'create'},{d:'2026-04-16',a:'Statut → Contacté',t:'statut'},{d:'2026-04-18',a:'Statut → Proposition',t:'statut'},{d:'2026-04-22',a:'Statut → Converti',t:'statut'}]},
-  {id:2,prenom:'Sophie',nom:'Bernard',email:'sophie.bernard@bluewin.ch',telephone:'+41 78 234 56 78',produit:'pilier',statut:'contacte',date:'2026-05-02',followup:'2026-05-20',notes:'Rappel prévu le 20 mai. Intéressée par pilier 3a bancaire.',
-   historique:[{d:'2026-05-02',a:'Lead créé',t:'create'},{d:'2026-05-05',a:'Statut → Contacté',t:'statut'}]},
-  {id:3,prenom:'Ana',nom:'Costa',email:'ana.costa@outlook.com',telephone:'+41 76 345 67 89',produit:'credit',statut:'nouveau',date:'2026-05-10',followup:'',notes:'',
-   historique:[{d:'2026-05-10',a:'Lead créé',t:'create'}]},
-  {id:4,prenom:'Maia',nom:'Silva',email:'maia.silva@gmail.com',telephone:'+41 79 456 78 90',produit:'assurance',statut:'proposition',date:'2026-04-28',followup:'2026-05-18',notes:'Comparaison envoyée entre Swica et CSS. Attend retour famille.',
-   historique:[{d:'2026-04-28',a:'Lead créé',t:'create'},{d:'2026-04-29',a:'Statut → Contacté',t:'statut'},{d:'2026-05-03',a:'Statut → Proposition',t:'statut'}]},
-  {id:5,prenom:'Ricardo',nom:'Ferreira',email:'r.ferreira@hotmail.com',telephone:'+41 77 567 89 01',produit:'assurance-nouveau-arrive',statut:'contacte',date:'2026-05-05',followup:'',notes:"Arrivé en Suisse en avril. Délai d'affiliation 3 mois. Permis B.",
-   historique:[{d:'2026-05-05',a:'Lead créé',t:'create'},{d:'2026-05-06',a:'Statut → Contacté',t:'statut'}]},
-  {id:6,prenom:'Camille',nom:'Dubois',email:'camille.dubois@gmail.com',telephone:'+41 78 678 90 12',produit:'assurance-prenatale',statut:'nouveau',date:'2026-05-12',followup:'',notes:'',
-   historique:[{d:'2026-05-12',a:'Lead créé',t:'create'}]},
-  {id:7,prenom:'Jean-Pierre',nom:'Muller',email:'jp.muller@bluewin.ch',telephone:'+41 79 789 01 23',produit:'pilier',statut:'converti',date:'2026-04-20',followup:'',notes:'Pilier 3a ouvert chez Zurich Life. Très satisfait. Client fidèle.',
-   historique:[{d:'2026-04-20',a:'Lead créé',t:'create'},{d:'2026-04-21',a:'Statut → Contacté',t:'statut'},{d:'2026-04-24',a:'Statut → Proposition',t:'statut'},{d:'2026-04-30',a:'Statut → Converti',t:'statut'}]},
-  {id:8,prenom:'David',nom:'Wyrsch',email:'d.wyrsch@gmail.com',telephone:'+41 76 890 12 34',produit:'biens',statut:'perdu',date:'2026-04-10',followup:'',notes:'A choisi un autre courtier. Prix non compétitif sur RC.',
-   historique:[{d:'2026-04-10',a:'Lead créé',t:'create'},{d:'2026-04-11',a:'Statut → Contacté',t:'statut'},{d:'2026-04-15',a:'Statut → Perdu',t:'statut'}]}
+var SUPABASE_URL = 'https://npfvppuprhbycbhmthxi.supabase.co';
+var SUPABASE_KEY = 'sb_publishable_cdQew7JvhMuBpj3aU6LDCg_gU2D3pya';
+var TABLES = [
+  { table: 'leads_credit',                   produit: 'credit' },
+  { table: 'leads_assurance',                produit: 'assurance' },
+  { table: 'leads_assurance_nouveau_arrive', produit: 'assurance-nouveau-arrive' },
+  { table: 'leads_assurance_prenatale',      produit: 'assurance-prenatale' },
+  { table: 'leads_pilier',                   produit: 'pilier' },
+  { table: 'leads_patrimoine',               produit: 'patrimoine' }
 ];
+var STATUT_NORM = {
+  'Nouveau':'nouveau','Contacté':'contacte','contacté':'contacte',
+  'Proposition':'proposition','Converti':'converti','Perdu':'perdu',
+  'nouveau':'nouveau','contacte':'contacte','proposition':'proposition',
+  'converti':'converti','perdu':'perdu'
+};
 
 /* ── State ─────────────────────────────────────────────── */
 var S = {
-  leads: [],
-  view: 'liste',
-  selected: [],
-  filter: { statut: '', produit: '', search: '' },
-  statFilter: '',
-  currentLeadId: null,
-  nextId: 9,
-  draggedId: null
+  leads:[], view:'liste', selected:[],
+  filter:{statut:'',produit:'',search:''},
+  statFilter:'', currentLeadId:null, draggedId:null
 };
 
 /* ── Helpers ────────────────────────────────────────────── */
 var PRODUIT_LABELS = {
-  credit: 'Crédit privé',
-  assurance: 'Assurance maladie',
-  'assurance-nouveau-arrive': 'Ass. nouveau arrivé',
-  'assurance-prenatale': 'Ass. pré-natale',
-  pilier: '3ème pilier',
-  biens: 'Choses & Biens'
+  credit:'Crédit privé', assurance:'Assurance maladie',
+  'assurance-nouveau-arrive':'Ass. nouveau arrivé',
+  'assurance-prenatale':'Ass. pré-natale',
+  pilier:'3ème pilier', patrimoine:'Choses & Biens'
 };
 var STATUT_LABELS = {
   nouveau:'Nouveau', contacte:'Contacté', proposition:'Proposition',
   converti:'Converti', perdu:'Perdu'
 };
+function idQ(id){ return typeof id==='string'?"'"+id+"'":id; }
 function badge(statut){
-  return '<span class="badge badge-'+statut+'"><span class="badge-dot"></span>'+STATUT_LABELS[statut]+'</span>';
+  return '<span class="badge badge-'+statut+'"><span class="badge-dot"></span>'+(STATUT_LABELS[statut]||statut)+'</span>';
 }
 function produitBadge(p){
   return '<span class="lead-produit-badge">'+(PRODUIT_LABELS[p]||p)+'</span>';
 }
 function fmtDate(d){
   if(!d) return '—';
-  var p = d.split('-');
+  var p=d.slice(0,10).split('-');
   return p[2]+'/'+p[1]+'/'+p[0];
 }
 function filteredLeads(){
   return S.leads.filter(function(l){
-    if(S.statFilter === 'contacte' && l.statut !== 'contacte') return false;
-    if(S.statFilter === 'converti' && l.statut !== 'converti') return false;
-    if(S.statFilter === 'followup' && !l.followup) return false;
-    if(S.filter.produit && l.produit !== S.filter.produit) return false;
-    if(S.filter.statut && l.statut !== S.filter.statut) return false;
+    if(S.statFilter==='contacte'&&l.statut!=='contacte') return false;
+    if(S.statFilter==='converti'&&l.statut!=='converti') return false;
+    if(S.statFilter==='followup'&&!l.followup) return false;
+    if(S.filter.produit&&l.produit!==S.filter.produit) return false;
+    if(S.filter.statut&&l.statut!==S.filter.statut) return false;
     if(S.filter.search){
-      var q = S.filter.search.toLowerCase();
+      var q=S.filter.search.toLowerCase();
       if(!(l.nom+' '+l.prenom+' '+l.email+' '+l.telephone).toLowerCase().includes(q)) return false;
     }
     return true;
   });
 }
-function saveData(){
-  try{ localStorage.setItem('rf_leads', JSON.stringify(S.leads));
-       localStorage.setItem('rf_nextid', S.nextId); }catch(e){}
+function normalizeLead(row, produit){
+  return {
+    id:        row.id,
+    prenom:    row.prenom    ||'',
+    nom:       row.nom       ||'',
+    email:     row.email     ||'',
+    telephone: row.telephone ||'',
+    produit:   produit,
+    statut:    STATUT_NORM[row.statut]||'nouveau',
+    date:      (row.created_at||'').slice(0,10),
+    followup:  row.followup  ||'',
+    notes:     row.notes||row.commentaire||'',
+    historique:[{d:(row.created_at||'').slice(0,10),a:'Lead créé',t:'create'}]
+  };
 }
-function loadData(){
+function saveData(){
   try{
-    var d = localStorage.getItem('rf_leads');
-    if(d) S.leads = JSON.parse(d);
-    else  S.leads = JSON.parse(JSON.stringify(DEFAULT_LEADS));
-    var n = localStorage.getItem('rf_nextid');
-    S.nextId = n ? parseInt(n) : 9;
-  }catch(e){ S.leads = JSON.parse(JSON.stringify(DEFAULT_LEADS)); S.nextId = 9; }
+    var overrides={};
+    S.leads.forEach(function(l){
+      if(l._dirty) overrides[l.id]={statut:l.statut,notes:l.notes,followup:l.followup};
+    });
+    localStorage.setItem('rf_overrides',JSON.stringify(overrides));
+    localStorage.setItem('rf_local',JSON.stringify(S.leads.filter(function(l){return l._local;})));
+  }catch(e){}
+}
+function applyLocalState(leads){
+  try{
+    var overrides=JSON.parse(localStorage.getItem('rf_overrides')||'{}');
+    leads.forEach(function(l){
+      if(overrides[l.id]){
+        if(overrides[l.id].statut)   l.statut=overrides[l.id].statut;
+        if(overrides[l.id].notes!=null) l.notes=overrides[l.id].notes;
+        if(overrides[l.id].followup) l.followup=overrides[l.id].followup;
+        l._dirty=true;
+      }
+    });
+  }catch(e){}
+  try{
+    var local=JSON.parse(localStorage.getItem('rf_local')||'[]');
+    local.forEach(function(l){leads.unshift(l);});
+  }catch(e){}
+}
+
+/* ── Supabase fetch ─────────────────────────────────────── */
+function showSpinner(){document.getElementById('loading-overlay').style.display='flex';}
+function hideSpinner(){document.getElementById('loading-overlay').style.display='none';}
+function loadFromSupabase(){
+  showSpinner();
+  var headers={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
+  var promises=TABLES.map(function(t){
+    return fetch(SUPABASE_URL+'/rest/v1/'+t.table+'?select=*&order=created_at.desc',{headers:headers})
+      .then(function(r){return r.ok?r.json():[];})
+      .then(function(rows){return rows.map(function(row){return normalizeLead(row,t.produit);});})
+      .catch(function(){return[];});
+  });
+  return Promise.all(promises).then(function(results){
+    var all=[].concat.apply([],results);
+    all.sort(function(a,b){return b.date.localeCompare(a.date);});
+    applyLocalState(all);
+    S.leads=all;
+    hideSpinner();
+  }).catch(function(){hideSpinner();});
 }
 
 /* ════════════════════════════════════════════════════════════
    AUTH
    ════════════════════════════════════════════════════════════ */
-var PWD = 'RF2026admin';
+var PWD='RF2026admin';
+function showApp(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('app').style.flexDirection='column';
+}
 function checkAuth(){
-  if(sessionStorage.getItem('rf_auth') === '1'){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').style.display='flex';
-    document.getElementById('app').style.flexDirection='column';
-    loadData(); render();
+  if(sessionStorage.getItem('rf_auth')==='1'){
+    showApp();
+    loadFromSupabase().then(function(){render();});
   }
 }
 function doLogin(e){
   e.preventDefault();
-  if(document.getElementById('pwd').value === PWD){
+  if(document.getElementById('pwd').value===PWD){
     sessionStorage.setItem('rf_auth','1');
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').style.display='flex';
-    document.getElementById('app').style.flexDirection='column';
-    loadData(); render();
-  } else {
-    var err = document.getElementById('login-error');
+    showApp();
+    loadFromSupabase().then(function(){render();});
+  }else{
+    var err=document.getElementById('login-error');
     err.style.display='block';
-    setTimeout(function(){ err.style.display='none'; }, 3000);
+    setTimeout(function(){err.style.display='none';},3000);
     document.getElementById('pwd').value='';
   }
 }
@@ -485,40 +538,37 @@ function doLogout(){
 function render(){
   renderStats();
   renderTabs();
-  var fb = document.getElementById('filter-bar');
-  var mb = document.getElementById('mass-bar');
-  fb.style.display = S.view==='fiche' ? 'none' : '';
-  if(S.view==='liste') renderListe();
+  document.getElementById('filter-bar').style.display=S.view==='fiche'?'none':'';
+  if(S.view==='liste')    renderListe();
   if(S.view==='pipeline') renderPipeline();
-  if(S.view==='fiche') renderFiche();
-  document.getElementById('view-liste').style.display = S.view==='liste'?'':'none';
-  document.getElementById('view-pipeline').style.display = S.view==='pipeline'?'':'none';
-  document.getElementById('view-fiche').style.display = S.view==='fiche'?'':'none';
+  if(S.view==='fiche')    renderFiche();
+  document.getElementById('view-liste').style.display    =S.view==='liste'    ?'':'none';
+  document.getElementById('view-pipeline').style.display =S.view==='pipeline' ?'':'none';
+  document.getElementById('view-fiche').style.display    =S.view==='fiche'    ?'':'none';
   updateMassBar();
   updateClearBtn();
 }
 
 /* ── Stats ─────────────────────────────────────────────── */
 function renderStats(){
-  var all = S.leads;
-  var data = [
+  var all=S.leads;
+  var data=[
     {key:'',label:'Total leads',num:all.length},
     {key:'contacte',label:'Contactés',num:all.filter(function(l){return l.statut==='contacte';}).length},
     {key:'converti',label:'Convertis',num:all.filter(function(l){return l.statut==='converti';}).length},
     {key:'followup',label:'Follow-up',num:all.filter(function(l){return !!l.followup;}).length},
   ];
-  var html = data.map(function(d){
-    return '<div class="stat-card'+(S.statFilter===d.key&&d.key!==''?' active':S.statFilter===''&&d.key===''?' active':'')+'" onclick="setStatFilter(\''+d.key+'\')">'
+  var html=data.map(function(d){
+    var active=(S.statFilter===d.key&&d.key!=='')||(S.statFilter===''&&d.key==='');
+    return '<div class="stat-card'+(active?' active':'')+'" onclick="setStatFilter(\''+d.key+'\')">'
       +'<div class="stat-label">'+d.label+'</div>'
       +'<div class="stat-num">'+d.num+'</div>'
       +'</div>';
   }).join('');
-  document.getElementById('stats-row').innerHTML = html;
+  document.getElementById('stats-row').innerHTML=html;
 }
 function setStatFilter(key){
-  S.statFilter = S.statFilter===key ? (key===''?'':'') : key;
-  if(key==='') S.statFilter='';
-  else S.statFilter = key;
+  S.statFilter=(S.statFilter===key&&key!=='')?'':key;
   S.selected=[];
   render();
 }
@@ -526,31 +576,31 @@ function setStatFilter(key){
 /* ── Tabs ───────────────────────────────────────────────── */
 function renderTabs(){
   document.querySelectorAll('.tab-btn[data-tab]').forEach(function(b){
-    b.classList.toggle('active', b.dataset.tab === S.view);
+    b.classList.toggle('active',b.dataset.tab===S.view);
   });
-  var tf = document.getElementById('tab-fiche');
-  tf.style.display = S.currentLeadId ? '' : 'none';
+  var tf=document.getElementById('tab-fiche');
+  tf.style.display=S.currentLeadId?'':'none';
   if(S.currentLeadId){
-    var l = S.leads.find(function(x){return x.id===S.currentLeadId;});
-    if(l) document.getElementById('tab-fiche-name').textContent = l.prenom+' '+l.nom;
+    var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
+    if(l) document.getElementById('tab-fiche-name').textContent=l.prenom+' '+l.nom;
   }
 }
 function switchTab(tab){
-  S.view = tab;
+  S.view=tab;
   if(tab!=='fiche') S.selected=[];
   render();
 }
 function closeFiche(e){
   e.stopPropagation();
-  S.currentLeadId = null;
+  S.currentLeadId=null;
   if(S.view==='fiche') S.view='liste';
   render();
 }
 
 /* ── Filters ────────────────────────────────────────────── */
 function onFilter(){
-  S.filter.search = document.getElementById('search-input').value;
-  S.filter.produit = document.getElementById('filter-produit').value;
+  S.filter.search=document.getElementById('search-input').value;
+  S.filter.produit=document.getElementById('filter-produit').value;
   S.selected=[];
   updateClearBtn();
   if(S.view==='liste') renderListe();
@@ -565,17 +615,17 @@ function clearFilters(){
   render();
 }
 function updateClearBtn(){
-  var active = S.filter.search||S.filter.produit||S.statFilter;
-  document.getElementById('clear-btn').style.display = active?'':'none';
+  var active=S.filter.search||S.filter.produit||S.statFilter;
+  document.getElementById('clear-btn').style.display=active?'':'none';
 }
 
 /* ── Mass bar ───────────────────────────────────────────── */
 function updateMassBar(){
-  var mb = document.getElementById('mass-bar');
-  if(S.selected.length>0 && S.view==='liste'){
+  var mb=document.getElementById('mass-bar');
+  if(S.selected.length>0&&S.view==='liste'){
     mb.classList.add('visible');
-    document.getElementById('mass-count').textContent = S.selected.length+' lead'+(S.selected.length>1?'s':'')+' sélectionné'+(S.selected.length>1?'s':'');
-  } else {
+    document.getElementById('mass-count').textContent=S.selected.length+' lead'+(S.selected.length>1?'s':'')+' sélectionné'+(S.selected.length>1?'s':'');
+  }else{
     mb.classList.remove('visible');
   }
 }
@@ -584,73 +634,64 @@ function updateMassBar(){
    LISTE
    ════════════════════════════════════════════════════════════ */
 function renderListe(){
-  var leads = filteredLeads();
-  var el = document.getElementById('view-liste');
+  var leads=filteredLeads();
+  var el=document.getElementById('view-liste');
   if(leads.length===0){
     el.innerHTML='<div class="table-wrap"><div class="empty-state"><i class="ti ti-users"></i><p>Aucun lead trouvé avec ces filtres.</p></div></div>';
     return;
   }
-  var allSel = leads.length>0 && leads.every(function(l){return S.selected.includes(l.id);});
-  var someSel = leads.some(function(l){return S.selected.includes(l.id);});
-  var html = '<div class="table-wrap"><table><thead><tr>'
-    +'<th class="col-check"><input type="checkbox" id="chk-all" '+(allSel?'checked':someSel?'':'')
+  var allSel=leads.length>0&&leads.every(function(l){return S.selected.includes(l.id);});
+  var someSel=leads.some(function(l){return S.selected.includes(l.id);});
+  var html='<div class="table-wrap"><table><thead><tr>'
+    +'<th class="col-check"><input type="checkbox" id="chk-all" '+(allSel?'checked':'')
     +' onclick="toggleAll()" title="'+(allSel?'Tout déselectionner':'Tout sélectionner')+'" /></th>'
     +'<th>Nom &amp; email</th><th>Produit</th><th class="col-tel">Téléphone</th>'
     +'<th class="col-statut">Statut</th><th class="col-date">Date</th><th class="col-actions"></th>'
     +'</tr></thead><tbody>';
   leads.forEach(function(l){
-    var sel = S.selected.includes(l.id);
-    html += '<tr class="'+(sel?'selected':'')+'" onclick="handleRowClick(event,'+l.id+')">'
-      +'<td class="col-check" onclick="event.stopPropagation()"><input type="checkbox" '+(sel?'checked':'')+' onchange="toggleSelect('+l.id+')" /></td>'
+    var sel=S.selected.includes(l.id);
+    var qi=idQ(l.id);
+    html+='<tr class="'+(sel?'selected':'')+'" onclick="handleRowClick(event,'+qi+')">'
+      +'<td class="col-check" onclick="event.stopPropagation()"><input type="checkbox" '+(sel?'checked':'')+' onchange="toggleSelect('+qi+')" /></td>'
       +'<td><div class="lead-name">'+esc(l.prenom)+' '+esc(l.nom)+'</div><div class="lead-email">'+esc(l.email)+'</div></td>'
       +'<td>'+produitBadge(l.produit)+'</td>'
       +'<td>'+esc(l.telephone||'—')+'</td>'
       +'<td>'+badge(l.statut)+'</td>'
       +'<td>'+fmtDate(l.date)+'</td>'
       +'<td class="col-actions" onclick="event.stopPropagation()">'
-      +'<button class="btn btn-ghost btn-xs" onclick="openFiche('+l.id+')"><i class="ti ti-eye"></i> Voir</button>'
+      +'<button class="btn btn-ghost btn-xs" onclick="openFiche('+qi+')"><i class="ti ti-eye"></i> Voir</button>'
       +'</td></tr>';
   });
-  html += '</tbody></table></div>';
-  el.innerHTML = html;
-  // indeterminate state
-  var chkAll = document.getElementById('chk-all');
-  if(chkAll && someSel && !allSel) chkAll.indeterminate=true;
+  html+='</tbody></table></div>';
+  el.innerHTML=html;
+  var chkAll=document.getElementById('chk-all');
+  if(chkAll&&someSel&&!allSel) chkAll.indeterminate=true;
 }
-function handleRowClick(e, id){
+function handleRowClick(e,id){
   if(e.target.tagName==='INPUT'||e.target.tagName==='BUTTON'||e.target.tagName==='I') return;
   openFiche(id);
 }
 function toggleSelect(id){
-  var idx = S.selected.indexOf(id);
+  var idx=S.selected.indexOf(id);
   if(idx===-1) S.selected.push(id);
   else S.selected.splice(idx,1);
-  renderListe();
-  updateMassBar();
+  renderListe(); updateMassBar();
 }
 function toggleAll(){
-  var leads = filteredLeads();
-  var allSel = leads.every(function(l){return S.selected.includes(l.id);});
+  var leads=filteredLeads();
+  var allSel=leads.every(function(l){return S.selected.includes(l.id);});
   if(allSel){
-    leads.forEach(function(l){
-      var i=S.selected.indexOf(l.id);
-      if(i>-1) S.selected.splice(i,1);
-    });
-  } else {
-    leads.forEach(function(l){ if(!S.selected.includes(l.id)) S.selected.push(l.id); });
+    leads.forEach(function(l){var i=S.selected.indexOf(l.id);if(i>-1) S.selected.splice(i,1);});
+  }else{
+    leads.forEach(function(l){if(!S.selected.includes(l.id)) S.selected.push(l.id);});
   }
-  renderListe();
-  updateMassBar();
+  renderListe(); updateMassBar();
 }
-function clearSelection(){
-  S.selected=[];
-  renderListe();
-  updateMassBar();
-}
+function clearSelection(){S.selected=[];renderListe();updateMassBar();}
 function deleteSelected(){
   if(!S.selected.length) return;
   if(!confirm('Supprimer '+S.selected.length+' lead(s) ?')) return;
-  S.leads = S.leads.filter(function(l){ return !S.selected.includes(l.id); });
+  S.leads=S.leads.filter(function(l){return !S.selected.includes(l.id);});
   S.selected=[];
   saveData(); render();
 }
@@ -658,18 +699,16 @@ function deleteSelected(){
 /* ════════════════════════════════════════════════════════════
    PIPELINE
    ════════════════════════════════════════════════════════════ */
-var COLUMNS = [
-  {key:'nouveau',label:'Nouveau'},
-  {key:'contacte',label:'Contacté'},
-  {key:'proposition',label:'Proposition'},
-  {key:'converti',label:'Converti'},
+var COLUMNS=[
+  {key:'nouveau',label:'Nouveau'},{key:'contacte',label:'Contacté'},
+  {key:'proposition',label:'Proposition'},{key:'converti',label:'Converti'},
 ];
 function renderPipeline(){
-  var leads = filteredLeads();
-  var html = '<div class="pipeline-wrap">';
+  var leads=filteredLeads();
+  var html='<div class="pipeline-wrap">';
   COLUMNS.forEach(function(col){
-    var colLeads = leads.filter(function(l){ return l.statut===col.key; });
-    html += '<div class="pipeline-col">'
+    var colLeads=leads.filter(function(l){return l.statut===col.key;});
+    html+='<div class="pipeline-col">'
       +'<div class="pipeline-col-header">'
       +'<span class="pipeline-col-title">'+badge(col.key)+'</span>'
       +'<span class="pipeline-col-count">'+colLeads.length+'</span>'
@@ -679,84 +718,74 @@ function renderPipeline(){
       +'ondragleave="this.classList.remove(\'drag-over\')" '
       +'ondrop="onDrop(event,\''+col.key+'\')">';
     colLeads.forEach(function(l){
-      html += '<div class="pipeline-card" draggable="true" data-id="'+l.id+'" '
-        +'ondragstart="onDragStart(event,'+l.id+')" ondragend="onDragEnd(event)">'
+      var qi=idQ(l.id);
+      html+='<div class="pipeline-card" draggable="true" data-id="'+l.id+'" '
+        +'ondragstart="onDragStart(event,'+qi+')" ondragend="onDragEnd(event)">'
         +'<div class="pipeline-card-name">'+esc(l.prenom)+' '+esc(l.nom)+'</div>'
         +'<div class="pipeline-card-sub">'+produitBadge(l.produit)+'</div>'
         +'<div class="pipeline-card-footer">'
         +'<span style="font-size:.75rem;color:var(--light)">'+fmtDate(l.date)+'</span>'
-        +'<button class="btn btn-ghost btn-xs" onclick="openFiche('+l.id+')"><i class="ti ti-eye"></i></button>'
+        +'<button class="btn btn-ghost btn-xs" onclick="openFiche('+qi+')"><i class="ti ti-eye"></i></button>'
         +'</div></div>';
     });
-    if(colLeads.length===0) html += '<div style="text-align:center;padding:16px;color:var(--light);font-size:.78rem;">Aucun lead</div>';
-    html += '</div></div>';
+    if(colLeads.length===0) html+='<div style="text-align:center;padding:16px;color:var(--light);font-size:.78rem;">Aucun lead</div>';
+    html+='</div></div>';
   });
-  html += '</div>';
-  document.getElementById('view-pipeline').innerHTML = html;
+  html+='</div>';
+  document.getElementById('view-pipeline').innerHTML=html;
 }
-function onDragStart(e, id){
-  S.draggedId = id;
+function onDragStart(e,id){
+  S.draggedId=id;
   e.dataTransfer.effectAllowed='move';
   setTimeout(function(){
-    var el = document.querySelector('[data-id="'+id+'"]');
+    var el=document.querySelector('[data-id="'+id+'"]');
     if(el) el.classList.add('dragging');
   },0);
 }
 function onDragEnd(e){
-  document.querySelectorAll('.pipeline-card.dragging').forEach(function(el){ el.classList.remove('dragging'); });
-  document.querySelectorAll('.pipeline-cards').forEach(function(el){ el.classList.remove('drag-over'); });
+  document.querySelectorAll('.pipeline-card.dragging').forEach(function(el){el.classList.remove('dragging');});
+  document.querySelectorAll('.pipeline-cards').forEach(function(el){el.classList.remove('drag-over');});
 }
-function onDrop(e, colKey){
+function onDrop(e,colKey){
   e.preventDefault();
   e.currentTarget.classList.remove('drag-over');
-  if(!S.draggedId) return;
-  var lead = S.leads.find(function(l){ return l.id===S.draggedId; });
-  if(lead && lead.statut !== colKey){
+  if(S.draggedId===null||S.draggedId===undefined) return;
+  var lead=S.leads.find(function(l){return l.id===S.draggedId;});
+  if(lead&&lead.statut!==colKey){
     lead.historique.push({d:today(),a:'Statut → '+STATUT_LABELS[colKey],t:'statut'});
-    lead.statut = colKey;
+    lead.statut=colKey; lead._dirty=true;
     saveData(); renderPipeline(); renderStats();
   }
-  S.draggedId = null;
+  S.draggedId=null;
 }
 
 /* ════════════════════════════════════════════════════════════
    FICHE
    ════════════════════════════════════════════════════════════ */
-function openFiche(id){
-  S.currentLeadId = id;
-  S.view = 'fiche';
-  render();
-}
+function openFiche(id){S.currentLeadId=id;S.view='fiche';render();}
 function renderFiche(){
-  var l = S.leads.find(function(x){ return x.id===S.currentLeadId; });
-  if(!l){ document.getElementById('view-fiche').innerHTML='<p>Lead introuvable.</p>'; return; }
-  var statutOpts = Object.keys(STATUT_LABELS).map(function(k){
+  var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
+  if(!l){document.getElementById('view-fiche').innerHTML='<p>Lead introuvable.</p>';return;}
+  var statutOpts=Object.keys(STATUT_LABELS).map(function(k){
     return '<option value="'+k+'"'+(l.statut===k?' selected':'')+'>'+STATUT_LABELS[k]+'</option>';
   }).join('');
-  var hist = l.historique.slice().reverse().map(function(h){
-    return '<div class="hist-item">'
-      +'<div class="hist-dot '+h.t+'"></div>'
-      +'<div><div class="hist-text">'+esc(h.a)+'</div><div class="hist-date">'+fmtDate(h.d)+'</div></div>'
-      +'</div>';
+  var hist=l.historique.slice().reverse().map(function(h){
+    return '<div class="hist-item"><div class="hist-dot '+h.t+'"></div>'
+      +'<div><div class="hist-text">'+esc(h.a)+'</div><div class="hist-date">'+fmtDate(h.d)+'</div></div></div>';
   }).join('');
-  var html = '<div class="fiche-wrap">'
-    +'<div class="fiche-header">'
-    +'<div class="fiche-header-left">'
+  var html='<div class="fiche-wrap">'
+    +'<div class="fiche-header"><div class="fiche-header-left">'
     +'<h2>'+esc(l.prenom)+' '+esc(l.nom)+'</h2>'
-    +'<div class="fiche-header-meta">'
-    +'<span>'+produitBadge(l.produit)+'</span>'
-    +'<span><i class="ti ti-calendar"></i> '+fmtDate(l.date)+'</span>'
-    +'</div></div>'
+    +'<div class="fiche-header-meta"><span>'+produitBadge(l.produit)+'</span>'
+    +'<span><i class="ti ti-calendar"></i> '+fmtDate(l.date)+'</span></div></div>'
     +'<div class="fiche-header-right">'
     +'<select class="btn btn-ghost btn-sm" style="cursor:pointer;padding:6px 12px;" onchange="changeStatutFiche(this.value)">'+statutOpts+'</select>'
     +'<button class="btn btn-ghost btn-sm" onclick="exportPDF()"><i class="ti ti-file-text"></i> Export PDF</button>'
     +'<a class="btn btn-ghost btn-sm" href="mailto:'+esc(l.email)+'"><i class="ti ti-mail"></i> Email</a>'
     +'<button class="btn btn-ghost btn-sm" onclick="switchTab(\'liste\')"><i class="ti ti-arrow-left"></i> Retour</button>'
     +'</div></div>'
-    +'<div class="fiche-body">'
-    +'<div class="fiche-main">'
-    +'<div class="fiche-section">'
-    +'<div class="fiche-section-title">Coordonnées</div>'
+    +'<div class="fiche-body"><div class="fiche-main">'
+    +'<div class="fiche-section"><div class="fiche-section-title">Coordonnées</div>'
     +'<div class="fiche-grid">'
     +'<div class="fiche-field"><label>Prénom</label><span>'+esc(l.prenom)+'</span></div>'
     +'<div class="fiche-field"><label>Nom</label><span>'+esc(l.nom)+'</span></div>'
@@ -765,50 +794,44 @@ function renderFiche(){
     +'<div class="fiche-field"><label>Produit</label><span>'+(PRODUIT_LABELS[l.produit]||l.produit)+'</span></div>'
     +'<div class="fiche-field"><label>Date d\'entrée</label><span>'+fmtDate(l.date)+'</span></div>'
     +'</div></div>'
-    +'<div class="fiche-section">'
-    +'<div class="fiche-section-title">Follow-up</div>'
-    +'<div class="fiche-field" style="max-width:200px;">'
-    +'<label>Date de rappel</label>'
-    +'<input type="date" id="followup-input" value="'+esc(l.followup||'')+'" onchange="saveFollowup(this.value)" />'
-    +'</div></div>'
-    +'<div class="fiche-section">'
-    +'<div class="fiche-section-title">Notes</div>'
+    +'<div class="fiche-section"><div class="fiche-section-title">Follow-up</div>'
+    +'<div class="fiche-field" style="max-width:200px;"><label>Date de rappel</label>'
+    +'<input type="date" id="followup-input" value="'+esc(l.followup||'')+'" onchange="saveFollowup(this.value)" /></div></div>'
+    +'<div class="fiche-section"><div class="fiche-section-title">Notes</div>'
     +'<textarea class="notes-area" id="notes-area" placeholder="Ajoutez des notes sur ce lead…">'+esc(l.notes||'')+'</textarea>'
     +'<div style="margin-top:8px;text-align:right;">'
     +'<button class="btn btn-primary btn-sm" onclick="saveNotes()"><i class="ti ti-device-floppy"></i> Sauvegarder</button>'
-    +'</div></div>'
-    +'</div>'
-    +'<div class="fiche-side">'
-    +'<div class="fiche-section">'
+    +'</div></div></div>'
+    +'<div class="fiche-side"><div class="fiche-section">'
     +'<div class="fiche-section-title">Historique</div>'
     +'<div class="historique-list">'+hist+'</div>'
-    +'</div></div>'
-    +'</div></div>';
-  document.getElementById('view-fiche').innerHTML = html;
+    +'</div></div></div></div>';
+  document.getElementById('view-fiche').innerHTML=html;
 }
 function changeStatutFiche(val){
-  var l = S.leads.find(function(x){ return x.id===S.currentLeadId; });
+  var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
   if(!l||l.statut===val) return;
   l.historique.push({d:today(),a:'Statut → '+STATUT_LABELS[val],t:'statut'});
-  l.statut = val;
+  l.statut=val; l._dirty=true;
   saveData(); renderStats(); renderFiche();
 }
 function saveFollowup(val){
-  var l = S.leads.find(function(x){ return x.id===S.currentLeadId; });
+  var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
   if(!l) return;
-  l.followup = val;
+  l.followup=val; l._dirty=true;
   saveData(); renderStats();
 }
 function saveNotes(){
-  var l = S.leads.find(function(x){ return x.id===S.currentLeadId; });
-  var area = document.getElementById('notes-area');
+  var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
+  var area=document.getElementById('notes-area');
   if(!l||!area) return;
-  var old = l.notes;
-  l.notes = area.value;
-  if(old !== area.value) l.historique.push({d:today(),a:'Note mise à jour',t:'note'});
+  var old=l.notes;
+  l.notes=area.value;
+  if(old!==area.value) l.historique.push({d:today(),a:'Note mise à jour',t:'note'});
+  l._dirty=true;
   saveData(); renderFiche();
-  var btn = document.querySelector('.fiche-main .btn-primary');
-  if(btn){ btn.textContent='✓ Sauvegardé'; setTimeout(function(){ btn.innerHTML='<i class="ti ti-device-floppy"></i> Sauvegarder'; },1500); }
+  var btn=document.querySelector('.fiche-main .btn-primary');
+  if(btn){btn.textContent='✓ Sauvegardé';setTimeout(function(){btn.innerHTML='<i class="ti ti-device-floppy"></i> Sauvegarder';},1500);}
 }
 function exportPDF(){
   alert('Export PDF disponible prochainement.\n\nNom : '+
@@ -819,25 +842,26 @@ function exportPDF(){
 /* ════════════════════════════════════════════════════════════
    MODAL NEW LEAD
    ════════════════════════════════════════════════════════════ */
-function openModalNew(){ openModal('modal-new'); }
+function openModalNew(){openModal('modal-new');}
 function createLead(){
-  var prenom = document.getElementById('n-prenom').value.trim();
-  var nom    = document.getElementById('n-nom').value.trim();
-  var email  = document.getElementById('n-email').value.trim();
-  if(!prenom||!nom||!email){ alert('Prénom, nom et email obligatoires.'); return; }
-  var l = {
-    id: S.nextId++,
-    prenom: prenom, nom: nom, email: email,
-    telephone: document.getElementById('n-tel').value.trim(),
-    produit:   document.getElementById('n-produit').value,
-    statut:    document.getElementById('n-statut').value,
-    date: today(), followup: '',
-    notes: document.getElementById('n-notes').value.trim(),
-    historique: [{d:today(),a:'Lead créé',t:'create'}]
+  var prenom=document.getElementById('n-prenom').value.trim();
+  var nom   =document.getElementById('n-nom').value.trim();
+  var email =document.getElementById('n-email').value.trim();
+  if(!prenom||!nom||!email){alert('Prénom, nom et email obligatoires.');return;}
+  var l={
+    id:'local-'+Date.now(),
+    prenom:prenom,nom:nom,email:email,
+    telephone:document.getElementById('n-tel').value.trim(),
+    produit:  document.getElementById('n-produit').value,
+    statut:   document.getElementById('n-statut').value,
+    date:today(),followup:'',
+    notes:document.getElementById('n-notes').value.trim(),
+    historique:[{d:today(),a:'Lead créé',t:'create'}],
+    _local:true
   };
   S.leads.unshift(l);
   saveData();
-  ['n-prenom','n-nom','n-email','n-tel','n-notes'].forEach(function(id){ document.getElementById(id).value=''; });
+  ['n-prenom','n-nom','n-email','n-tel','n-notes'].forEach(function(id){document.getElementById(id).value='';});
   closeModal('modal-new');
   render();
 }
@@ -845,37 +869,37 @@ function createLead(){
 /* ════════════════════════════════════════════════════════════
    MODAL BULK STATUT
    ════════════════════════════════════════════════════════════ */
-function openModalStatut(){ if(S.selected.length) openModal('modal-statut'); }
+function openModalStatut(){if(S.selected.length) openModal('modal-statut');}
 function applyBulkStatut(){
-  var val = document.getElementById('bulk-statut').value;
+  var val=document.getElementById('bulk-statut').value;
   S.selected.forEach(function(id){
-    var l = S.leads.find(function(x){ return x.id===id; });
-    if(l && l.statut!==val){
+    var l=S.leads.find(function(x){return x.id===id;});
+    if(l&&l.statut!==val){
       l.historique.push({d:today(),a:'Statut → '+STATUT_LABELS[val],t:'statut'});
-      l.statut=val;
+      l.statut=val; l._dirty=true;
     }
   });
   S.selected=[];
-  saveData(); closeModal('modal-statut'); render();
+  saveData();closeModal('modal-statut');render();
 }
 
 /* ════════════════════════════════════════════════════════════
    CSV EXPORT
    ════════════════════════════════════════════════════════════ */
 function exportCSV(onlySelected){
-  var leads = onlySelected && S.selected.length
-    ? S.leads.filter(function(l){ return S.selected.includes(l.id); })
-    : filteredLeads();
-  var cols = ['Nom','Prénom','Email','Téléphone','Produit','Statut','Date','Notes'];
-  var rows = leads.map(function(l){
+  var leads=onlySelected&&S.selected.length
+    ?S.leads.filter(function(l){return S.selected.includes(l.id);})
+    :filteredLeads();
+  var cols=['Nom','Prénom','Email','Téléphone','Produit','Statut','Date','Notes'];
+  var rows=leads.map(function(l){
     return [l.nom,l.prenom,l.email,l.telephone,PRODUIT_LABELS[l.produit]||l.produit,
-      STATUT_LABELS[l.statut],l.date,l.notes].map(function(v){ return '"'+(v||'').replace(/"/g,'""')+'"'; }).join(',');
+      STATUT_LABELS[l.statut]||l.statut,l.date,l.notes].map(function(v){return '"'+(v||'').replace(/"/g,'""')+'"';}).join(',');
   });
-  var csv = '﻿'+cols.map(function(c){return '"'+c+'"';}).join(',') + '\n' + rows.join('\n');
-  var blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href=url; a.download='leads_romero_'+today()+'.csv'; a.click();
+  var csv='﻿'+cols.map(function(c){return '"'+c+'"';}).join(',')+'\n'+rows.join('\n');
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='leads_romero_'+today()+'.csv';a.click();
   URL.revokeObjectURL(url);
 }
 
@@ -889,12 +913,11 @@ function today(){
 function esc(s){
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-function openModal(id){ document.getElementById(id).classList.add('open'); }
-function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-/* close modals on overlay click */
 document.querySelectorAll('.modal-overlay').forEach(function(el){
-  el.addEventListener('click',function(e){ if(e.target===el) closeModal(el.id); });
+  el.addEventListener('click',function(e){if(e.target===el) closeModal(el.id);});
 });
 
 /* ── Boot ─────────────────────────────────────────────────── */
