@@ -441,9 +441,9 @@ function normalizeLead(row, produit){
     email:     row.email     ||'',
     telephone: row.telephone ||'',
     produit:   produit,
-    statut:    STATUT_NORM[row.statut]||'nouveau',
+    statut:    STATUT_NORM[row.statut]||(row.statut?row.statut.toLowerCase():'nouveau'),
     date:      (row.created_at||'').slice(0,10),
-    followup:  row.followup  ||'',
+    followup:  row.follow_up_date||row.followup||'',
     notes:     row.notes||row.commentaire||'',
     historique:[{d:(row.created_at||'').slice(0,10),a:'Lead créé',t:'create'}]
   };
@@ -823,7 +823,7 @@ function saveLeadToSupabase(lead){
     body:JSON.stringify({
       notes:          lead.notes||null,
       follow_up_date: lead.followup||null,
-      statut:         lead.statut
+      statut:         lead.statut.charAt(0).toUpperCase()+lead.statut.slice(1)
     })
   });
 }
