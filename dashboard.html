@@ -445,7 +445,8 @@ function normalizeLead(row, produit){
     date:      (row.created_at||'').slice(0,10),
     followup:  row.follow_up_date||row.followup||'',
     notes:     row.notes||row.commentaire||'',
-    historique:[{d:(row.created_at||'').slice(0,10),a:'Lead créé',t:'create'}]
+    historique:[{d:(row.created_at||'').slice(0,10),a:'Lead créé',t:'create'}],
+    raw:       row
   };
 }
 function saveData(){
@@ -763,6 +764,139 @@ function onDrop(e,colKey){
    FICHE
    ════════════════════════════════════════════════════════════ */
 function openFiche(id){S.currentLeadId=id;S.view='fiche';render();}
+
+/* ── Produit data helpers ───────────────────────────────── */
+function parseArr(v){
+  if(!v) return [];
+  if(Array.isArray(v)) return v;
+  try{return JSON.parse(v);}catch(e){return [];}
+}
+function fv(v){
+  return (v!==null&&v!==undefined&&v!=='') ? esc(String(v)) : '—';
+}
+function renderProduitData(l){
+  var raw=l.raw||{};
+  var pairs=[];
+
+  if(l.produit==='credit'){
+    pairs=[
+      ['Montant demandé',    raw.montant           ? raw.montant+' CHF'           : '—'],
+      ['Durée',              raw.duree             ? raw.duree+' mois'            : '—'],
+      ['Objet du crédit',    fv(raw.objet_credit)],
+      ['État civil',         fv(raw.etat_civil)],
+      ['Salaire net',        raw.salaire_net        ? raw.salaire_net+' CHF'        : '—'],
+      ['Salaire secondaire', raw.salaire_secondaire ? raw.salaire_secondaire+' CHF' : '—'],
+      ['Loyer / logement',   raw.loyer              ? raw.loyer+' CHF'              : '—'],
+      ['Primes maladie',     raw.primes_maladie     ? raw.primes_maladie+' CHF'     : '—'],
+      ['Nationalité',        fv(raw.nationalite)],
+      ['Permis',             fv(raw.permis)],
+      ['Documents envoyés',  raw.docs_envoyes ? 'Oui' : 'Non']
+    ];
+    var enfants=parseArr(raw.enfants);
+    if(enfants.length){
+      pairs.push(['Enfants', enfants.map(function(e){
+        return esc((e.prenom||'?')+(e.date_naissance?' ('+e.date_naissance+')':''));
+      }).join('<br>')]);
+    }
+    if(raw.conjoint_prenom){
+      pairs.push(['Conjoint',
+        [raw.conjoint_prenom,raw.conjoint_nom,raw.conjoint_nationalite,raw.conjoint_permis]
+          .filter(Boolean).map(esc).join(' · ')]);
+    }
+
+  } else if(l.produit==='assurance'){
+    pairs=[
+      ['Année de naissance',  fv(raw.annee_naissance)],
+      ['Canton',              fv(raw.canton)],
+      ['Nombre de personnes', fv(raw.nombre_personnes)],
+      ['Médecin de famille',  fv(raw.medecin_famille)]
+    ];
+    var pers=parseArr(raw.personnes);
+    if(pers.length){
+      pairs.push(['Personnes assurées', pers.map(function(p,i){
+        var pts=[];
+        if(p.lamal_caisse)    pts.push('LaMal: '+p.lamal_caisse);
+        if(p.lamal_prime)     pts.push('Prime: '+p.lamal_prime+' CHF');
+        if(p.lamal_franchise) pts.push('Franchise: '+p.lamal_franchise);
+        return esc('P'+(i+1)+': '+(pts.length?pts.join(' | '):'—'));
+      }).join('<br>')]);
+    }
+
+  } else if(l.produit==='assurance-nouveau-arrive'){
+    var npaloc=([raw.npa,raw.localite].filter(Boolean).join(' '))||'';
+    var adr=[raw.adresse,npaloc].filter(Boolean).join(', ')||'—';
+    pairs=[
+      ['Date de naissance',       fv(raw.date_naissance)],
+      ['Adresse',                 adr],
+      ['Inscrit commune',         fv(raw.inscrit_commune)],
+      ['Type de permis',          fv(raw.type_permis)],
+      ["Date d'entrée en Suisse", fv(raw.date_entree)],
+      ['Nombre de personnes',     fv(raw.nombre_personnes)]
+    ];
+    var padd=parseArr(raw.personnes_additionnelles);
+    if(padd.length){
+      pairs.push(['Personnes additionnelles', padd.map(function(p){
+        return esc([p.prenom,p.nom,p.date_naissance].filter(Boolean).join(' '));
+      }).join('<br>')]);
+    }
+
+  } else if(l.produit==='assurance-prenatale'){
+    pairs=[
+      ['Date de naissance (mère)',   fv(raw.date_naissance)],
+      ["Date d'accouchement prévue", fv(raw.date_accouchement)],
+      ['Prénom du bébé',             fv(raw.prenom_bebe)],
+      ['Caisse LaMal',               fv(raw.caisse_lamal)],
+      ['Caisse LCA',                 fv(raw.caisse_lca)],
+      ['NPA / Localité',             [raw.npa,raw.localite].filter(Boolean).join(' ')||'—']
+    ];
+
+  } else if(l.produit==='pilier'){
+    pairs=[
+      ['Date de naissance',         fv(raw.date_naissance)],
+      ['Canton',                    fv(raw.canton)],
+      ['Situation professionnelle', fv(raw.situation_professionnelle)],
+      ['Revenu annuel',             raw.revenu_annuel ? raw.revenu_annuel+' CHF' : '—'],
+      ['Pilier existant',           fv(raw.pilier_existant)],
+      ['Type de pilier',            fv(raw.type_pilier_existant)],
+      ['Institution',               fv(raw.institution_pilier)],
+      ['Montant versé',             fv(raw.montant_verse)],
+      ['Périodicité',               fv(raw.periodicite_versement)],
+      ['Objectif',                  fv(raw.objectif)],
+      ['Commentaire',               fv(raw.commentaire)]
+    ];
+
+  } else if(l.produit==='patrimoine'){
+    pairs=[
+      ['Date de naissance',      fv(raw.date_naissance)],
+      ['Code postal',            fv(raw.code_postal)],
+      ['Souhaits',               fv(raw.souhaits)],
+      ['Assurances souhaitées',  fv(raw.assurances_souhaitees)],
+      ['Commentaire',            fv(raw.commentaire)]
+    ];
+    var aact=parseArr(raw.assurances_actuelles);
+    if(aact.length){
+      pairs.push(['Assurances actuelles', aact.map(function(a){
+        return esc([a.type,a.compagnie].filter(Boolean).join(' — '));
+      }).join('<br>')]);
+    }
+  }
+
+  if(!pairs.length) return '';
+  var html='<div class="fiche-section"><div class="fiche-section-title">Données du produit</div>'
+    +'<div class="fiche-grid">';
+  pairs.forEach(function(p){
+    html+='<div class="fiche-field"><label>'+p[0]+'</label><span>'+p[1]+'</span></div>';
+  });
+  html+='</div>';
+  if(l.produit==='credit'&&raw.docs_envoyes){
+    html+='<div style="margin-top:12px;">'
+      +'<a href="https://npfvppuprhbycbhmthxi.supabase.co/storage/v1/object/public/documentos/'+l.id+'/" '
+      +'target="_blank" rel="noopener" class="btn btn-ghost btn-sm">📎 Ver documentos</a></div>';
+  }
+  html+='</div>';
+  return html;
+}
+
 function renderFiche(){
   var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
   if(!l){document.getElementById('view-fiche').innerHTML='<p>Lead introuvable.</p>';return;}
@@ -794,6 +928,7 @@ function renderFiche(){
     +'<div class="fiche-field"><label>Produit</label><span>'+(PRODUIT_LABELS[l.produit]||l.produit)+'</span></div>'
     +'<div class="fiche-field"><label>Date d\'entrée</label><span>'+fmtDate(l.date)+'</span></div>'
     +'</div></div>'
+    +renderProduitData(l)
     +'<div class="fiche-section"><div class="fiche-section-title">Follow-up</div>'
     +'<div class="fiche-field" style="max-width:200px;"><label>Date de rappel</label>'
     +'<input type="date" id="followup-input" value="'+esc(l.followup||'')+'" onchange="saveFollowup(this.value)" /></div></div>'
