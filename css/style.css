@@ -740,6 +740,17 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   transition: color 0.15s;
 }
 .footer__col ul a:hover { color: var(--white); }
+.footer__social { display: flex; align-items: center; gap: 18px; }
+.footer__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.5);
+  font-size: 22px;
+  line-height: 1;
+  transition: color 0.15s, transform 0.15s;
+}
+.footer__social a:hover { color: var(--white); transform: translateY(-2px); }
 .footer__bottom {
   padding: 24px 0;
   display: flex;
