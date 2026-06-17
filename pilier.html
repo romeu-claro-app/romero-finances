@@ -167,7 +167,7 @@
     }
 
     /* ── CE QUE C'EST ─────────────────────────────────────── */
-    .types-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .types-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 720px; margin: 0 auto; }
     .type-card {
       background: var(--white); border: 1px solid var(--border);
       border-radius: var(--radius-lg); padding: 28px 22px;
@@ -405,20 +405,8 @@
   <section class="section" style="background:var(--white);">
     <div class="container">
       <h2 class="section__title">Qu'est-ce que le 3ème pilier&nbsp;?</h2>
-      <p class="section__sub">Quatre solutions adaptées à votre profil et à vos objectifs.</p>
+      <p class="section__sub">Deux solutions adaptées à votre profil et à vos objectifs.</p>
       <div class="types-grid">
-
-        <div class="type-card">
-          <div class="type-card__icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="3" y1="9" x2="21" y2="9"></line>
-              <line x1="9" y1="21" x2="9" y2="9"></line>
-            </svg>
-          </div>
-          <h3 class="type-card__title">Pilier 3a bancaire</h3>
-          <p class="type-card__desc">Déduction fiscale maximale, rendement lié aux taux d'intérêt. Solution simple et accessible.</p>
-        </div>
 
         <div class="type-card">
           <div class="type-card__icon">
@@ -427,7 +415,7 @@
               <polyline points="9 12 11 14 15 10"></polyline>
             </svg>
           </div>
-          <h3 class="type-card__title">Pilier 3a assurance</h3>
+          <h3 class="type-card__title">Pilier 3A</h3>
           <p class="type-card__desc">Déduction fiscale + couverture en cas de décès ou d'invalidité. Protection et épargne combinées.</p>
         </div>
 
@@ -439,19 +427,8 @@
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
           </div>
-          <h3 class="type-card__title">Pilier 3b</h3>
+          <h3 class="type-card__title">Pilier 3B</h3>
           <p class="type-card__desc">Épargne libre, sans plafond de déduction, plus de flexibilité dans les versements et les retraits.</p>
-        </div>
-
-        <div class="type-card">
-          <div class="type-card__icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-          </div>
-          <h3 class="type-card__title">Retrait anticipé</h3>
-          <p class="type-card__desc">Financement immobilier, départ à l'étranger ou retraite anticipée. Plusieurs cas permettent un retrait avant terme.</p>
         </div>
 
       </div>
@@ -472,7 +449,7 @@
         <div class="etape-p">
           <div class="etape-p__num">2</div>
           <h4 class="etape-p__title">Nous analysons les meilleures options</h4>
-          <p class="etape-p__desc">Comparaison des solutions bancaires et assurance disponibles sur le marché pour votre profil et votre canton.</p>
+          <p class="etape-p__desc">Comparaison des solutions d'épargne et d'assurance disponibles sur le marché pour votre profil et votre canton.</p>
         </div>
         <div class="etape-p">
           <div class="etape-p__num">3</div>
@@ -696,7 +673,7 @@
             </svg>
           </div>
           <div class="faq__answer">
-            <p>Le 3a est lié fiscalement : déduction des versements sur le revenu imposable, mais capital bloqué jusqu'à 5 ans avant la retraite ordinaire. Le 3b est libre : pas de déduction fiscale directe, mais aucune restriction sur les retraits.</p>
+            <p>Le 3a est lié fiscalement : déduction des versements sur le revenu imposable, mais capital bloqué jusqu'à 5 ans avant la retraite ordinaire. Le 3b est libre : pas de déduction fiscale directe (à l'exception de certains cantons), mais aucune restriction sur les retraits.</p>
           </div>
         </div>
 

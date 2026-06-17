@@ -18,6 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
     /* ── ACCENT ───────────────────────────────────────────── */
@@ -424,12 +425,9 @@
 
         <div class="compare-card">
           <div class="compare-card__icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
+            <i class="ti ti-stethoscope" style="font-size:26px;"></i>
           </div>
-          <h3 class="compare-card__title">Médecin de famille</h3>
+          <h3 class="compare-card__title">Modèles d'Assurance</h3>
           <p class="compare-card__desc">Les modèles alternatifs pour réduire vos primes significativement.</p>
         </div>
 
@@ -521,14 +519,6 @@
               </select>
             </div>
 
-            <!-- Toggle "même assurance pour tous" -->
-            <div class="fg-am fg-am--full" id="meme-assurance-wrap" style="display:none;">
-              <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--accent-pale);border:1px solid rgba(13,158,107,0.2);border-radius:10px;">
-                <input type="checkbox" id="meme_assurance" style="width:18px;height:18px;min-width:18px;accent-color:var(--accent);cursor:pointer;" onchange="onMemeAssurance()" />
-                <label for="meme_assurance" style="font-size:0.9rem;font-weight:600;color:var(--accent);cursor:pointer;margin:0;">Tout le monde avec la même assurance</label>
-              </div>
-            </div>
-
             <!-- Personne 1 -->
             <div class="fg-am fg-am--full" id="personne-1-block">
               <div class="personne-block" data-p="1">
@@ -570,6 +560,14 @@
                     <input type="month" id="p1_assure_depuis" name="p1_assure_depuis" />
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <!-- Toggle "même assurance pour tous" -->
+            <div class="fg-am fg-am--full" id="meme-assurance-wrap" style="display:none;">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--accent-pale);border:1px solid rgba(13,158,107,0.2);border-radius:10px;">
+                <input type="checkbox" id="meme_assurance" style="width:18px;height:18px;min-width:18px;accent-color:var(--accent);cursor:pointer;" onchange="onMemeAssurance()" />
+                <label for="meme_assurance" style="font-size:0.9rem;font-weight:600;color:var(--accent);cursor:pointer;margin:0;">Tout le monde avec la même assurance</label>
               </div>
             </div>
 
