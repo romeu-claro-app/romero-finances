@@ -191,9 +191,14 @@
         subtitle: 'Comparaison gratuite sous 24h.',
         submit: 'Recevoir ma comparaison'
       },
-      buildExtra: function(a, heure){
-        var nb = parseInt(a.personnes, 10) || null;   // "4 ou plus" -> 4
-        return { am_nb: nb, am_commentaire: summary(a, heure) };
+      // Builds the jsonb "dados" object stored in the unified "leads" table
+      buildDados: function(a, heure){
+        return {
+          prime_actuelle: a.prime     || null,
+          nb_personnes:   a.personnes || null,
+          objectif:       a.objectif  || null,
+          heure_contact:  heure       || null
+        };
       }
     };
 
@@ -205,14 +210,6 @@
     var TOTAL = 4;
     var stage = document.getElementById('stage');
     var segs = document.querySelectorAll('#progress .progress__seg');
-
-    function summary(a, h){
-      var parts = CONFIG.questions.map(function(q){
-        return q.label + '=' + (a[q.field] || '—');
-      });
-      parts.push('Heure de contact=' + (h || '—'));
-      return 'Funnel: ' + parts.join(', ');
-    }
 
     function updateProgress(){
       segs.forEach(function(s,i){ s.classList.toggle('is-done', i <= current); });
@@ -315,17 +312,17 @@
       var btn = document.getElementById('submit');
       btn.disabled = true; btn.textContent = 'Envoi…';
 
-      var payload = Object.assign({
+      var payload = {
         produit: CONFIG.produit,
         prenom: prenom.value.trim(),
         nom: '',
         email: email.value.trim(),
         telephone: tel.value.trim(),
-        marketing: false,
-        heure_contact: heure
-      }, CONFIG.buildExtra(answers, heure));
+        statut: 'nouveau',
+        dados: CONFIG.buildDados(answers, heure)
+      };
 
-      fetch('/api/leads', {
+      fetch('/api/lead-funnel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

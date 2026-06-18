@@ -142,8 +142,8 @@ tbody tr.selected{background:var(--blue-pale);}
 .pipeline-card-sub{font-size:0.76rem;color:var(--muted);}
 .pipeline-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
 .src-tag{font-size:0.66rem;font-weight:700;padding:1px 6px;border-radius:50px;text-transform:uppercase;letter-spacing:.04em;}
-.src-tag.site{background:var(--blue-pale);color:var(--blue);}
-.src-tag.funnel{background:var(--green-pale);color:var(--green);}
+.src-tag.web{background:var(--blue-pale);color:var(--blue);}
+.src-tag.ads{background:var(--green-pale);color:var(--green);}
 
 /* ── FICHE ──────────────────────────────────────────────── */
 .fiche-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--rad);padding:0;overflow:hidden;}
@@ -560,8 +560,8 @@ function fmtDate(d){
   var p=d.slice(0,10).split('-');
   return p[2]+'/'+p[1]+'/'+p[0];
 }
-function leadSource(l){ return (l.source==='funnel')?'funnel':'site'; }
-function currentSource(){ return S.view==='web'?'site':(S.view==='ads'?'funnel':null); }
+function leadSource(l){ return l._source==='ads'?'ads':'web'; }
+function currentSource(){ return S.view==='web'?'web':(S.view==='ads'?'ads':null); }
 function filteredLeads(){
   var src=currentSource();
   return S.leads.filter(function(l){
@@ -586,11 +586,31 @@ function normalizeLead(row, produit){
     email:     row.email     ||'',
     telephone: row.telephone ||'',
     produit:   produit,
-    source:    row.source    ||'site',
+    _source:   'web',
     statut:    STATUT_NORM[row.statut]||(row.statut?row.statut.toLowerCase():'nouveau'),
     date:      (row.created_at||'').slice(0,10),
     followup:  row.follow_up_date||row.followup||'',
     notes:     row.notes||row.commentaire||'',
+    historique:[{d:(row.created_at||'').slice(0,10),a:'Lead créé',t:'create'}],
+    raw:       row
+  };
+}
+function normalizeLeadAds(row){
+  var dados=row.dados||{};
+  if(typeof dados==='string'){ try{dados=JSON.parse(dados);}catch(e){dados={};} }
+  return {
+    id:        row.id,
+    prenom:    row.prenom    ||'',
+    nom:       row.nom       ||'',
+    email:     row.email     ||'',
+    telephone: row.telephone ||'',
+    produit:   row.produit   ||'',
+    _source:   'ads',
+    statut:    STATUT_NORM[row.statut]||(row.statut?row.statut.toLowerCase():'nouveau'),
+    date:      (row.created_at||'').slice(0,10),
+    followup:  row.follow_up_date||'',
+    notes:     row.notes||'',
+    dados:     dados,
     historique:[{d:(row.created_at||'').slice(0,10),a:'Lead créé',t:'create'}],
     raw:       row
   };
@@ -619,7 +639,7 @@ function applyLocalState(leads){
   }catch(e){}
   try{
     var local=JSON.parse(localStorage.getItem('rf_local')||'[]');
-    local.forEach(function(l){if(!l.source)l.source='site';leads.unshift(l);});
+    local.forEach(function(l){if(!l._source)l._source='web';leads.unshift(l);});
   }catch(e){}
 }
 
@@ -635,6 +655,13 @@ function loadFromSupabase(){
       .then(function(rows){return rows.map(function(row){return normalizeLead(row,t.produit);});})
       .catch(function(){return[];});
   });
+  // Leads Ads — unified "leads" table
+  promises.push(
+    fetch(SUPABASE_URL+'/rest/v1/leads?select=*&order=created_at.desc',{headers:headers})
+      .then(function(r){return r.ok?r.json():[];})
+      .then(function(rows){return rows.map(normalizeLeadAds);})
+      .catch(function(){return[];})
+  );
   return Promise.all(promises).then(function(results){
     var all=[].concat.apply([],results);
     all.sort(function(a,b){return b.date.localeCompare(a.date);});
@@ -906,7 +933,7 @@ function renderPipeline(){
       html+='<div class="pipeline-card" draggable="true" data-id="'+l.id+'" '
         +'ondragstart="onDragStart(event,'+qi+')" ondragend="onDragEnd(event)">'
         +'<div class="pipeline-card-name">'+esc(l.prenom)+' '+esc(l.nom)+'</div>'
-        +'<div class="pipeline-card-sub">'+produitBadge(l.produit)+' <span class="src-tag '+src+'">'+(src==='funnel'?'Ads':'Web')+'</span></div>'
+        +'<div class="pipeline-card-sub">'+produitBadge(l.produit)+' <span class="src-tag '+src+'">'+(src==='ads'?'Ads':'Web')+'</span></div>'
         +'<div class="pipeline-card-footer">'
         +'<span style="font-size:.75rem;color:var(--light)">'+fmtDate(l.date)+'</span>'
         +'<button class="btn btn-ghost btn-xs" onclick="openFiche('+qi+')"><i class="ti ti-eye"></i></button>'
@@ -962,6 +989,29 @@ function parseArr(v){
 }
 function fv(v){
   return (v!==null&&v!==undefined&&v!=='') ? esc(String(v)) : '—';
+}
+var FUNNEL_LABELS={
+  montant:"Montant souhaité",
+  situation:"Situation professionnelle",
+  credits_en_cours:"Crédits en cours",
+  prime_actuelle:"Prime mensuelle actuelle",
+  nb_personnes:"Nombre de personnes",
+  objectif:"Objectif",
+  a_deja_pilier:"A déjà un 3ème pilier",
+  montant_mensuel:"Montant mensuel d'épargne",
+  heure_contact:"Heure de contact préférée"
+};
+function renderFunnelData(l){
+  var d=l.dados||{};
+  var keys=Object.keys(d);
+  if(!keys.length) return '';
+  var html='<div class="fiche-section"><div class="fiche-section-title">Données du funnel</div>'
+    +'<div class="fiche-grid">';
+  keys.forEach(function(k){
+    html+='<div class="fiche-field"><label>'+esc(FUNNEL_LABELS[k]||k)+'</label><span>'+fv(d[k])+'</span></div>';
+  });
+  html+='</div></div>';
+  return html;
 }
 function renderProduitData(l){
   var raw=l.raw||{};
@@ -1143,7 +1193,7 @@ function renderFiche(){
     return '<div class="hist-item"><div class="hist-dot '+h.t+'"></div>'
       +'<div><div class="hist-text">'+esc(h.a)+'</div><div class="hist-date">'+fmtDate(h.d)+'</div></div></div>';
   }).join('');
-  var srcTag=leadSource(l)==='funnel'?'Ads':'Web';
+  var srcTag=leadSource(l)==='ads'?'Ads':'Web';
   var html='<div class="fiche-wrap">'
     +'<div class="fiche-header"><div class="fiche-header-left">'
     +'<h2>'+esc(l.prenom)+' '+esc(l.nom)+'</h2>'
@@ -1167,7 +1217,7 @@ function renderFiche(){
     +'<div class="fiche-field"><label>Produit</label><span>'+(PRODUIT_LABELS[l.produit]||l.produit)+'</span></div>'
     +'<div class="fiche-field"><label>Date d\'entrée</label><span>'+fmtDate(l.date)+'</span></div>'
     +'</div></div>'
-    +renderProduitData(l)
+    +(l._source==='ads' ? renderFunnelData(l) : renderProduitData(l))
     +'</div>'
     +'<div class="fiche-mid">'
     +'<div class="fiche-section"><div class="fiche-section-title">Follow-up</div>'
@@ -1184,7 +1234,7 @@ function renderFiche(){
     +'<div class="historique-list">'+hist+'</div>'
     +'</div></div></div></div>';
   document.getElementById('view-fiche').innerHTML=html;
-  if(l.produit==='credit'&&l.raw&&l.raw.docs_envoyes){
+  if(l._source!=='ads'&&l.produit==='credit'&&l.raw&&l.raw.docs_envoyes){
     loadDocumentos(l.id).then(function(grouped){renderDocumentosSection(grouped);}).catch(function(){
       var el=document.getElementById('docs-section');
       if(el) el.innerHTML='<div class="fiche-section-title">Documents</div>'
@@ -1194,6 +1244,22 @@ function renderFiche(){
 }
 function saveLeadToSupabase(lead){
   if(lead._local) return Promise.resolve();
+  if(lead._source==='ads'){
+    // Unified "leads" table — statut stored lowercase, like the funnels write it
+    return fetch('/api/lead-update',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        id:             lead.id,
+        notes:          lead.notes||null,
+        follow_up_date: lead.followup||null,
+        statut:         lead.statut
+      })
+    }).then(function(r){return r.json();}).then(function(d){
+      if(!d.success) throw new Error(d.error||'Erreur Supabase');
+    });
+  }
+  // Web — product tables (statut capitalized)
   return fetch('/api/leads-update',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -1546,10 +1612,10 @@ function drawCharts(all){
     type:'bar',data:{labels:labels,datasets:[{label:'Leads',data:counts,backgroundColor:'#2B2FD4',borderRadius:6}]},options:barOpts()
   });
   // Web vs Ads
-  var site=all.filter(function(l){return leadSource(l)==='site';}).length;
-  var funnel=all.filter(function(l){return leadSource(l)==='funnel';}).length;
+  var web=all.filter(function(l){return leadSource(l)==='web';}).length;
+  var ads=all.filter(function(l){return leadSource(l)==='ads';}).length;
   CHARTS.source=new Chart(document.getElementById('chart-source'),{
-    type:'doughnut',data:{labels:['Web','Ads'],datasets:[{data:[site,funnel],backgroundColor:['#2B2FD4','#16a34a']}]},options:pieOpts()
+    type:'doughnut',data:{labels:['Web','Ads'],datasets:[{data:[web,ads],backgroundColor:['#2B2FD4','#16a34a']}]},options:pieOpts()
   });
   // Par produit
   var pk=Object.keys(PRODUIT_LABELS);
@@ -1586,7 +1652,7 @@ function createLead(){
     telephone:document.getElementById('n-tel').value.trim(),
     produit:  document.getElementById('n-produit').value,
     statut:   document.getElementById('n-statut').value,
-    source:'site',
+    _source:'web',
     date:today(),followup:'',
     notes:document.getElementById('n-notes').value.trim(),
     historique:[{d:today(),a:'Lead créé',t:'create'}],
@@ -1627,7 +1693,7 @@ function exportCSV(onlySelected){
   var cols=['Nom','Prénom','Email','Téléphone','Produit','Source','Statut','Date','Notes'];
   var rows=leads.map(function(l){
     return [l.nom,l.prenom,l.email,l.telephone,PRODUIT_LABELS[l.produit]||l.produit,
-      (leadSource(l)==='funnel'?'Ads':'Web'),
+      (leadSource(l)==='ads'?'Ads':'Web'),
       STATUT_LABELS[l.statut]||l.statut,l.date,l.notes].map(function(v){return '"'+(v||'').replace(/"/g,'""')+'"';}).join(',');
   });
   var csv='﻿'+cols.map(function(c){return '"'+c+'"';}).join(',')+'\n'+rows.join('\n');
