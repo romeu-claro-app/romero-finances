@@ -176,6 +176,8 @@ textarea.notes-area:focus{border-color:var(--blue);}
 .hist-text{font-size:0.82rem;color:var(--text);}
 .hist-date{font-size:0.74rem;color:var(--light);}
 .hist-rdv-notes{font-size:0.74rem;color:var(--muted);margin-top:2px;}
+.rdv-map-link{display:inline-flex;align-items:center;gap:4px;font-size:0.74rem;font-weight:600;color:var(--blue);text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:3px 8px;background:var(--card);transition:border-color .15s,background .15s;}
+.rdv-map-link:hover{border-color:var(--blue);background:var(--blue-pale);}
 .hist-item.hist-rdv{cursor:pointer;border-radius:6px;margin:-2px -4px;padding:2px 4px;transition:background .15s;}
 .hist-item.hist-rdv:hover{background:var(--purple-pale);}
 .hist-item.hist-rdv:hover .hist-text{color:var(--purple);}
@@ -505,7 +507,14 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
           <button type="button" class="rdv-type-btn" data-type="digital" onclick="setRdvType('digital')"><i class="ti ti-video"></i> Digital</button>
         </div>
       </div>
-      <div class="modal-field full" id="rdv-adresse-field"><label>Adresse</label><input type="text" id="rdv-adresse" placeholder="Lieu du rendez-vous…" /></div>
+      <div id="rdv-adresse-field" style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="modal-field full"><label>Adresse</label><input type="text" id="rdv-adresse" placeholder="Rue du Pont 10b" oninput="updateRdvMapsBtn()" /></div>
+        <div class="modal-field"><label>Code postal</label><input type="text" id="rdv-cp" placeholder="1820" oninput="updateRdvMapsBtn()" /></div>
+        <div class="modal-field"><label>Ville</label><input type="text" id="rdv-ville" placeholder="Montreux" oninput="updateRdvMapsBtn()" /></div>
+        <div id="rdv-maps-row" style="grid-column:1/-1;display:none;">
+          <button type="button" class="btn btn-ghost btn-sm" onclick="openRdvMapsFromModal()"><i class="ti ti-map-pin"></i> Ouvrir dans Maps</button>
+        </div>
+      </div>
       <div class="modal-field full"><label>Notes</label><textarea id="rdv-notes" rows="3" placeholder="Détails du rendez-vous…"></textarea></div>
     </div>
     <div class="modal-footer">
@@ -1214,7 +1223,10 @@ function buildHistorique(l){
     var sub='';
     if(heure&&r.heure_fin) sub+='<div class="hist-date">'+esc(heure+' – '+hm(r.heure_fin))+'</div>';
     var typeLabel=(r.type_rdv==='digital')?'Digital':'Présentiel';
-    sub+='<div class="hist-rdv-notes">'+rdvTypeIcon(r)+' '+typeLabel+(r.type_rdv!=='digital'&&r.adresse?' · '+esc(r.adresse):'')+'</div>';
+    var adr=[r.adresse,((r.code_postal||'')+' '+(r.ville||'')).trim()].filter(Boolean).join(', ');
+    sub+='<div class="hist-rdv-notes">'+rdvTypeIcon(r)+' '+typeLabel+(r.type_rdv!=='digital'&&adr?' · '+esc(adr):'')+'</div>';
+    var mb=rdvMapsBtn(r);
+    if(mb) sub+='<div style="margin-top:3px;">'+mb+'</div>';
     if(r.notes)            sub+='<div class="hist-rdv-notes">'+esc(r.notes)+'</div>';
     items.push({sort:d, html:'<div class="hist-item hist-rdv" onclick="openRdvById('+idQ(r.id)+')" title="Modifier ce rendez-vous">'
       +'<div class="hist-dot rdv"></div>'
@@ -1431,12 +1443,15 @@ function calDay(){
       +'<div class="cal-day-events" onclick="openRdvModal({date:\''+ds+'\',debut:\''+pad2(h)+':00\'})">';
     rdvs.filter(function(r){return startHour(r)===h;}).forEach(function(r){
       var typeLabel=(r.type_rdv==='digital')?'Digital':'Présentiel';
+      var adr=[r.adresse,((r.code_postal||'')+' '+(r.ville||'')).trim()].filter(Boolean).join(', ');
+      var mb=rdvMapsBtn(r);
       html+='<div class="cal-event" onclick="event.stopPropagation();openRdvById('+idQ(r.id)+')">'
         +'<div class="cal-event-time">'+esc(hm(r.heure_debut))+(r.heure_fin?' – '+esc(hm(r.heure_fin)):'')+'</div>'
         +'<div class="cal-event-title">'+esc(r.titre)+'</div>'
-        +'<div class="cal-event-sub">'+rdvTypeIcon(r)+' '+typeLabel+(r.type_rdv!=='digital'&&r.adresse?' · '+esc(r.adresse):'')+'</div>'
+        +'<div class="cal-event-sub">'+rdvTypeIcon(r)+' '+typeLabel+(r.type_rdv!=='digital'&&adr?' · '+esc(adr):'')+'</div>'
         +(r.lead_nom?'<div class="cal-event-sub"><i class="ti ti-user"></i> '+esc(r.lead_nom)+(r.lead_produit?' · '+esc(PRODUIT_LABELS[r.lead_produit]||r.lead_produit):'')+'</div>':'')
         +(r.notes?'<div class="cal-event-sub">'+esc(r.notes)+'</div>':'')
+        +(mb?'<div style="margin-top:5px;">'+mb+'</div>':'')
         +'</div>';
     });
     html+='</div></div>';
@@ -1482,6 +1497,8 @@ function openRdvModal(opts){
   if(DUREE_OPTS.indexOf(duree)===-1) duree=60;
   setVal('rdv-duree', String(duree));
   setVal('rdv-adresse', rdv?(rdv.adresse||''):'');
+  setVal('rdv-cp',      rdv?(rdv.code_postal||''):'');
+  setVal('rdv-ville',   rdv?(rdv.ville||''):'');
   setRdvType((rdv&&rdv.type_rdv==='digital')?'digital':'presentiel');
   setVal('rdv-notes', rdv?(rdv.notes||''):'');
   document.getElementById('rdv-lead-list').classList.remove('show');
@@ -1495,7 +1512,27 @@ function setRdvType(type){
     b.classList.toggle('is-active', b.dataset.type===S.rdvType);
   });
   var af=document.getElementById('rdv-adresse-field');
-  if(af) af.style.display=(S.rdvType==='presentiel')?'':'none';
+  if(af) af.style.display=(S.rdvType==='presentiel')?'grid':'none';
+  updateRdvMapsBtn();
+}
+function rdvMapsUrl(adresse,cp,ville){
+  var q=((adresse||'')+', '+(cp||'')+' '+(ville||'')).replace(/^,\s*/,'').trim();
+  return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+}
+function rdvMapsBtn(r,cls){
+  if(r.type_rdv==='digital') return '';
+  if(!(r.adresse||r.ville||r.code_postal)) return '';
+  return '<a class="'+(cls||'rdv-map-link')+'" href="'+esc(rdvMapsUrl(r.adresse,r.code_postal,r.ville))
+    +'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="ti ti-map-pin"></i> Ouvrir dans Maps</a>';
+}
+function updateRdvMapsBtn(){
+  var row=document.getElementById('rdv-maps-row');
+  if(!row) return;
+  var has = (S.rdvType==='presentiel') && (val('rdv-adresse').trim()||val('rdv-ville').trim()||val('rdv-cp').trim());
+  row.style.display = has ? '' : 'none';
+}
+function openRdvMapsFromModal(){
+  window.open(rdvMapsUrl(val('rdv-adresse').trim(),val('rdv-cp').trim(),val('rdv-ville').trim()),'_blank');
 }
 function updateRdvHint(){
   var hint=document.getElementById('rdv-client-hint');
@@ -1583,7 +1620,9 @@ function saveRdv(){
     heure_debut:debut,
     heure_fin:fin,
     type_rdv:type,
-    adresse:(type==='presentiel')?(val('rdv-adresse').trim()||null):null,
+    adresse:    (type==='presentiel')?(val('rdv-adresse').trim()||null):null,
+    code_postal:(type==='presentiel')?(val('rdv-cp').trim()||null):null,
+    ville:      (type==='presentiel')?(val('rdv-ville').trim()||null):null,
     lead_id:rdvLeadId(),
     lead_nom:(S.rdvLead&&S.rdvLead.nom)?S.rdvLead.nom:name,
     lead_produit:S.rdvLead?S.rdvLead.produit:null,

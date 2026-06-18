@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
   function buildFields(b) {
     const f = {};
-    const keys = ['titre','date_rdv','heure_debut','heure_fin','lead_id','lead_nom','lead_produit','notes','statut','type_rdv','adresse'];
+    const keys = ['titre','date_rdv','heure_debut','heure_fin','lead_id','lead_nom','lead_produit','notes','statut','type_rdv','adresse','code_postal','ville'];
     keys.forEach((k) => { if (k in b) f[k] = clean(b[k]); });
     return f;
   }
