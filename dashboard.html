@@ -497,7 +497,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
         <div id="rdv-client-hint" style="font-size:0.78rem;color:var(--green);margin-top:5px;display:none;"></div>
       </div>
       <div class="modal-field full"><label>Date *</label><input type="date" id="rdv-date" /></div>
-      <div class="modal-field"><label>Heure début</label><input type="time" id="rdv-debut" step="900" /></div>
+      <div class="modal-field"><label>Heure début</label><select id="rdv-debut"></select></div>
       <div class="modal-field"><label>Durée</label>
         <select id="rdv-duree">
           <option value="30">30 min</option>
@@ -1554,7 +1554,7 @@ function openRdvModal(opts){
   var clientVal = rdv ? (rdv.lead_nom||rdv.titre||'') : (opts.lead?opts.lead.nom:(opts.clientName||''));
   setVal('rdv-client', clientVal);
   setVal('rdv-date',  rdv?rdv.date_rdv:(opts.date||today()));
-  setVal('rdv-debut', rdv?(rdv.heure_debut?hm(rdv.heure_debut):''):(opts.debut||''));
+  setRdvHeure(rdv?(rdv.heure_debut?hm(rdv.heure_debut):''):(opts.debut||''));
   var duree = rdv ? diffMinutes(hm(rdv.heure_debut),hm(rdv.heure_fin)) : 60;
   if(DUREE_OPTS.indexOf(duree)===-1) duree=60;
   setVal('rdv-duree', String(duree));
@@ -1895,6 +1895,31 @@ function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.modal-overlay').forEach(function(el){
   el.addEventListener('click',function(e){if(e.target===el) closeModal(el.id);});
 });
+
+/* ── Heure début dropdown (15-min steps) ──────────────────── */
+function populateRdvHeures(){
+  var sel=document.getElementById('rdv-debut');
+  if(!sel) return;
+  var html='<option value="">—</option>';
+  for(var h=0;h<24;h++){
+    for(var m=0;m<60;m+=15){
+      var t=pad2(h)+':'+pad2(m);
+      html+='<option value="'+t+'">'+t+'</option>';
+    }
+  }
+  sel.innerHTML=html;
+}
+// Sets rdv-debut; adds the value as an option if it's off the 15-min grid (old RDVs)
+function setRdvHeure(v){
+  var sel=document.getElementById('rdv-debut');
+  if(!sel) return;
+  v=v||'';
+  if(v && !Array.prototype.some.call(sel.options,function(o){return o.value===v;})){
+    var opt=document.createElement('option'); opt.value=v; opt.textContent=v; sel.appendChild(opt);
+  }
+  sel.value=v;
+}
+populateRdvHeures();
 
 /* ── Boot ─────────────────────────────────────────────────── */
 checkAuth();
