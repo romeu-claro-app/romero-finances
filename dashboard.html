@@ -152,10 +152,10 @@ tbody tr.selected{background:var(--blue-pale);}
 .fiche-header-meta{display:flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap;}
 .fiche-header-meta span{font-size:0.82rem;color:var(--muted);display:flex;align-items:center;gap:4px;}
 .fiche-header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-.fiche-body{display:grid;grid-template-columns:1fr 280px 260px;gap:0;}
+.fiche-body{display:grid;grid-template-columns:1fr 280px;gap:0;}
 .fiche-main{padding:24px;}
-.fiche-mid{padding:24px;border-left:1px solid var(--border);border-right:1px solid var(--border);}
-.fiche-side{padding:24px;}
+.fiche-side{padding:24px;border-left:1px solid var(--border);}
+.fiche-docs{padding:24px;border-top:1px solid var(--border);}
 .fiche-section{margin-bottom:24px;}
 .fiche-section-title{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
 .fiche-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
@@ -273,7 +273,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
   .pipeline-wrap{grid-template-columns:repeat(2,1fr);}
   .fiche-body{grid-template-columns:1fr;}
   .fiche-main{border-bottom:1px solid var(--border);}
-  .fiche-mid{border-left:none;border-right:none;border-bottom:1px solid var(--border);}
+  .fiche-side{border-left:none;}
   .charts-grid{grid-template-columns:1fr;}
 }
 @media(max-width:768px){
@@ -471,24 +471,23 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
       <button class="modal-close" onclick="closeModal('modal-rdv')">&times;</button>
     </div>
     <div class="modal-grid">
-      <div class="modal-field full"><label>Titre *</label><input type="text" id="rdv-titre" placeholder="Ex: Appel de suivi" /></div>
-      <div class="modal-field"><label>Date *</label><input type="date" id="rdv-date" /></div>
-      <div class="modal-field"><label>Statut</label>
-        <select id="rdv-statut">
-          <option value="planifie">Planifié</option>
-          <option value="confirme">Confirmé</option>
-          <option value="termine">Terminé</option>
-          <option value="annule">Annulé</option>
-        </select>
-      </div>
-      <div class="modal-field"><label>Heure début</label><input type="time" id="rdv-debut" /></div>
-      <div class="modal-field"><label>Heure fin</label><input type="time" id="rdv-fin" /></div>
-      <div class="modal-field full"><label>Associer un lead</label>
+      <div class="modal-field full"><label>Client *</label>
         <div class="lead-search-wrap">
-          <input type="text" id="rdv-lead-search" placeholder="Rechercher un lead par nom ou email…" oninput="filterRdvLeads()" autocomplete="off" />
+          <input type="text" id="rdv-client" placeholder="Nom du client…" oninput="filterRdvLeads()" autocomplete="off" />
           <div class="lead-search-list" id="rdv-lead-list"></div>
         </div>
-        <div class="lead-selected" id="rdv-lead-selected" style="display:none;"></div>
+        <div id="rdv-client-hint" style="font-size:0.78rem;color:var(--green);margin-top:5px;display:none;"></div>
+      </div>
+      <div class="modal-field full"><label>Date *</label><input type="date" id="rdv-date" /></div>
+      <div class="modal-field"><label>Heure début</label><input type="time" id="rdv-debut" /></div>
+      <div class="modal-field"><label>Durée</label>
+        <select id="rdv-duree">
+          <option value="30">30 min</option>
+          <option value="45">45 min</option>
+          <option value="60">1h</option>
+          <option value="90">1h30</option>
+          <option value="120">2h</option>
+        </select>
       </div>
       <div class="modal-field full"><label>Notes</label><textarea id="rdv-notes" rows="3" placeholder="Détails du rendez-vous…"></textarea></div>
     </div>
@@ -1125,12 +1124,6 @@ function renderProduitData(l){
     html+='<div class="fiche-field"><label>'+p[0]+'</label><span>'+p[1]+'</span></div>';
   });
   html+='</div></div>';
-  if(l.produit==='credit'&&raw.docs_envoyes){
-    html+='<div id="docs-section" class="fiche-section">'
-      +'<div class="fiche-section-title">Documents</div>'
-      +'<div class="docs-loading"><div class="spinner" style="width:16px;height:16px;border-width:2px;flex-shrink:0;"></div>Chargement des documents…</div>'
-      +'</div>';
-  }
   return html;
 }
 
@@ -1188,6 +1181,7 @@ function renderFiche(){
       +'<div><div class="hist-text">'+esc(h.a)+'</div><div class="hist-date">'+fmtDate(h.d)+'</div></div></div>';
   }).join('');
   var srcTag=leadSource(l)==='ads'?'Ads':'Web';
+  var showDocs=(l._source!=='ads'&&l.produit==='credit'&&l.raw&&l.raw.docs_envoyes);
   var html='<div class="fiche-wrap">'
     +'<div class="fiche-header"><div class="fiche-header-left">'
     +'<h2>'+esc(l.prenom)+' '+esc(l.nom)+'</h2>'
@@ -1213,22 +1207,19 @@ function renderFiche(){
     +'</div></div>'
     +(l._source==='ads' ? renderFunnelData(l) : renderProduitData(l))
     +'</div>'
-    +'<div class="fiche-mid">'
-    +'<div class="fiche-section"><div class="fiche-section-title">Follow-up</div>'
-    +'<div class="fiche-field"><label>Date de rappel</label>'
-    +'<input type="date" id="followup-input" value="'+esc(l.followup||'')+'" onchange="saveFollowup(this.value)" /></div></div>'
-    +'<div class="fiche-section"><div class="fiche-section-title">Notes</div>'
-    +'<textarea class="notes-area" id="notes-area" placeholder="Ajoutez des notes sur ce lead…">'+esc(l.notes||'')+'</textarea>'
-    +'<div style="margin-top:8px;text-align:right;">'
-    +'<button class="btn btn-primary btn-sm" onclick="saveNotes()"><i class="ti ti-device-floppy"></i> Sauvegarder</button>'
-    +'</div></div>'
-    +'</div>'
     +'<div class="fiche-side"><div class="fiche-section">'
     +'<div class="fiche-section-title">Historique</div>'
     +'<div class="historique-list">'+hist+'</div>'
-    +'</div></div></div></div>';
+    +'</div></div></div>'
+    +(showDocs
+        ? '<div id="docs-section" class="fiche-docs">'
+          +'<div class="fiche-section-title">Documents</div>'
+          +'<div class="docs-loading"><div class="spinner" style="width:16px;height:16px;border-width:2px;flex-shrink:0;"></div>Chargement des documents…</div>'
+          +'</div>'
+        : '')
+    +'</div>';
   document.getElementById('view-fiche').innerHTML=html;
-  if(l._source!=='ads'&&l.produit==='credit'&&l.raw&&l.raw.docs_envoyes){
+  if(showDocs){
     loadDocumentos(l.id).then(function(grouped){renderDocumentosSection(grouped);}).catch(function(){
       var el=document.getElementById('docs-section');
       if(el) el.innerHTML='<div class="fiche-section-title">Documents</div>'
@@ -1276,34 +1267,6 @@ function changeStatutFiche(val){
   saveData();
   saveLeadToSupabase(l).catch(function(){});
   renderFiche();
-}
-function saveFollowup(val){
-  var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
-  if(!l) return;
-  l.followup=val; l._dirty=true;
-  saveData();
-  saveLeadToSupabase(l).catch(function(){});
-}
-function saveNotes(){
-  var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
-  var area=document.getElementById('notes-area');
-  if(!l||!area) return;
-  var old=l.notes;
-  l.notes=area.value;
-  if(old!==area.value) l.historique.push({d:today(),a:'Note mise à jour',t:'note'});
-  l._dirty=true;
-  saveData(); renderFiche();
-  var btn=document.querySelector('.fiche-main .btn-primary');
-  if(btn){
-    btn.disabled=true;
-    saveLeadToSupabase(l).then(function(){
-      btn.textContent='✓ Sauvegardé';
-      setTimeout(function(){btn.innerHTML='<i class="ti ti-device-floppy"></i> Sauvegarder';btn.disabled=false;},1500);
-    }).catch(function(){
-      btn.disabled=false;
-      alert('Erreur lors de la sauvegarde.');
-    });
-  }
 }
 function exportPDF(){
   var l=S.leads.find(function(x){return x.id===S.currentLeadId;})||{prenom:'',nom:''};
@@ -1424,6 +1387,19 @@ function calDay(){
 function setVal(id,v){var el=document.getElementById(id);if(el) el.value=(v==null?'':v);}
 function val(id){var el=document.getElementById(id);return el?el.value:'';}
 function openRdvById(id){var r=S.rdvs.find(function(x){return x.id===id;});if(r) openRdvModal({rdv:r});}
+var DUREE_OPTS=[30,45,60,90,120];
+function addMinutes(hhmm,mins){
+  var p=String(hhmm).split(':');
+  var d=new Date(2000,0,1,parseInt(p[0],10)||0,parseInt(p[1],10)||0);
+  d.setMinutes(d.getMinutes()+mins);
+  return pad2(d.getHours())+':'+pad2(d.getMinutes());
+}
+function diffMinutes(deb,fin){
+  if(!deb||!fin) return 60;
+  var a=String(deb).split(':'),b=String(fin).split(':');
+  var m=(parseInt(b[0],10)*60+parseInt(b[1],10))-(parseInt(a[0],10)*60+parseInt(a[1],10));
+  return m>0?m:60;
+}
 function openRdvModal(opts){
   opts=opts||{};
   var rdv=opts.rdv;
@@ -1431,47 +1407,45 @@ function openRdvModal(opts){
   document.getElementById('rdv-modal-title').innerHTML=rdv
     ?'<i class="ti ti-calendar"></i> Modifier le RDV'
     :'<i class="ti ti-calendar-plus"></i> Nouveau RDV';
-  setVal('rdv-titre', rdv?rdv.titre:(opts.titre||''));
-  setVal('rdv-date',  rdv?rdv.date_rdv:(opts.date||today()));
-  setVal('rdv-statut',rdv?(rdv.statut||'planifie'):'planifie');
-  setVal('rdv-debut', rdv?(rdv.heure_debut?hm(rdv.heure_debut):''):(opts.debut||''));
-  setVal('rdv-fin',   rdv?(rdv.heure_fin?hm(rdv.heure_fin):''):'');
-  setVal('rdv-notes', rdv?(rdv.notes||''):'');
+  // Associated lead state
   if(rdv&&(rdv.lead_id||rdv.lead_nom)) S.rdvLead={id:rdv.lead_id,nom:rdv.lead_nom,produit:rdv.lead_produit};
   else if(opts.lead) S.rdvLead=opts.lead;
   else S.rdvLead=null;
-  setVal('rdv-lead-search','');
+  // Client field = associated lead name, or existing rdv titre, or free text
+  var clientVal = rdv ? (rdv.lead_nom||rdv.titre||'') : (opts.lead?opts.lead.nom:(opts.clientName||''));
+  setVal('rdv-client', clientVal);
+  setVal('rdv-date',  rdv?rdv.date_rdv:(opts.date||today()));
+  setVal('rdv-debut', rdv?(rdv.heure_debut?hm(rdv.heure_debut):''):(opts.debut||''));
+  var duree = rdv ? diffMinutes(hm(rdv.heure_debut),hm(rdv.heure_fin)) : 60;
+  if(DUREE_OPTS.indexOf(duree)===-1) duree=60;
+  setVal('rdv-duree', String(duree));
+  setVal('rdv-notes', rdv?(rdv.notes||''):'');
   document.getElementById('rdv-lead-list').classList.remove('show');
-  renderRdvLeadSelected();
+  updateRdvHint();
   document.getElementById('rdv-delete-btn').style.display=rdv?'':'none';
   openModal('modal-rdv');
 }
-function renderRdvLeadSelected(){
-  var box=document.getElementById('rdv-lead-selected');
-  var search=document.getElementById('rdv-lead-search');
-  if(S.rdvLead&&S.rdvLead.nom){
-    box.innerHTML='<span><i class="ti ti-user"></i> '+esc(S.rdvLead.nom)
-      +(S.rdvLead.produit?' · '+esc(PRODUIT_LABELS[S.rdvLead.produit]||S.rdvLead.produit):'')+'</span>'
-      +'<button class="modal-close" onclick="clearRdvLead()">&times;</button>';
-    box.style.display='flex';
-    search.style.display='none';
+function updateRdvHint(){
+  var hint=document.getElementById('rdv-client-hint');
+  if(S.rdvLead&&S.rdvLead.id){
+    hint.innerHTML='<i class="ti ti-user-check"></i> Lead associé'
+      +(S.rdvLead.produit?' · '+esc(PRODUIT_LABELS[S.rdvLead.produit]||S.rdvLead.produit):'');
+    hint.style.display='';
   }else{
-    box.style.display='none';
-    search.style.display='';
+    hint.style.display='none';
   }
 }
-function clearRdvLead(){S.rdvLead=null;renderRdvLeadSelected();}
 function filterRdvLeads(){
-  var q=document.getElementById('rdv-lead-search').value.toLowerCase().trim();
+  // Typing breaks any previous association (until a lead is picked again)
+  S.rdvLead=null;
+  updateRdvHint();
+  var q=document.getElementById('rdv-client').value.toLowerCase().trim();
   var list=document.getElementById('rdv-lead-list');
   if(!q){list.classList.remove('show');list.innerHTML='';return;}
   var matches=S.leads.filter(function(l){
     return (l.prenom+' '+l.nom+' '+l.email).toLowerCase().includes(q);
   }).slice(0,8);
-  if(!matches.length){
-    list.innerHTML='<div class="lead-search-opt" style="color:var(--muted)">Aucun lead trouvé</div>';
-    list.classList.add('show');return;
-  }
+  if(!matches.length){list.classList.remove('show');list.innerHTML='';return;}
   list.innerHTML=matches.map(function(l){
     return '<div class="lead-search-opt" onclick="selectRdvLead('+idQ(l.id)+')">'
       +esc((l.prenom+' '+l.nom).trim())+' · '+esc(PRODUIT_LABELS[l.produit]||l.produit)+'</div>';
@@ -1482,33 +1456,61 @@ function selectRdvLead(id){
   var l=S.leads.find(function(x){return x.id===id;});
   if(!l) return;
   S.rdvLead={id:l.id,nom:(l.prenom+' '+l.nom).trim(),produit:l.produit};
-  setVal('rdv-lead-search','');
+  setVal('rdv-client', S.rdvLead.nom);
   document.getElementById('rdv-lead-list').classList.remove('show');
-  renderRdvLeadSelected();
+  updateRdvHint();
 }
 function planifierRdv(){
   var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
   if(!l) return;
   var nom=(l.prenom+' '+l.nom).trim();
-  openRdvModal({date:today(),titre:'RDV avec '+nom,lead:{id:l.id,nom:nom,produit:l.produit}});
+  openRdvModal({date:today(),lead:{id:l.id,nom:nom,produit:l.produit}});
 }
 function rdvLeadId(){
   if(!S.rdvLead||!S.rdvLead.id) return null;
   return String(S.rdvLead.id).indexOf('local-')===0 ? null : S.rdvLead.id;
 }
+function createLocalWebLead(name){
+  var parts=name.trim().split(/\s+/);
+  var prenom=parts.shift()||name;
+  var nom=parts.join(' ');
+  var l={
+    id:'local-'+Date.now(),
+    prenom:prenom,nom:nom,email:'',telephone:'',
+    produit:'',statut:'nouveau',_source:'web',
+    date:today(),followup:'',notes:'',
+    historique:[{d:today(),a:'Lead créé',t:'create'}],
+    _local:true
+  };
+  S.leads.unshift(l);
+  saveData();
+  return l;
+}
 function saveRdv(){
-  var titre=val('rdv-titre').trim();
+  var name=val('rdv-client').trim();
   var date=val('rdv-date');
-  if(!titre){alert('Le titre est obligatoire.');return;}
+  if(!name){alert('Le client est obligatoire.');return;}
   if(!date){alert('La date est obligatoire.');return;}
+
+  // New RDV with free text not matching any lead → propose creating a lead
+  if(!S.editingRdvId && !(S.rdvLead&&S.rdvLead.id)){
+    var ok=confirm('« '+name+' » ne correspond à aucun lead existant.\n\nCréer un nouveau lead ?');
+    if(ok){
+      var newLead=createLocalWebLead(name);
+      S.rdvLead={id:newLead.id,nom:(newLead.prenom+' '+newLead.nom).trim(),produit:newLead.produit||null};
+    }
+  }
+
+  var duree=parseInt(val('rdv-duree'),10)||60;
+  var debut=val('rdv-debut')||null;
+  var fin=debut?addMinutes(debut,duree):null;
   var payload={
-    titre:titre,
+    titre:(S.rdvLead&&S.rdvLead.nom)?S.rdvLead.nom:name,
     date_rdv:date,
-    heure_debut:val('rdv-debut')||null,
-    heure_fin:val('rdv-fin')||null,
-    statut:val('rdv-statut')||'planifie',
+    heure_debut:debut,
+    heure_fin:fin,
     lead_id:rdvLeadId(),
-    lead_nom:S.rdvLead?S.rdvLead.nom:null,
+    lead_nom:(S.rdvLead&&S.rdvLead.nom)?S.rdvLead.nom:name,
     lead_produit:S.rdvLead?S.rdvLead.produit:null,
     notes:val('rdv-notes').trim()||null
   };
