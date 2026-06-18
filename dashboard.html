@@ -135,12 +135,15 @@ tbody tr.selected{background:var(--blue-pale);}
 .pipeline-col-count{font-size:0.72rem;background:var(--gray-pale);color:var(--muted);padding:1px 7px;border-radius:50px;font-weight:600;}
 .pipeline-cards{padding:10px;min-height:120px;display:flex;flex-direction:column;gap:8px;}
 .pipeline-cards.drag-over{background:var(--blue-pale);border-radius:0 0 var(--rad) var(--rad);}
-.pipeline-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--rad-sm);padding:12px 14px;cursor:grab;transition:box-shadow .15s;user-select:none;}
+.pipeline-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--rad-sm);padding:9px 11px;cursor:grab;transition:box-shadow .15s;user-select:none;}
 .pipeline-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);}
 .pipeline-card.dragging{opacity:.5;cursor:grabbing;}
-.pipeline-card-name{font-weight:600;font-size:0.85rem;margin-bottom:3px;}
-.pipeline-card-sub{font-size:0.76rem;color:var(--muted);}
-.pipeline-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.pipeline-card-r1{display:flex;align-items:center;gap:6px;justify-content:space-between;}
+.pipeline-card-name{font-weight:600;font-size:0.85rem;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pipeline-card-r1 .lead-produit-badge{flex-shrink:0;}
+.pipeline-card-r2{display:flex;align-items:center;gap:7px;margin-top:5px;}
+.pipeline-card-date{font-size:0.74rem;color:var(--light);}
+.pipeline-voir{margin-left:auto;padding:2px 7px;}
 .src-tag{font-size:0.66rem;font-weight:700;padding:1px 6px;border-radius:50px;text-transform:uppercase;letter-spacing:.04em;}
 .src-tag.web{background:var(--blue-pale);color:var(--blue);}
 .src-tag.ads{background:var(--green-pale);color:var(--green);}
@@ -966,11 +969,11 @@ function renderPipeline(){
       var src=leadSource(l);
       html+='<div class="pipeline-card" draggable="true" data-id="'+l.id+'" '
         +'ondragstart="onDragStart(event,'+qi+')" ondragend="onDragEnd(event)">'
-        +'<div class="pipeline-card-name">'+esc(l.prenom)+' '+esc(l.nom)+'</div>'
-        +'<div class="pipeline-card-sub">'+produitBadge(l.produit)+' <span class="src-tag '+src+'">'+(src==='ads'?'Ads':'Web')+'</span></div>'
-        +'<div class="pipeline-card-footer">'
-        +'<span style="font-size:.75rem;color:var(--light)">'+fmtDate(l.date)+'</span>'
-        +'<button class="btn btn-ghost btn-xs" onclick="openFiche('+qi+')"><i class="ti ti-eye"></i></button>'
+        +'<div class="pipeline-card-r1"><span class="pipeline-card-name">'+esc(l.prenom)+' '+esc(l.nom)+'</span>'+produitBadge(l.produit)+'</div>'
+        +'<div class="pipeline-card-r2">'
+        +'<span class="pipeline-card-date">'+fmtDate(l.date)+'</span>'
+        +'<span class="src-tag '+src+'">'+(src==='ads'?'Ads':'Web')+'</span>'
+        +'<button class="btn btn-ghost btn-xs pipeline-voir" onclick="openFiche('+qi+')"><i class="ti ti-eye"></i></button>'
         +'</div></div>';
     });
     if(colLeads.length===0) html+='<div style="text-align:center;padding:16px;color:var(--light);font-size:.78rem;">Aucun lead</div>';
@@ -1901,8 +1904,9 @@ function populateRdvHeures(){
   var sel=document.getElementById('rdv-debut');
   if(!sel) return;
   var html='<option value="">—</option>';
-  for(var h=0;h<24;h++){
+  for(var h=8;h<=21;h++){
     for(var m=0;m<60;m+=15){
+      if(h===21&&m>0) break;   // stop at 21:00 inclusive
       var t=pad2(h)+':'+pad2(m);
       html+='<option value="'+t+'">'+t+'</option>';
     }
