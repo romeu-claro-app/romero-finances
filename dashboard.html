@@ -172,8 +172,13 @@ textarea.notes-area:focus{border-color:var(--blue);}
 .hist-dot.create{background:var(--blue);}
 .hist-dot.statut{background:var(--orange);}
 .hist-dot.note{background:var(--green);}
+.hist-dot.rdv{background:var(--purple);}
 .hist-text{font-size:0.82rem;color:var(--text);}
 .hist-date{font-size:0.74rem;color:var(--light);}
+.hist-rdv-notes{font-size:0.74rem;color:var(--muted);margin-top:2px;}
+.hist-item.hist-rdv{cursor:pointer;border-radius:6px;margin:-2px -4px;padding:2px 4px;transition:background .15s;}
+.hist-item.hist-rdv:hover{background:var(--purple-pale);}
+.hist-item.hist-rdv:hover .hist-text{color:var(--purple);}
 
 /* ── CALENDRIER ─────────────────────────────────────────── */
 .cal-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
@@ -1173,16 +1178,46 @@ function renderDocumentosSection(grouped){
   el.innerHTML=html;
 }
 
+function rdvsForLead(id){
+  return S.rdvs.filter(function(r){return r.lead_id===id;});
+}
+function loadLeadRdvs(leadId){
+  var headers={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
+  return fetch(SUPABASE_URL+'/rest/v1/rendezvous?select=*&lead_id=eq.'+encodeURIComponent(leadId)+'&order=date_rdv.asc',{headers:headers})
+    .then(function(r){return r.ok?r.json():[];})
+    .then(function(rows){
+      // Replace this lead's RDVs in the global cache with the fresh set
+      S.rdvs=S.rdvs.filter(function(x){return x.lead_id!==leadId;}).concat(rows||[]);
+      return rows||[];
+    }).catch(function(){return [];});
+}
+function buildHistorique(l){
+  var items=l.historique.map(function(h){
+    return {sort:(h.d||''), html:'<div class="hist-item"><div class="hist-dot '+h.t+'"></div>'
+      +'<div><div class="hist-text">'+esc(h.a)+'</div><div class="hist-date">'+fmtDate(h.d)+'</div></div></div>'};
+  });
+  rdvsForLead(l.id).forEach(function(r){
+    var d=(r.date_rdv||'').slice(0,10);
+    var heure=hm(r.heure_debut);
+    var txt='RDV planifié — '+fmtDate(d)+(heure?' à '+heure:'');
+    var sub='';
+    if(heure&&r.heure_fin) sub+='<div class="hist-date">'+esc(heure+' – '+hm(r.heure_fin))+'</div>';
+    if(r.notes)            sub+='<div class="hist-rdv-notes">'+esc(r.notes)+'</div>';
+    items.push({sort:d, html:'<div class="hist-item hist-rdv" onclick="openRdvById('+idQ(r.id)+')" title="Modifier ce rendez-vous">'
+      +'<div class="hist-dot rdv"></div>'
+      +'<div><div class="hist-text">'+esc(txt)+'</div>'+sub+'</div></div>'});
+  });
+  // Newest first
+  items.sort(function(a,b){return (b.sort||'').localeCompare(a.sort||'');});
+  return items.map(function(i){return i.html;}).join('');
+}
 function renderFiche(){
   var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
   if(!l){document.getElementById('view-fiche').innerHTML='<p>Lead introuvable.</p>';return;}
   var statutOpts=Object.keys(STATUT_LABELS).map(function(k){
     return '<option value="'+k+'"'+(l.statut===k?' selected':'')+'>'+STATUT_LABELS[k]+'</option>';
   }).join('');
-  var hist=l.historique.slice().reverse().map(function(h){
-    return '<div class="hist-item"><div class="hist-dot '+h.t+'"></div>'
-      +'<div><div class="hist-text">'+esc(h.a)+'</div><div class="hist-date">'+fmtDate(h.d)+'</div></div></div>';
-  }).join('');
+  var hist=buildHistorique(l);
   var srcTag=leadSource(l)==='ads'?'Ads':'Web';
   var showDocs=(l._source!=='ads'&&l.produit==='credit'&&l.raw&&l.raw.docs_envoyes);
   var html='<div class="fiche-wrap">'
@@ -1222,6 +1257,14 @@ function renderFiche(){
         : '')
     +'</div>';
   document.getElementById('view-fiche').innerHTML=html;
+  // Refresh this lead's RDVs from Supabase and merge into the timeline
+  if(l.id && String(l.id).indexOf('local-')!==0){
+    loadLeadRdvs(l.id).then(function(){
+      if(S.currentLeadId!==l.id || S.view!=='fiche') return;
+      var box=document.querySelector('#view-fiche .historique-list');
+      if(box) box.innerHTML=buildHistorique(l);
+    });
+  }
   if(showDocs){
     loadDocumentos(l.id).then(function(grouped){renderDocumentosSection(grouped);}).catch(function(){
       var el=document.getElementById('docs-section');
@@ -1527,7 +1570,9 @@ function saveRdv(){
   }).then(function(){
     btn.disabled=false;
     closeModal('modal-rdv');
-    if(S.view!=='calendrier'){ navTo('calendrier'); } else { renderCalendrier(); }
+    if(S.view==='fiche'){ renderFiche(); }
+    else if(S.view!=='calendrier'){ navTo('calendrier'); }
+    else { renderCalendrier(); }
   }).catch(function(){
     btn.disabled=false;
     alert('Erreur lors de l\'enregistrement du RDV.');
@@ -1542,7 +1587,7 @@ function deleteRdv(){
       return loadRdvs();
     }).then(function(){
       closeModal('modal-rdv');
-      renderCalendrier();
+      if(S.view==='fiche'){ renderFiche(); } else { renderCalendrier(); }
     }).catch(function(){
       alert('Erreur lors de la suppression.');
     });
