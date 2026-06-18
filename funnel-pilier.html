@@ -179,7 +179,7 @@
         {
           field: 'objectif', label: 'Objectif principal',
           q: 'Quel est votre objectif principal ?',
-          options: ['Économiser des impôts','Préparer ma retraite','Acheter un bien','Les trois']
+          options: ['Économiser des impôts','Préparer ma retraite','Acheter un bien',{label:'Les trois',value:'Impôts + Retraite + Achat immobilier'}]
         },
         {
           field: 'epargne', label: 'Épargne mensuelle',
@@ -240,8 +240,10 @@
         '<h2 class="question">'+esc(q.q)+'</h2>' +
         '<div class="options">';
       q.options.forEach(function(opt){
-        var sel = answers[q.field] === opt ? ' is-selected' : '';
-        html += '<button class="opt'+sel+'" type="button" data-val="'+esc(opt)+'"><span>'+esc(opt)+'</span>'+CHEV+'</button>';
+        var label = (typeof opt === 'object') ? opt.label : opt;
+        var value = (typeof opt === 'object') ? opt.value : opt;
+        var sel = answers[q.field] === value ? ' is-selected' : '';
+        html += '<button class="opt'+sel+'" type="button" data-val="'+esc(value)+'"><span>'+esc(label)+'</span>'+CHEV+'</button>';
       });
       html += '</div></section>';
       stage.innerHTML = html;
