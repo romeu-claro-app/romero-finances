@@ -258,9 +258,10 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
 
 /* ── DOCS SECTION ────────────────────────────────────────── */
 .docs-loading{color:var(--muted);font-size:0.85rem;display:flex;align-items:center;gap:8px;padding:4px 0;}
-.docs-folder{margin-bottom:14px;}
-.docs-folder-title{font-size:0.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px;}
-.docs-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+.docs-folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.docs-folder{margin-bottom:0;background:var(--gray-pale);border:1px solid var(--border);border-radius:var(--rad-sm);padding:12px;}
+.docs-folder-title{font-size:0.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:9px;}
+.docs-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;}
 .docs-item{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:14px 10px;background:var(--card);border:1px solid var(--border);border-radius:var(--rad-sm);cursor:pointer;transition:border-color .15s,box-shadow .15s;}
 .docs-item:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(43,47,212,.1);}
 .docs-item-icon{font-size:1.6rem;line-height:1;color:var(--blue);}
@@ -1155,6 +1156,7 @@ function renderDocumentosSection(grouped){
   var folders=Object.keys(grouped);
   var html='<div class="fiche-section-title">Documents</div>';
   if(!folders.length){html+='<p class="docs-empty">Aucun document disponible.</p>';el.innerHTML=html;return;}
+  html+='<div class="docs-folders">';
   folders.forEach(function(folder){
     var files=grouped[folder];
     html+='<div class="docs-folder">';
@@ -1167,6 +1169,7 @@ function renderDocumentosSection(grouped){
     });
     html+='</div></div>';
   });
+  html+='</div>';
   el.innerHTML=html;
 }
 
