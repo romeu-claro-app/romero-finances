@@ -248,6 +248,10 @@ textarea.notes-area:focus{border-color:var(--blue);}
 .lead-search-opt:hover{background:var(--blue-pale);}
 .lead-selected{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--blue-pale);border-radius:var(--rad-sm);padding:8px 12px;margin-top:6px;font-size:0.84rem;font-weight:500;}
 .lead-selected span{display:flex;align-items:center;gap:6px;}
+.rdv-type-toggle{display:flex;gap:8px;}
+.rdv-type-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 10px;border:1.5px solid var(--border);border-radius:var(--rad-sm);background:var(--card);color:var(--muted);font-family:inherit;font-size:0.86rem;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s,color .15s;}
+.rdv-type-btn:hover{border-color:var(--blue);}
+.rdv-type-btn.is-active{border-color:var(--blue);background:var(--blue-pale);color:var(--blue);}
 
 /* ── EMPTY ──────────────────────────────────────────────── */
 .empty-state{text-align:center;padding:48px 24px;color:var(--muted);}
@@ -495,6 +499,13 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
           <option value="120">2h</option>
         </select>
       </div>
+      <div class="modal-field full"><label>Type de rendez-vous</label>
+        <div class="rdv-type-toggle">
+          <button type="button" class="rdv-type-btn is-active" data-type="presentiel" onclick="setRdvType('presentiel')"><i class="ti ti-map-pin"></i> Présentiel</button>
+          <button type="button" class="rdv-type-btn" data-type="digital" onclick="setRdvType('digital')"><i class="ti ti-video"></i> Digital</button>
+        </div>
+      </div>
+      <div class="modal-field full" id="rdv-adresse-field"><label>Adresse</label><input type="text" id="rdv-adresse" placeholder="Lieu du rendez-vous…" /></div>
       <div class="modal-field full"><label>Notes</label><textarea id="rdv-notes" rows="3" placeholder="Détails du rendez-vous…"></textarea></div>
     </div>
     <div class="modal-footer">
@@ -533,7 +544,7 @@ var S = {
   filter:{statut:'',produit:'',search:''},
   statFilter:'', currentLeadId:null, draggedId:null,
   calView:'mois', calCursor:new Date(),
-  editingRdvId:null, rdvLead:null
+  editingRdvId:null, rdvLead:null, rdvType:'presentiel'
 };
 
 /* ── Helpers ────────────────────────────────────────────── */
@@ -1202,6 +1213,8 @@ function buildHistorique(l){
     var txt='RDV planifié — '+fmtDate(d)+(heure?' à '+heure:'');
     var sub='';
     if(heure&&r.heure_fin) sub+='<div class="hist-date">'+esc(heure+' – '+hm(r.heure_fin))+'</div>';
+    var typeLabel=(r.type_rdv==='digital')?'Digital':'Présentiel';
+    sub+='<div class="hist-rdv-notes">'+rdvTypeIcon(r)+' '+typeLabel+(r.type_rdv!=='digital'&&r.adresse?' · '+esc(r.adresse):'')+'</div>';
     if(r.notes)            sub+='<div class="hist-rdv-notes">'+esc(r.notes)+'</div>';
     items.push({sort:d, html:'<div class="hist-item hist-rdv" onclick="openRdvById('+idQ(r.id)+')" title="Modifier ce rendez-vous">'
       +'<div class="hist-dot rdv"></div>'
@@ -1327,6 +1340,7 @@ function ymd(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDa
 function startOfWeek(d){var x=new Date(d);var day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x;}
 function hm(t){return t?String(t).slice(0,5):'';}
 function startHour(r){return r.heure_debut?parseInt(String(r.heure_debut).slice(0,2),10):8;}
+function rdvTypeIcon(r){return (r.type_rdv==='digital')?'<i class="ti ti-video" title="Digital"></i>':'<i class="ti ti-map-pin" title="Présentiel"></i>';}
 function rdvsForDate(ds){
   return S.rdvs.filter(function(r){return (r.date_rdv||'').slice(0,10)===ds;})
     .sort(function(a,b){return (a.heure_debut||'').localeCompare(b.heure_debut||'');});
@@ -1380,7 +1394,7 @@ function calMonth(){
     html+='<div class="cal-cell'+(out?' out':'')+(ds===todayStr?' today':'')+'" onclick="openRdvModal({date:\''+ds+'\'})">'
       +'<div class="cal-cell-num">'+cd.getDate()+'</div>';
     rdvsForDate(ds).forEach(function(r){
-      html+='<div class="cal-chip" onclick="event.stopPropagation();openRdvById('+idQ(r.id)+')" title="'+esc(r.titre)+'">'+esc(hm(r.heure_debut))+' '+esc(r.titre)+'</div>';
+      html+='<div class="cal-chip" onclick="event.stopPropagation();openRdvById('+idQ(r.id)+')" title="'+esc(r.titre)+'">'+rdvTypeIcon(r)+' '+esc(hm(r.heure_debut))+' '+esc(r.titre)+'</div>';
     });
     html+='</div>';
   }
@@ -1401,7 +1415,7 @@ function calWeek(){
       var ds=ymd(d);
       html+='<div class="cal-slot" onclick="openRdvModal({date:\''+ds+'\',debut:\''+pad2(h)+':00\'})">';
       rdvsForDate(ds).filter(function(r){return startHour(r)===h;}).forEach(function(r){
-        html+='<div class="cal-chip" onclick="event.stopPropagation();openRdvById('+idQ(r.id)+')" title="'+esc(r.titre)+'">'+esc(hm(r.heure_debut))+' '+esc(r.titre)+'</div>';
+        html+='<div class="cal-chip" onclick="event.stopPropagation();openRdvById('+idQ(r.id)+')" title="'+esc(r.titre)+'">'+rdvTypeIcon(r)+' '+esc(hm(r.heure_debut))+' '+esc(r.titre)+'</div>';
       });
       html+='</div>';
     });
@@ -1416,9 +1430,11 @@ function calDay(){
     html+='<div class="cal-day-row"><div class="cal-day-hour">'+pad2(h)+':00</div>'
       +'<div class="cal-day-events" onclick="openRdvModal({date:\''+ds+'\',debut:\''+pad2(h)+':00\'})">';
     rdvs.filter(function(r){return startHour(r)===h;}).forEach(function(r){
+      var typeLabel=(r.type_rdv==='digital')?'Digital':'Présentiel';
       html+='<div class="cal-event" onclick="event.stopPropagation();openRdvById('+idQ(r.id)+')">'
         +'<div class="cal-event-time">'+esc(hm(r.heure_debut))+(r.heure_fin?' – '+esc(hm(r.heure_fin)):'')+'</div>'
         +'<div class="cal-event-title">'+esc(r.titre)+'</div>'
+        +'<div class="cal-event-sub">'+rdvTypeIcon(r)+' '+typeLabel+(r.type_rdv!=='digital'&&r.adresse?' · '+esc(r.adresse):'')+'</div>'
         +(r.lead_nom?'<div class="cal-event-sub"><i class="ti ti-user"></i> '+esc(r.lead_nom)+(r.lead_produit?' · '+esc(PRODUIT_LABELS[r.lead_produit]||r.lead_produit):'')+'</div>':'')
         +(r.notes?'<div class="cal-event-sub">'+esc(r.notes)+'</div>':'')
         +'</div>';
@@ -1465,11 +1481,21 @@ function openRdvModal(opts){
   var duree = rdv ? diffMinutes(hm(rdv.heure_debut),hm(rdv.heure_fin)) : 60;
   if(DUREE_OPTS.indexOf(duree)===-1) duree=60;
   setVal('rdv-duree', String(duree));
+  setVal('rdv-adresse', rdv?(rdv.adresse||''):'');
+  setRdvType((rdv&&rdv.type_rdv==='digital')?'digital':'presentiel');
   setVal('rdv-notes', rdv?(rdv.notes||''):'');
   document.getElementById('rdv-lead-list').classList.remove('show');
   updateRdvHint();
   document.getElementById('rdv-delete-btn').style.display=rdv?'':'none';
   openModal('modal-rdv');
+}
+function setRdvType(type){
+  S.rdvType = (type==='digital') ? 'digital' : 'presentiel';
+  document.querySelectorAll('#modal-rdv .rdv-type-btn').forEach(function(b){
+    b.classList.toggle('is-active', b.dataset.type===S.rdvType);
+  });
+  var af=document.getElementById('rdv-adresse-field');
+  if(af) af.style.display=(S.rdvType==='presentiel')?'':'none';
 }
 function updateRdvHint(){
   var hint=document.getElementById('rdv-client-hint');
@@ -1550,11 +1576,14 @@ function saveRdv(){
   var duree=parseInt(val('rdv-duree'),10)||60;
   var debut=val('rdv-debut')||null;
   var fin=debut?addMinutes(debut,duree):null;
+  var type=(S.rdvType==='digital')?'digital':'presentiel';
   var payload={
     titre:(S.rdvLead&&S.rdvLead.nom)?S.rdvLead.nom:name,
     date_rdv:date,
     heure_debut:debut,
     heure_fin:fin,
+    type_rdv:type,
+    adresse:(type==='presentiel')?(val('rdv-adresse').trim()||null):null,
     lead_id:rdvLeadId(),
     lead_nom:(S.rdvLead&&S.rdvLead.nom)?S.rdvLead.nom:name,
     lead_produit:S.rdvLead?S.rdvLead.produit:null,
