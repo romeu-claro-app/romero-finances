@@ -6,7 +6,7 @@
 <title>CRM — Romero Finances</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
 <style>
 :root{
@@ -19,7 +19,7 @@
   --amber:#d97706;--amber-pale:#fef3c7;
   --bg:#f0f0ee;--card:#fff;--border:#e0e0e0;
   --text:#1a1a2e;--muted:#666;--light:#999;
-  --top:56px;--rad:12px;--rad-sm:8px;
+  --dark:#0B0C1A;--top:56px;--rad:12px;--rad-sm:8px;--sidebar:210px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;font-size:0.9rem;}
@@ -43,15 +43,29 @@ input,select,textarea{font-family:inherit;}
 .login-error{display:none;background:var(--red-pale);color:var(--red);border-radius:var(--rad-sm);padding:9px 14px;font-size:0.83rem;margin-top:10px;text-align:center;}
 
 /* ── APP SHELL ──────────────────────────────────────────── */
-#app{display:none;min-height:100vh;flex-direction:column;}
+#app{display:none;min-height:100vh;}
 
-/* ── TOPBAR ─────────────────────────────────────────────── */
-.topbar{height:var(--top);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:50;gap:16px;}
-.topbar-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.topbar-brand img{width:30px;height:30px;object-fit:contain;}
-.topbar-brand-name{font-weight:700;font-size:0.95rem;color:var(--text);}
-.topbar-brand-sub{font-size:0.75rem;color:var(--muted);font-weight:500;}
-.topbar-right{display:flex;align-items:center;gap:10px;}
+/* ── SIDEBAR ────────────────────────────────────────────── */
+.sidebar{width:var(--sidebar);flex-shrink:0;background:var(--dark);color:#C5C6D8;display:flex;flex-direction:column;padding:18px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sidebar-brand{display:flex;align-items:center;gap:10px;padding:4px 8px 18px;}
+.sidebar-brand img{width:30px;height:30px;object-fit:contain;}
+.sidebar-brand-name{font-family:'Playfair Display',serif;font-weight:700;font-size:0.98rem;color:#fff;line-height:1.1;}
+.sidebar-brand-sub{font-size:0.66rem;color:#5A5B72;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:2px;}
+.nav-group{margin-top:16px;}
+.nav-group-label{font-size:0.64rem;font-weight:700;color:#5A5B72;text-transform:uppercase;letter-spacing:.12em;padding:0 8px;margin-bottom:7px;}
+.nav-item{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:8px;color:#C5C6D8;font-size:0.86rem;font-weight:500;cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:background .15s,color .15s;}
+.nav-item i{font-size:1.1rem;flex-shrink:0;}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
+.nav-item.active{background:var(--blue);color:#fff;}
+.sidebar-bottom{margin-top:auto;padding-top:16px;}
+.sidebar-backdrop{display:none;}
+
+/* ── CONTENT ────────────────────────────────────────────── */
+.content{flex:1;min-width:0;display:flex;flex-direction:column;}
+.content-top{height:var(--top);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;padding:0 24px;position:sticky;top:0;z-index:40;}
+.content-top h1{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:700;flex:1;}
+.hamburger{display:none;background:none;border:none;font-size:1.4rem;color:var(--text);padding:0;line-height:1;}
+
 .btn{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-weight:600;border-radius:var(--rad-sm);cursor:pointer;transition:background .15s,color .15s,border-color .15s;font-size:0.85rem;white-space:nowrap;}
 .btn-primary{background:var(--blue);color:#fff;border:none;padding:8px 16px;}
 .btn-primary:hover{background:var(--blue-dark);}
@@ -63,7 +77,7 @@ input,select,textarea{font-family:inherit;}
 .btn-xs{padding:4px 9px;font-size:0.76rem;}
 
 /* ── MAIN ───────────────────────────────────────────────── */
-.main{padding:24px;flex:1;position:relative;}
+.main{padding:24px;flex:1;position:relative;max-width:1100px;width:100%;margin:0 auto;}
 
 /* ── STATS ──────────────────────────────────────────────── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
@@ -73,14 +87,6 @@ input,select,textarea{font-family:inherit;}
 .stat-label{font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
 .stat-num{font-size:2rem;font-weight:700;line-height:1;}
 .stat-card.active .stat-num{color:var(--blue);}
-
-/* ── TABS ───────────────────────────────────────────────── */
-.tabs-bar{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:16px;}
-.tab-btn{background:none;border:none;padding:9px 20px;font-size:0.88rem;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;cursor:pointer;display:flex;align-items:center;gap:6px;}
-.tab-btn:hover{color:var(--text);}
-.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
-.tab-close{width:16px;height:16px;border-radius:50%;background:var(--gray-pale);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;font-size:10px;line-height:1;transition:background .15s;}
-.tab-close:hover{background:var(--red-pale);color:var(--red);}
 
 /* ── FILTER BAR ─────────────────────────────────────────── */
 .filter-bar{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
@@ -135,11 +141,14 @@ tbody tr.selected{background:var(--blue-pale);}
 .pipeline-card-name{font-weight:600;font-size:0.85rem;margin-bottom:3px;}
 .pipeline-card-sub{font-size:0.76rem;color:var(--muted);}
 .pipeline-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.src-tag{font-size:0.66rem;font-weight:700;padding:1px 6px;border-radius:50px;text-transform:uppercase;letter-spacing:.04em;}
+.src-tag.site{background:var(--blue-pale);color:var(--blue);}
+.src-tag.funnel{background:var(--green-pale);color:var(--green);}
 
 /* ── FICHE ──────────────────────────────────────────────── */
 .fiche-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--rad);padding:0;overflow:hidden;}
 .fiche-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-.fiche-header-left h2{font-size:1.2rem;font-weight:700;}
+.fiche-header-left h2{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;}
 .fiche-header-meta{display:flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap;}
 .fiche-header-meta span{font-size:0.82rem;color:var(--muted);display:flex;align-items:center;gap:4px;}
 .fiche-header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -166,13 +175,59 @@ textarea.notes-area:focus{border-color:var(--blue);}
 .hist-text{font-size:0.82rem;color:var(--text);}
 .hist-date{font-size:0.74rem;color:var(--light);}
 
+/* ── CALENDRIER ─────────────────────────────────────────── */
+.cal-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.cal-nav{display:flex;gap:6px;}
+.cal-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;min-width:170px;text-transform:capitalize;}
+.cal-views{display:flex;background:var(--card);border:1px solid var(--border);border-radius:var(--rad-sm);overflow:hidden;}
+.cal-view-btn{padding:7px 15px;background:none;border:none;font-size:0.82rem;font-weight:600;color:var(--muted);transition:background .15s,color .15s;}
+.cal-view-btn:hover{color:var(--text);}
+.cal-view-btn.active{background:var(--blue);color:#fff;}
+.cal-month{background:var(--card);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);background:#fafafa;border-bottom:1px solid var(--border);}
+.cal-weekday{padding:8px;text-align:center;font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-cell{min-height:96px;border-right:1px solid #f0f0ee;border-bottom:1px solid #f0f0ee;padding:6px;cursor:pointer;transition:background .12s;display:flex;flex-direction:column;gap:3px;overflow:hidden;}
+.cal-cell:nth-child(7n){border-right:none;}
+.cal-cell:hover{background:#fafafa;}
+.cal-cell.out{background:#fafafa;}
+.cal-cell.out .cal-cell-num{color:var(--light);}
+.cal-cell.today .cal-cell-num{background:var(--blue);color:#fff;border-radius:50%;}
+.cal-cell-num{font-size:0.78rem;font-weight:600;width:22px;height:22px;display:flex;align-items:center;justify-content:center;}
+.cal-chip{font-size:0.7rem;font-weight:600;padding:2px 6px;border-radius:5px;background:var(--blue-pale);color:var(--blue);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;}
+.cal-chip:hover{background:var(--blue);color:#fff;}
+.cal-week-scroll{overflow-x:auto;background:var(--card);border:1px solid var(--border);border-radius:var(--rad);}
+.cal-week{display:grid;grid-template-columns:54px repeat(7,minmax(90px,1fr));min-width:680px;}
+.cal-week-corner{background:#fafafa;border-bottom:1px solid var(--border);}
+.cal-week-head{background:#fafafa;border-bottom:1px solid var(--border);border-left:1px solid #f0f0ee;padding:7px 4px;text-align:center;font-size:0.72rem;font-weight:600;color:var(--muted);}
+.cal-week-head.today{color:var(--blue);}
+.cal-week-head b{font-size:0.95rem;color:var(--text);}
+.cal-hour-label{font-size:0.68rem;color:var(--muted);padding:4px;text-align:right;border-bottom:1px solid #f0f0ee;}
+.cal-slot{min-height:40px;border-left:1px solid #f0f0ee;border-bottom:1px solid #f0f0ee;padding:2px;cursor:pointer;display:flex;flex-direction:column;gap:2px;}
+.cal-slot:hover{background:#fafafa;}
+.cal-day{background:var(--card);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;}
+.cal-day-row{display:grid;grid-template-columns:62px 1fr;border-bottom:1px solid #f0f0ee;min-height:48px;}
+.cal-day-row:last-child{border-bottom:none;}
+.cal-day-hour{padding:7px;font-size:0.72rem;color:var(--muted);border-right:1px solid #f0f0ee;}
+.cal-day-events{padding:4px 6px;display:flex;flex-direction:column;gap:5px;cursor:pointer;}
+.cal-event{background:var(--blue-pale);border-left:3px solid var(--blue);border-radius:5px;padding:6px 10px;cursor:pointer;}
+.cal-event:hover{background:#e2e5ff;}
+.cal-event-time{font-size:0.72rem;font-weight:700;color:var(--blue);}
+.cal-event-title{font-size:0.84rem;font-weight:600;}
+.cal-event-sub{font-size:0.74rem;color:var(--muted);display:flex;align-items:center;gap:4px;margin-top:1px;}
+
+/* ── CHARTS ─────────────────────────────────────────────── */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px;}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--rad);padding:18px 20px;}
+.chart-card h3{font-family:'Playfair Display',serif;font-size:0.98rem;font-weight:600;margin-bottom:14px;}
+
 /* ── MODAL ──────────────────────────────────────────────── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal{background:var(--card);border-radius:var(--rad);padding:28px;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.15);max-height:90vh;overflow-y:auto;}
 .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
-.modal-title{font-size:1.1rem;font-weight:700;}
-.modal-close{background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:pointer;padding:2px 6px;border-radius:4px;transition:background .15s;}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600;}
+.modal-close{background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:pointer;padding:2px 6px;border-radius:4px;transition:background .15s;line-height:1;}
 .modal-close:hover{background:var(--gray-pale);}
 .modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .modal-field{display:flex;flex-direction:column;gap:5px;}
@@ -181,6 +236,13 @@ textarea.notes-area:focus{border-color:var(--blue);}
 .modal-field input,.modal-field select,.modal-field textarea{border:1.5px solid var(--border);border-radius:var(--rad-sm);padding:9px 12px;font-size:0.88rem;outline:none;width:100%;font-family:inherit;transition:border-color .15s;}
 .modal-field input:focus,.modal-field select:focus,.modal-field textarea:focus{border-color:var(--blue);}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:20px;}
+.lead-search-wrap{position:relative;}
+.lead-search-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:var(--rad-sm);max-height:190px;overflow-y:auto;z-index:10;box-shadow:0 8px 24px rgba(0,0,0,.12);display:none;margin-top:3px;}
+.lead-search-list.show{display:block;}
+.lead-search-opt{padding:8px 12px;cursor:pointer;font-size:0.84rem;}
+.lead-search-opt:hover{background:var(--blue-pale);}
+.lead-selected{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--blue-pale);border-radius:var(--rad-sm);padding:8px 12px;margin-top:6px;font-size:0.84rem;font-weight:500;}
+.lead-selected span{display:flex;align-items:center;gap:6px;}
 
 /* ── EMPTY ──────────────────────────────────────────────── */
 .empty-state{text-align:center;padding:48px 24px;color:var(--muted);}
@@ -189,24 +251,6 @@ textarea.notes-area:focus{border-color:var(--blue);}
 
 /* ── CHECKBOX ───────────────────────────────────────────── */
 input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:pointer;}
-
-/* ── RESPONSIVE ─────────────────────────────────────────── */
-@media(max-width:900px){
-  .stats-row{grid-template-columns:repeat(2,1fr);}
-  .pipeline-wrap{grid-template-columns:repeat(2,1fr);}
-  .fiche-body{grid-template-columns:1fr;}
-  .fiche-main{border-bottom:1px solid var(--border);}
-  .fiche-mid{border-left:none;border-right:none;border-bottom:1px solid var(--border);}
-}
-@media(max-width:600px){
-  .stats-row{grid-template-columns:repeat(2,1fr);}
-  .main{padding:16px;}
-  .filter-bar{gap:8px;}
-  .filter-bar input{min-width:0;width:100%;}
-  .filter-bar select{min-width:0;width:100%;}
-  .topbar{padding:0 16px;}
-  .pipeline-wrap{grid-template-columns:1fr;}
-}
 
 /* ── LOADING ─────────────────────────────────────────────── */
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;}
@@ -224,6 +268,32 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
 .docs-item-dl{color:var(--muted);padding:3px 5px;border-radius:4px;cursor:pointer;flex-shrink:0;transition:color .15s;}
 .docs-item-dl:hover{color:var(--blue);}
 .docs-empty{color:var(--light);font-size:0.83rem;padding:4px 0;}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:900px){
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .pipeline-wrap{grid-template-columns:repeat(2,1fr);}
+  .fiche-body{grid-template-columns:1fr;}
+  .fiche-main{border-bottom:1px solid var(--border);}
+  .fiche-mid{border-left:none;border-right:none;border-bottom:1px solid var(--border);}
+  .charts-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .sidebar{position:fixed;left:0;top:0;z-index:120;transform:translateX(-100%);transition:transform .25s ease;height:100vh;}
+  .sidebar.open{transform:none;box-shadow:0 0 50px rgba(0,0,0,.5);}
+  .hamburger{display:block;}
+  .sidebar-backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:110;opacity:0;pointer-events:none;transition:opacity .25s;}
+  .sidebar-backdrop.show{opacity:1;pointer-events:auto;}
+}
+@media(max-width:600px){
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .main{padding:16px;}
+  .filter-bar{gap:8px;}
+  .filter-bar input,.filter-bar select{min-width:0;width:100%;}
+  .content-top{padding:0 16px;}
+  .pipeline-wrap{grid-template-columns:1fr;}
+  .cal-cell{min-height:72px;}
+}
 </style>
 </head>
 <body>
@@ -251,71 +321,83 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
 <!-- ══ APP ════════════════════════════════════════════════ -->
 <div id="app">
 
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="topbar-brand">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
       <img src="assets/logo.svg" alt="" />
       <div>
-        <div class="topbar-brand-name">Romero Finances</div>
-        <div class="topbar-brand-sub">CRM Dashboard</div>
+        <div class="sidebar-brand-name">Romero Finances</div>
+        <div class="sidebar-brand-sub">CRM</div>
       </div>
     </div>
-    <div class="topbar-right">
+    <div class="nav-group">
+      <div class="nav-group-label">Leads</div>
+      <button class="nav-item" data-view="web" onclick="navTo('web')"><i class="ti ti-world"></i> Leads Web</button>
+      <button class="nav-item" data-view="ads" onclick="navTo('ads')"><i class="ti ti-speakerphone"></i> Leads Ads</button>
+      <button class="nav-item" data-view="pipeline" onclick="navTo('pipeline')"><i class="ti ti-layout-kanban"></i> Pipeline</button>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Outils</div>
+      <button class="nav-item" data-view="calendrier" onclick="navTo('calendrier')"><i class="ti ti-calendar"></i> Calendrier</button>
+      <button class="nav-item" data-view="stats" onclick="navTo('stats')"><i class="ti ti-chart-bar"></i> Statistiques</button>
+    </div>
+    <div class="sidebar-bottom">
+      <button class="nav-item" onclick="doLogout()"><i class="ti ti-logout"></i> Déconnexion</button>
+    </div>
+  </aside>
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <header class="content-top">
+      <button class="hamburger" onclick="toggleSidebar()"><i class="ti ti-menu-2"></i></button>
+      <h1 id="page-title">Leads Web</h1>
       <button class="btn btn-primary" onclick="openModalNew()"><i class="ti ti-plus"></i> Nouveau lead</button>
-      <button class="btn btn-ghost" onclick="doLogout()"><i class="ti ti-logout"></i> Déconnexion</button>
+    </header>
+
+    <div class="main">
+
+      <!-- LOADING OVERLAY -->
+      <div id="loading-overlay" style="display:none;position:absolute;inset:0;background:rgba(240,240,238,.88);z-index:20;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
+        <div class="spinner"></div>
+        <p style="font-size:.88rem;color:var(--muted);">Chargement des leads…</p>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row" id="stats-row"></div>
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar" id="filter-bar">
+        <input type="search" id="search-input" placeholder="&#xe9d3; Rechercher nom, email, téléphone…" oninput="onFilter()" />
+        <select id="filter-produit" onchange="onFilter()">
+          <option value="">Tous les produits</option>
+          <option value="credit">Crédit privé</option>
+          <option value="assurance">Assurance maladie</option>
+          <option value="assurance-nouveau-arrive">Assurance nouveau arrivé</option>
+          <option value="assurance-prenatale">Assurance pré-natale</option>
+          <option value="pilier">3ème pilier</option>
+          <option value="patrimoine">Choses &amp; Biens</option>
+        </select>
+        <button class="btn btn-ghost btn-sm" onclick="clearFilters()" id="clear-btn" style="display:none;"><i class="ti ti-x"></i> Effacer filtres</button>
+      </div>
+
+      <!-- MASS ACTIONS -->
+      <div class="mass-bar" id="mass-bar">
+        <span class="mass-bar-info" id="mass-count"></span>
+        <button class="btn btn-ghost btn-sm" onclick="exportCSV(true)"><i class="ti ti-download"></i> Export CSV</button>
+        <button class="btn btn-ghost btn-sm" onclick="openModalStatut()"><i class="ti ti-tag"></i> Changer statut</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteSelected()"><i class="ti ti-trash"></i> Supprimer</button>
+        <button class="btn btn-ghost btn-sm" onclick="clearSelection()"><i class="ti ti-x"></i> Désélectionner</button>
+      </div>
+
+      <!-- VIEWS -->
+      <div id="view-liste"></div>
+      <div id="view-pipeline" style="display:none;"></div>
+      <div id="view-calendrier" style="display:none;"></div>
+      <div id="view-stats" style="display:none;"></div>
+      <div id="view-fiche" style="display:none;"></div>
+
     </div>
-  </header>
-
-  <div class="main">
-
-    <!-- LOADING OVERLAY -->
-    <div id="loading-overlay" style="display:none;position:absolute;inset:0;background:rgba(240,240,238,.88);z-index:20;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
-      <div class="spinner"></div>
-      <p style="font-size:.88rem;color:var(--muted);">Chargement des leads…</p>
-    </div>
-
-    <!-- STATS -->
-    <div class="stats-row" id="stats-row"></div>
-
-    <!-- TABS -->
-    <div class="tabs-bar" id="tabs-bar">
-      <button class="tab-btn active" data-tab="liste" onclick="switchTab('liste')"><i class="ti ti-list"></i> Liste</button>
-      <button class="tab-btn" data-tab="pipeline" onclick="switchTab('pipeline')"><i class="ti ti-layout-kanban"></i> Pipeline</button>
-      <button class="tab-btn" data-tab="fiche" id="tab-fiche" style="display:none;" onclick="switchTab('fiche')">
-        <i class="ti ti-user"></i> <span id="tab-fiche-name">Fiche</span>
-        <span class="tab-close" onclick="closeFiche(event)"><i class="ti ti-x"></i></span>
-      </button>
-    </div>
-
-    <!-- FILTER BAR -->
-    <div class="filter-bar" id="filter-bar">
-      <input type="search" id="search-input" placeholder="&#xe9d3; Rechercher nom, email, téléphone…" oninput="onFilter()" />
-      <select id="filter-produit" onchange="onFilter()">
-        <option value="">Tous les produits</option>
-        <option value="credit">Crédit privé</option>
-        <option value="assurance">Assurance maladie</option>
-        <option value="assurance-nouveau-arrive">Assurance nouveau arrivé</option>
-        <option value="assurance-prenatale">Assurance pré-natale</option>
-        <option value="pilier">3ème pilier</option>
-        <option value="patrimoine">Choses &amp; Biens</option>
-      </select>
-      <button class="btn btn-ghost btn-sm" onclick="clearFilters()" id="clear-btn" style="display:none;"><i class="ti ti-x"></i> Effacer filtres</button>
-    </div>
-
-    <!-- MASS ACTIONS -->
-    <div class="mass-bar" id="mass-bar">
-      <span class="mass-bar-info" id="mass-count"></span>
-      <button class="btn btn-ghost btn-sm" onclick="exportCSV(true)"><i class="ti ti-download"></i> Export CSV</button>
-      <button class="btn btn-ghost btn-sm" onclick="openModalStatut()"><i class="ti ti-tag"></i> Changer statut</button>
-      <button class="btn btn-danger btn-sm" onclick="deleteSelected()"><i class="ti ti-trash"></i> Supprimer</button>
-      <button class="btn btn-ghost btn-sm" onclick="clearSelection()"><i class="ti ti-x"></i> Désélectionner</button>
-    </div>
-
-    <!-- VIEWS -->
-    <div id="view-liste"></div>
-    <div id="view-pipeline" style="display:none;"></div>
-    <div id="view-fiche" style="display:none;"></div>
-
   </div>
 </div>
 
@@ -383,7 +465,44 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
   </div>
 </div>
 
+<!-- ══ MODAL RDV ═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-rdv">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="rdv-modal-title"><i class="ti ti-calendar-plus"></i> Nouveau RDV</span>
+      <button class="modal-close" onclick="closeModal('modal-rdv')">&times;</button>
+    </div>
+    <div class="modal-grid">
+      <div class="modal-field full"><label>Titre *</label><input type="text" id="rdv-titre" placeholder="Ex: Appel de suivi" /></div>
+      <div class="modal-field"><label>Date *</label><input type="date" id="rdv-date" /></div>
+      <div class="modal-field"><label>Statut</label>
+        <select id="rdv-statut">
+          <option value="planifie">Planifié</option>
+          <option value="confirme">Confirmé</option>
+          <option value="termine">Terminé</option>
+          <option value="annule">Annulé</option>
+        </select>
+      </div>
+      <div class="modal-field"><label>Heure début</label><input type="time" id="rdv-debut" /></div>
+      <div class="modal-field"><label>Heure fin</label><input type="time" id="rdv-fin" /></div>
+      <div class="modal-field full"><label>Associer un lead</label>
+        <div class="lead-search-wrap">
+          <input type="text" id="rdv-lead-search" placeholder="Rechercher un lead par nom ou email…" oninput="filterRdvLeads()" autocomplete="off" />
+          <div class="lead-search-list" id="rdv-lead-list"></div>
+        </div>
+        <div class="lead-selected" id="rdv-lead-selected" style="display:none;"></div>
+      </div>
+      <div class="modal-field full"><label>Notes</label><textarea id="rdv-notes" rows="3" placeholder="Détails du rendez-vous…"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="rdv-delete-btn" style="display:none;margin-right:auto;" onclick="deleteRdv()"><i class="ti ti-trash"></i> Supprimer</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-rdv')">Annuler</button>
+      <button class="btn btn-primary" id="rdv-save-btn" onclick="saveRdv()"><i class="ti ti-check"></i> Enregistrer</button>
+    </div>
+  </div>
+</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 /* ════════════════════════════════════════════════════════════
    CONFIG — SUPABASE
@@ -407,9 +526,11 @@ var STATUT_NORM = {
 
 /* ── State ─────────────────────────────────────────────── */
 var S = {
-  leads:[], view:'liste', selected:[],
+  leads:[], rdvs:[], view:'web', returnView:'web', selected:[],
   filter:{statut:'',produit:'',search:''},
-  statFilter:'', currentLeadId:null, draggedId:null
+  statFilter:'', currentLeadId:null, draggedId:null,
+  calView:'mois', calCursor:new Date(),
+  editingRdvId:null, rdvLead:null
 };
 
 /* ── Helpers ────────────────────────────────────────────── */
@@ -423,6 +544,10 @@ var STATUT_LABELS = {
   nouveau:'Nouveau', contacte:'Contacté', proposition:'Proposition',
   converti:'Converti', perdu:'Perdu'
 };
+var MOIS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+var JOURS = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+var JOURS_LONG = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+
 function idQ(id){ return typeof id==='string'?"'"+id+"'":id; }
 function badge(statut){
   return '<span class="badge badge-'+statut+'"><span class="badge-dot"></span>'+(STATUT_LABELS[statut]||statut)+'</span>';
@@ -435,8 +560,12 @@ function fmtDate(d){
   var p=d.slice(0,10).split('-');
   return p[2]+'/'+p[1]+'/'+p[0];
 }
+function leadSource(l){ return (l.source==='funnel')?'funnel':'site'; }
+function currentSource(){ return S.view==='web'?'site':(S.view==='ads'?'funnel':null); }
 function filteredLeads(){
+  var src=currentSource();
   return S.leads.filter(function(l){
+    if(src && leadSource(l)!==src) return false;
     if(S.statFilter==='contacte'&&l.statut!=='contacte') return false;
     if(S.statFilter==='converti'&&l.statut!=='converti') return false;
     if(S.statFilter==='followup'&&!l.followup) return false;
@@ -457,6 +586,7 @@ function normalizeLead(row, produit){
     email:     row.email     ||'',
     telephone: row.telephone ||'',
     produit:   produit,
+    source:    row.source    ||'site',
     statut:    STATUT_NORM[row.statut]||(row.statut?row.statut.toLowerCase():'nouveau'),
     date:      (row.created_at||'').slice(0,10),
     followup:  row.follow_up_date||row.followup||'',
@@ -489,7 +619,7 @@ function applyLocalState(leads){
   }catch(e){}
   try{
     var local=JSON.parse(localStorage.getItem('rf_local')||'[]');
-    local.forEach(function(l){leads.unshift(l);});
+    local.forEach(function(l){if(!l.source)l.source='site';leads.unshift(l);});
   }catch(e){}
 }
 
@@ -513,28 +643,36 @@ function loadFromSupabase(){
     hideSpinner();
   }).catch(function(){hideSpinner();});
 }
+function loadRdvs(){
+  var headers={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
+  return fetch(SUPABASE_URL+'/rest/v1/rendezvous?select=*&order=date_rdv.asc',{headers:headers})
+    .then(function(r){return r.ok?r.json():[];})
+    .then(function(rows){S.rdvs=rows||[];})
+    .catch(function(){S.rdvs=[];});
+}
 
 /* ════════════════════════════════════════════════════════════
    AUTH
    ════════════════════════════════════════════════════════════ */
 var PWD='RF2026admin';
+function boot(){
+  loadFromSupabase().then(function(){return loadRdvs();}).then(function(){render();}).catch(function(){render();});
+}
 function showApp(){
   document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').style.display='flex';
-  document.getElementById('app').style.flexDirection='column';
+  var a=document.getElementById('app');
+  a.style.display='flex';
 }
 function checkAuth(){
   if(sessionStorage.getItem('rf_auth')==='1'){
-    showApp();
-    loadFromSupabase().then(function(){render();});
+    showApp(); boot();
   }
 }
 function doLogin(e){
   e.preventDefault();
   if(document.getElementById('pwd').value===PWD){
     sessionStorage.setItem('rf_auth','1');
-    showApp();
-    loadFromSupabase().then(function(){render();});
+    showApp(); boot();
   }else{
     var err=document.getElementById('login-error');
     err.style.display='block';
@@ -547,28 +685,80 @@ function doLogout(){
   document.getElementById('app').style.display='none';
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('pwd').value='';
+  closeSidebar();
+}
+
+/* ════════════════════════════════════════════════════════════
+   NAVIGATION
+   ════════════════════════════════════════════════════════════ */
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-backdrop').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('show');
+}
+function navTo(view){
+  S.view=view;
+  if(view!=='fiche'){
+    S.returnView=view;
+    S.currentLeadId=null;
+    S.selected=[];
+    S.filter={statut:'',produit:'',search:''};
+    S.statFilter='';
+    var si=document.getElementById('search-input'); if(si) si.value='';
+    var fp=document.getElementById('filter-produit'); if(fp) fp.value='';
+  }
+  closeSidebar();
+  render();
+}
+function setSidebarActive(){
+  var v = S.view==='fiche' ? (S.returnView||'web') : S.view;
+  document.querySelectorAll('.nav-item[data-view]').forEach(function(b){
+    b.classList.toggle('active', b.dataset.view===v);
+  });
+}
+function setPageTitle(){
+  var titles={web:'Leads Web',ads:'Leads Ads',pipeline:'Pipeline',calendrier:'Calendrier',stats:'Statistiques'};
+  var t=titles[S.view];
+  if(S.view==='fiche'){
+    var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
+    t=l?(l.prenom+' '+l.nom):'Fiche';
+  }
+  document.getElementById('page-title').textContent=t||'CRM';
 }
 
 /* ════════════════════════════════════════════════════════════
    RENDER
    ════════════════════════════════════════════════════════════ */
 function render(){
-  renderStats();
-  renderTabs();
-  document.getElementById('filter-bar').style.display=S.view==='fiche'?'none':'';
-  if(S.view==='liste')    renderListe();
-  if(S.view==='pipeline') renderPipeline();
-  if(S.view==='fiche')    renderFiche();
-  document.getElementById('view-liste').style.display    =S.view==='liste'    ?'':'none';
-  document.getElementById('view-pipeline').style.display =S.view==='pipeline' ?'':'none';
-  document.getElementById('view-fiche').style.display    =S.view==='fiche'    ?'':'none';
+  setSidebarActive();
+  setPageTitle();
+  var isLeads=(S.view==='web'||S.view==='ads');
+  document.getElementById('stats-row').style.display = isLeads?'':'none';
+  document.getElementById('filter-bar').style.display = isLeads?'':'none';
+
+  // Set container visibility first so charts/layout measure real dimensions
+  var active = isLeads ? 'liste' : S.view;
+  ['liste','pipeline','calendrier','stats','fiche'].forEach(function(v){
+    document.getElementById('view-'+v).style.display = (v===active)?'':'none';
+  });
+
+  if(isLeads){ renderStats(); renderListe(); }
+  if(S.view==='pipeline')   renderPipeline();
+  if(S.view==='calendrier') renderCalendrier();
+  if(S.view==='stats')      renderStatsPage();
+  if(S.view==='fiche')      renderFiche();
+
   updateMassBar();
   updateClearBtn();
 }
 
-/* ── Stats ─────────────────────────────────────────────── */
+/* ── Stats cards (leads list views) ─────────────────────── */
 function renderStats(){
-  var all=S.leads;
+  var src=currentSource();
+  var all=S.leads.filter(function(l){return leadSource(l)===src;});
   var data=[
     {key:'',label:'Total leads',num:all.length},
     {key:'contacte',label:'Contactés',num:all.filter(function(l){return l.statut==='contacte';}).length},
@@ -590,38 +780,13 @@ function setStatFilter(key){
   render();
 }
 
-/* ── Tabs ───────────────────────────────────────────────── */
-function renderTabs(){
-  document.querySelectorAll('.tab-btn[data-tab]').forEach(function(b){
-    b.classList.toggle('active',b.dataset.tab===S.view);
-  });
-  var tf=document.getElementById('tab-fiche');
-  tf.style.display=S.currentLeadId?'':'none';
-  if(S.currentLeadId){
-    var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
-    if(l) document.getElementById('tab-fiche-name').textContent=l.prenom+' '+l.nom;
-  }
-}
-function switchTab(tab){
-  S.view=tab;
-  if(tab!=='fiche') S.selected=[];
-  render();
-}
-function closeFiche(e){
-  e.stopPropagation();
-  S.currentLeadId=null;
-  if(S.view==='fiche') S.view='liste';
-  render();
-}
-
 /* ── Filters ────────────────────────────────────────────── */
 function onFilter(){
   S.filter.search=document.getElementById('search-input').value;
   S.filter.produit=document.getElementById('filter-produit').value;
   S.selected=[];
   updateClearBtn();
-  if(S.view==='liste') renderListe();
-  if(S.view==='pipeline') renderPipeline();
+  if(S.view==='web'||S.view==='ads') renderListe();
   updateMassBar();
 }
 function clearFilters(){
@@ -633,13 +798,14 @@ function clearFilters(){
 }
 function updateClearBtn(){
   var active=S.filter.search||S.filter.produit||S.statFilter;
-  document.getElementById('clear-btn').style.display=active?'':'none';
+  var btn=document.getElementById('clear-btn');
+  if(btn) btn.style.display=active?'':'none';
 }
 
 /* ── Mass bar ───────────────────────────────────────────── */
 function updateMassBar(){
   var mb=document.getElementById('mass-bar');
-  if(S.selected.length>0&&S.view==='liste'){
+  if(S.selected.length>0&&(S.view==='web'||S.view==='ads')){
     mb.classList.add('visible');
     document.getElementById('mass-count').textContent=S.selected.length+' lead'+(S.selected.length>1?'s':'')+' sélectionné'+(S.selected.length>1?'s':'');
   }else{
@@ -736,10 +902,11 @@ function renderPipeline(){
       +'ondrop="onDrop(event,\''+col.key+'\')">';
     colLeads.forEach(function(l){
       var qi=idQ(l.id);
+      var src=leadSource(l);
       html+='<div class="pipeline-card" draggable="true" data-id="'+l.id+'" '
         +'ondragstart="onDragStart(event,'+qi+')" ondragend="onDragEnd(event)">'
         +'<div class="pipeline-card-name">'+esc(l.prenom)+' '+esc(l.nom)+'</div>'
-        +'<div class="pipeline-card-sub">'+produitBadge(l.produit)+'</div>'
+        +'<div class="pipeline-card-sub">'+produitBadge(l.produit)+' <span class="src-tag '+src+'">'+(src==='funnel'?'Ads':'Web')+'</span></div>'
         +'<div class="pipeline-card-footer">'
         +'<span style="font-size:.75rem;color:var(--light)">'+fmtDate(l.date)+'</span>'
         +'<button class="btn btn-ghost btn-xs" onclick="openFiche('+qi+')"><i class="ti ti-eye"></i></button>'
@@ -771,7 +938,9 @@ function onDrop(e,colKey){
   if(lead&&lead.statut!==colKey){
     lead.historique.push({d:today(),a:'Statut → '+STATUT_LABELS[colKey],t:'statut'});
     lead.statut=colKey; lead._dirty=true;
-    saveData(); renderPipeline(); renderStats();
+    saveData();
+    saveLeadToSupabase(lead).catch(function(){});
+    renderPipeline();
   }
   S.draggedId=null;
 }
@@ -779,7 +948,11 @@ function onDrop(e,colKey){
 /* ════════════════════════════════════════════════════════════
    FICHE
    ════════════════════════════════════════════════════════════ */
-function openFiche(id){S.currentLeadId=id;S.view='fiche';render();}
+function openFiche(id){
+  if(S.view!=='fiche') S.returnView=S.view;
+  S.currentLeadId=id; S.view='fiche'; render();
+}
+function backFromFiche(){ navTo(S.returnView||'web'); }
 
 /* ── Produit data helpers ───────────────────────────────── */
 function parseArr(v){
@@ -970,16 +1143,19 @@ function renderFiche(){
     return '<div class="hist-item"><div class="hist-dot '+h.t+'"></div>'
       +'<div><div class="hist-text">'+esc(h.a)+'</div><div class="hist-date">'+fmtDate(h.d)+'</div></div></div>';
   }).join('');
+  var srcTag=leadSource(l)==='funnel'?'Ads':'Web';
   var html='<div class="fiche-wrap">'
     +'<div class="fiche-header"><div class="fiche-header-left">'
     +'<h2>'+esc(l.prenom)+' '+esc(l.nom)+'</h2>'
     +'<div class="fiche-header-meta"><span>'+produitBadge(l.produit)+'</span>'
+    +'<span><span class="src-tag '+leadSource(l)+'">'+srcTag+'</span></span>'
     +'<span><i class="ti ti-calendar"></i> '+fmtDate(l.date)+'</span></div></div>'
     +'<div class="fiche-header-right">'
     +'<select class="btn btn-ghost btn-sm" style="cursor:pointer;padding:6px 12px;" onchange="changeStatutFiche(this.value)">'+statutOpts+'</select>'
+    +'<button class="btn btn-ghost btn-sm" onclick="planifierRdv()"><i class="ti ti-calendar-plus"></i> Planifier un RDV</button>'
     +'<button class="btn btn-ghost btn-sm" onclick="exportPDF()"><i class="ti ti-file-text"></i> Export PDF</button>'
     +'<a class="btn btn-ghost btn-sm" href="mailto:'+esc(l.email)+'"><i class="ti ti-mail"></i> Email</a>'
-    +'<button class="btn btn-ghost btn-sm" onclick="switchTab(\'liste\')"><i class="ti ti-arrow-left"></i> Retour</button>'
+    +'<button class="btn btn-ghost btn-sm" onclick="backFromFiche()"><i class="ti ti-arrow-left"></i> Retour</button>'
     +'</div></div>'
     +'<div class="fiche-body"><div class="fiche-main">'
     +'<div class="fiche-section"><div class="fiche-section-title">Coordonnées</div>'
@@ -1039,7 +1215,7 @@ function changeStatutFiche(val){
   l.statut=val; l._dirty=true;
   saveData();
   saveLeadToSupabase(l).catch(function(){});
-  renderStats(); renderFiche();
+  renderFiche();
 }
 function saveFollowup(val){
   var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
@@ -1047,7 +1223,6 @@ function saveFollowup(val){
   l.followup=val; l._dirty=true;
   saveData();
   saveLeadToSupabase(l).catch(function(){});
-  renderStats();
 }
 function saveNotes(){
   var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
@@ -1071,9 +1246,329 @@ function saveNotes(){
   }
 }
 function exportPDF(){
-  alert('Export PDF disponible prochainement.\n\nNom : '+
-    (S.leads.find(function(x){return x.id===S.currentLeadId;})||{prenom:'',nom:''}).prenom+' '+
-    (S.leads.find(function(x){return x.id===S.currentLeadId;})||{prenom:'',nom:''}).nom);
+  var l=S.leads.find(function(x){return x.id===S.currentLeadId;})||{prenom:'',nom:''};
+  alert('Export PDF disponible prochainement.\n\nNom : '+l.prenom+' '+l.nom);
+}
+
+/* ════════════════════════════════════════════════════════════
+   CALENDRIER
+   ════════════════════════════════════════════════════════════ */
+function pad2(n){return String(n).padStart(2,'0');}
+function ymd(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function startOfWeek(d){var x=new Date(d);var day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x;}
+function hm(t){return t?String(t).slice(0,5):'';}
+function startHour(r){return r.heure_debut?parseInt(String(r.heure_debut).slice(0,2),10):8;}
+function rdvsForDate(ds){
+  return S.rdvs.filter(function(r){return (r.date_rdv||'').slice(0,10)===ds;})
+    .sort(function(a,b){return (a.heure_debut||'').localeCompare(b.heure_debut||'');});
+}
+function calShift(dir){
+  var d=new Date(S.calCursor);
+  if(S.calView==='mois') d.setMonth(d.getMonth()+dir);
+  else if(S.calView==='semaine') d.setDate(d.getDate()+7*dir);
+  else d.setDate(d.getDate()+dir);
+  S.calCursor=d; renderCalendrier();
+}
+function calToday(){ S.calCursor=new Date(); renderCalendrier(); }
+function setCalView(v){ S.calView=v; renderCalendrier(); }
+function calTitle(){
+  var d=S.calCursor;
+  if(S.calView==='mois') return MOIS[d.getMonth()]+' '+d.getFullYear();
+  if(S.calView==='semaine'){
+    var s=startOfWeek(d);var e=new Date(s);e.setDate(s.getDate()+6);
+    return fmtDate(ymd(s))+' – '+fmtDate(ymd(e));
+  }
+  return JOURS_LONG[(d.getDay()+6)%7]+' '+fmtDate(ymd(d));
+}
+function viewBtn(v,label){
+  return '<button class="cal-view-btn'+(S.calView===v?' active':'')+'" onclick="setCalView(\''+v+'\')">'+label+'</button>';
+}
+function renderCalendrier(){
+  var el=document.getElementById('view-calendrier');
+  var toolbar='<div class="cal-toolbar">'
+    +'<div class="cal-nav">'
+    +'<button class="btn btn-ghost btn-sm" onclick="calShift(-1)"><i class="ti ti-chevron-left"></i></button>'
+    +'<button class="btn btn-ghost btn-sm" onclick="calToday()">Aujourd\'hui</button>'
+    +'<button class="btn btn-ghost btn-sm" onclick="calShift(1)"><i class="ti ti-chevron-right"></i></button>'
+    +'</div>'
+    +'<div class="cal-title">'+calTitle()+'</div>'
+    +'<div style="flex:1"></div>'
+    +'<div class="cal-views">'+viewBtn('mois','Mensuel')+viewBtn('semaine','Semaine')+viewBtn('jour','Jour')+'</div>'
+    +'<button class="btn btn-primary btn-sm" onclick="openRdvModal({date:today()})"><i class="ti ti-plus"></i> Nouveau RDV</button>'
+    +'</div>';
+  var body = S.calView==='mois'?calMonth():(S.calView==='semaine'?calWeek():calDay());
+  el.innerHTML=toolbar+body;
+}
+function calMonth(){
+  var d=S.calCursor;var y=d.getFullYear();var m=d.getMonth();
+  var first=new Date(y,m,1);var start=startOfWeek(first);var todayStr=today();
+  var html='<div class="cal-month"><div class="cal-weekdays">';
+  JOURS.forEach(function(j){html+='<div class="cal-weekday">'+j+'</div>';});
+  html+='</div><div class="cal-grid">';
+  for(var i=0;i<42;i++){
+    var cd=new Date(start);cd.setDate(start.getDate()+i);
+    var ds=ymd(cd);var out=cd.getMonth()!==m;
+    html+='<div class="cal-cell'+(out?' out':'')+(ds===todayStr?' today':'')+'" onclick="openRdvModal({date:\''+ds+'\'})">'
+      +'<div class="cal-cell-num">'+cd.getDate()+'</div>';
+    rdvsForDate(ds).forEach(function(r){
+      html+='<div class="cal-chip" onclick="event.stopPropagation();openRdvById('+idQ(r.id)+')" title="'+esc(r.titre)+'">'+esc(hm(r.heure_debut))+' '+esc(r.titre)+'</div>';
+    });
+    html+='</div>';
+  }
+  html+='</div></div>';
+  return html;
+}
+function calWeek(){
+  var s=startOfWeek(S.calCursor);var todayStr=today();var H0=8,H1=20;
+  var days=[];for(var i=0;i<7;i++){var d=new Date(s);d.setDate(s.getDate()+i);days.push(d);}
+  var html='<div class="cal-week-scroll"><div class="cal-week">';
+  html+='<div class="cal-week-corner"></div>';
+  days.forEach(function(d){
+    html+='<div class="cal-week-head'+(ymd(d)===todayStr?' today':'')+'">'+JOURS[(d.getDay()+6)%7]+'<br><b>'+d.getDate()+'</b></div>';
+  });
+  for(var h=H0;h<=H1;h++){
+    html+='<div class="cal-hour-label">'+pad2(h)+':00</div>';
+    days.forEach(function(d){
+      var ds=ymd(d);
+      html+='<div class="cal-slot" onclick="openRdvModal({date:\''+ds+'\',debut:\''+pad2(h)+':00\'})">';
+      rdvsForDate(ds).filter(function(r){return startHour(r)===h;}).forEach(function(r){
+        html+='<div class="cal-chip" onclick="event.stopPropagation();openRdvById('+idQ(r.id)+')" title="'+esc(r.titre)+'">'+esc(hm(r.heure_debut))+' '+esc(r.titre)+'</div>';
+      });
+      html+='</div>';
+    });
+  }
+  html+='</div></div>';
+  return html;
+}
+function calDay(){
+  var ds=ymd(S.calCursor);var H0=8,H1=20;var rdvs=rdvsForDate(ds);
+  var html='<div class="cal-day">';
+  for(var h=H0;h<=H1;h++){
+    html+='<div class="cal-day-row"><div class="cal-day-hour">'+pad2(h)+':00</div>'
+      +'<div class="cal-day-events" onclick="openRdvModal({date:\''+ds+'\',debut:\''+pad2(h)+':00\'})">';
+    rdvs.filter(function(r){return startHour(r)===h;}).forEach(function(r){
+      html+='<div class="cal-event" onclick="event.stopPropagation();openRdvById('+idQ(r.id)+')">'
+        +'<div class="cal-event-time">'+esc(hm(r.heure_debut))+(r.heure_fin?' – '+esc(hm(r.heure_fin)):'')+'</div>'
+        +'<div class="cal-event-title">'+esc(r.titre)+'</div>'
+        +(r.lead_nom?'<div class="cal-event-sub"><i class="ti ti-user"></i> '+esc(r.lead_nom)+(r.lead_produit?' · '+esc(PRODUIT_LABELS[r.lead_produit]||r.lead_produit):'')+'</div>':'')
+        +(r.notes?'<div class="cal-event-sub">'+esc(r.notes)+'</div>':'')
+        +'</div>';
+    });
+    html+='</div></div>';
+  }
+  html+='</div>';
+  return html;
+}
+
+/* ── RDV modal ──────────────────────────────────────────── */
+function setVal(id,v){var el=document.getElementById(id);if(el) el.value=(v==null?'':v);}
+function val(id){var el=document.getElementById(id);return el?el.value:'';}
+function openRdvById(id){var r=S.rdvs.find(function(x){return x.id===id;});if(r) openRdvModal({rdv:r});}
+function openRdvModal(opts){
+  opts=opts||{};
+  var rdv=opts.rdv;
+  S.editingRdvId=rdv?rdv.id:null;
+  document.getElementById('rdv-modal-title').innerHTML=rdv
+    ?'<i class="ti ti-calendar"></i> Modifier le RDV'
+    :'<i class="ti ti-calendar-plus"></i> Nouveau RDV';
+  setVal('rdv-titre', rdv?rdv.titre:(opts.titre||''));
+  setVal('rdv-date',  rdv?rdv.date_rdv:(opts.date||today()));
+  setVal('rdv-statut',rdv?(rdv.statut||'planifie'):'planifie');
+  setVal('rdv-debut', rdv?(rdv.heure_debut?hm(rdv.heure_debut):''):(opts.debut||''));
+  setVal('rdv-fin',   rdv?(rdv.heure_fin?hm(rdv.heure_fin):''):'');
+  setVal('rdv-notes', rdv?(rdv.notes||''):'');
+  if(rdv&&(rdv.lead_id||rdv.lead_nom)) S.rdvLead={id:rdv.lead_id,nom:rdv.lead_nom,produit:rdv.lead_produit};
+  else if(opts.lead) S.rdvLead=opts.lead;
+  else S.rdvLead=null;
+  setVal('rdv-lead-search','');
+  document.getElementById('rdv-lead-list').classList.remove('show');
+  renderRdvLeadSelected();
+  document.getElementById('rdv-delete-btn').style.display=rdv?'':'none';
+  openModal('modal-rdv');
+}
+function renderRdvLeadSelected(){
+  var box=document.getElementById('rdv-lead-selected');
+  var search=document.getElementById('rdv-lead-search');
+  if(S.rdvLead&&S.rdvLead.nom){
+    box.innerHTML='<span><i class="ti ti-user"></i> '+esc(S.rdvLead.nom)
+      +(S.rdvLead.produit?' · '+esc(PRODUIT_LABELS[S.rdvLead.produit]||S.rdvLead.produit):'')+'</span>'
+      +'<button class="modal-close" onclick="clearRdvLead()">&times;</button>';
+    box.style.display='flex';
+    search.style.display='none';
+  }else{
+    box.style.display='none';
+    search.style.display='';
+  }
+}
+function clearRdvLead(){S.rdvLead=null;renderRdvLeadSelected();}
+function filterRdvLeads(){
+  var q=document.getElementById('rdv-lead-search').value.toLowerCase().trim();
+  var list=document.getElementById('rdv-lead-list');
+  if(!q){list.classList.remove('show');list.innerHTML='';return;}
+  var matches=S.leads.filter(function(l){
+    return (l.prenom+' '+l.nom+' '+l.email).toLowerCase().includes(q);
+  }).slice(0,8);
+  if(!matches.length){
+    list.innerHTML='<div class="lead-search-opt" style="color:var(--muted)">Aucun lead trouvé</div>';
+    list.classList.add('show');return;
+  }
+  list.innerHTML=matches.map(function(l){
+    return '<div class="lead-search-opt" onclick="selectRdvLead('+idQ(l.id)+')">'
+      +esc((l.prenom+' '+l.nom).trim())+' · '+esc(PRODUIT_LABELS[l.produit]||l.produit)+'</div>';
+  }).join('');
+  list.classList.add('show');
+}
+function selectRdvLead(id){
+  var l=S.leads.find(function(x){return x.id===id;});
+  if(!l) return;
+  S.rdvLead={id:l.id,nom:(l.prenom+' '+l.nom).trim(),produit:l.produit};
+  setVal('rdv-lead-search','');
+  document.getElementById('rdv-lead-list').classList.remove('show');
+  renderRdvLeadSelected();
+}
+function planifierRdv(){
+  var l=S.leads.find(function(x){return x.id===S.currentLeadId;});
+  if(!l) return;
+  var nom=(l.prenom+' '+l.nom).trim();
+  openRdvModal({date:today(),titre:'RDV avec '+nom,lead:{id:l.id,nom:nom,produit:l.produit}});
+}
+function rdvLeadId(){
+  if(!S.rdvLead||!S.rdvLead.id) return null;
+  return String(S.rdvLead.id).indexOf('local-')===0 ? null : S.rdvLead.id;
+}
+function saveRdv(){
+  var titre=val('rdv-titre').trim();
+  var date=val('rdv-date');
+  if(!titre){alert('Le titre est obligatoire.');return;}
+  if(!date){alert('La date est obligatoire.');return;}
+  var payload={
+    titre:titre,
+    date_rdv:date,
+    heure_debut:val('rdv-debut')||null,
+    heure_fin:val('rdv-fin')||null,
+    statut:val('rdv-statut')||'planifie',
+    lead_id:rdvLeadId(),
+    lead_nom:S.rdvLead?S.rdvLead.nom:null,
+    lead_produit:S.rdvLead?S.rdvLead.produit:null,
+    notes:val('rdv-notes').trim()||null
+  };
+  var btn=document.getElementById('rdv-save-btn'); btn.disabled=true;
+  var req=S.editingRdvId
+    ? fetch('/api/rdv?id='+encodeURIComponent(S.editingRdvId),{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    : fetch('/api/rdv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  req.then(function(r){return r.json();}).then(function(d){
+    if(!d.success) throw new Error(d.error||'Erreur');
+    return loadRdvs();
+  }).then(function(){
+    btn.disabled=false;
+    closeModal('modal-rdv');
+    if(S.view!=='calendrier'){ navTo('calendrier'); } else { renderCalendrier(); }
+  }).catch(function(){
+    btn.disabled=false;
+    alert('Erreur lors de l\'enregistrement du RDV.');
+  });
+}
+function deleteRdv(){
+  if(!S.editingRdvId) return;
+  if(!confirm('Supprimer ce rendez-vous ?')) return;
+  fetch('/api/rdv?id='+encodeURIComponent(S.editingRdvId),{method:'DELETE'})
+    .then(function(r){return r.json();}).then(function(d){
+      if(!d.success) throw new Error();
+      return loadRdvs();
+    }).then(function(){
+      closeModal('modal-rdv');
+      renderCalendrier();
+    }).catch(function(){
+      alert('Erreur lors de la suppression.');
+    });
+}
+
+/* ════════════════════════════════════════════════════════════
+   STATISTIQUES
+   ════════════════════════════════════════════════════════════ */
+var CHARTS={};
+function destroyCharts(){
+  Object.keys(CHARTS).forEach(function(k){try{CHARTS[k].destroy();}catch(e){}});
+  CHARTS={};
+}
+function chartCard(title,id){
+  return '<div class="chart-card"><h3>'+title+'</h3><div style="position:relative;height:260px;"><canvas id="'+id+'"></canvas></div></div>';
+}
+function renderStatsPage(){
+  var el=document.getElementById('view-stats');
+  var all=S.leads;
+  var ym=today().slice(0,7);
+  var ceMois=all.filter(function(l){return (l.date||'').slice(0,7)===ym;}).length;
+  var conv=all.filter(function(l){return l.statut==='converti';}).length;
+  var fu=all.filter(function(l){return !!l.followup;}).length;
+  var taux=all.length?Math.round(conv/all.length*100):0;
+  var cards=[
+    {label:'Total leads',num:all.length},
+    {label:'Leads ce mois',num:ceMois},
+    {label:'Taux de conversion',num:taux+'%'},
+    {label:'En follow-up',num:fu}
+  ];
+  var html='<div class="stats-row">'+cards.map(function(c){
+    return '<div class="stat-card" style="cursor:default"><div class="stat-label">'+c.label+'</div><div class="stat-num">'+c.num+'</div></div>';
+  }).join('')+'</div>';
+  html+='<div class="charts-grid">'
+    +chartCard('Leads par mois (6 derniers mois)','chart-mois')
+    +chartCard('Web vs Ads','chart-source')
+    +chartCard('Répartition par produit','chart-produit')
+    +chartCard('Répartition par statut','chart-statut')
+    +'</div>';
+  el.innerHTML=html;
+  if(typeof Chart==='undefined'){
+    el.innerHTML+='<p style="color:var(--muted);text-align:center;margin-top:16px;">Les graphiques n\'ont pas pu être chargés (connexion requise).</p>';
+    return;
+  }
+  drawCharts(all);
+}
+function barOpts(horiz){
+  return {responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    indexAxis:horiz?'y':'x',
+    scales:{x:{ticks:{precision:0},beginAtZero:true},y:{ticks:{precision:0},beginAtZero:true}}};
+}
+function pieOpts(){
+  return {responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}};
+}
+function drawCharts(all){
+  destroyCharts();
+  // Leads par mois
+  var labels=[],counts=[],now=new Date();
+  for(var i=5;i>=0;i--){
+    var d=new Date(now.getFullYear(),now.getMonth()-i,1);
+    var key=d.getFullYear()+'-'+pad2(d.getMonth()+1);
+    labels.push(MOIS[d.getMonth()].slice(0,3)+' '+String(d.getFullYear()).slice(2));
+    counts.push(all.filter(function(l){return (l.date||'').slice(0,7)===key;}).length);
+  }
+  CHARTS.mois=new Chart(document.getElementById('chart-mois'),{
+    type:'bar',data:{labels:labels,datasets:[{label:'Leads',data:counts,backgroundColor:'#2B2FD4',borderRadius:6}]},options:barOpts()
+  });
+  // Web vs Ads
+  var site=all.filter(function(l){return leadSource(l)==='site';}).length;
+  var funnel=all.filter(function(l){return leadSource(l)==='funnel';}).length;
+  CHARTS.source=new Chart(document.getElementById('chart-source'),{
+    type:'doughnut',data:{labels:['Web','Ads'],datasets:[{data:[site,funnel],backgroundColor:['#2B2FD4','#16a34a']}]},options:pieOpts()
+  });
+  // Par produit
+  var pk=Object.keys(PRODUIT_LABELS);
+  CHARTS.produit=new Chart(document.getElementById('chart-produit'),{
+    type:'bar',
+    data:{labels:pk.map(function(k){return PRODUIT_LABELS[k];}),
+      datasets:[{label:'Leads',data:pk.map(function(k){return all.filter(function(l){return l.produit===k;}).length;}),
+      backgroundColor:['#2B2FD4','#4F54E8','#7c3aed','#d97706','#16a34a','#f97316'],borderRadius:6}]},
+    options:barOpts(true)
+  });
+  // Par statut
+  var sk=['nouveau','contacte','proposition','converti','perdu'];
+  CHARTS.statut=new Chart(document.getElementById('chart-statut'),{
+    type:'doughnut',
+    data:{labels:sk.map(function(k){return STATUT_LABELS[k];}),
+      datasets:[{data:sk.map(function(k){return all.filter(function(l){return l.statut===k;}).length;}),
+      backgroundColor:['#2B2FD4','#f97316','#7c3aed','#16a34a','#6b7280']}]},
+    options:pieOpts()
+  });
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1091,6 +1586,7 @@ function createLead(){
     telephone:document.getElementById('n-tel').value.trim(),
     produit:  document.getElementById('n-produit').value,
     statut:   document.getElementById('n-statut').value,
+    source:'site',
     date:today(),followup:'',
     notes:document.getElementById('n-notes').value.trim(),
     historique:[{d:today(),a:'Lead créé',t:'create'}],
@@ -1100,7 +1596,7 @@ function createLead(){
   saveData();
   ['n-prenom','n-nom','n-email','n-tel','n-notes'].forEach(function(id){document.getElementById(id).value='';});
   closeModal('modal-new');
-  render();
+  if(S.view!=='web') navTo('web'); else render();
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -1114,6 +1610,7 @@ function applyBulkStatut(){
     if(l&&l.statut!==val){
       l.historique.push({d:today(),a:'Statut → '+STATUT_LABELS[val],t:'statut'});
       l.statut=val; l._dirty=true;
+      saveLeadToSupabase(l).catch(function(){});
     }
   });
   S.selected=[];
@@ -1127,9 +1624,10 @@ function exportCSV(onlySelected){
   var leads=onlySelected&&S.selected.length
     ?S.leads.filter(function(l){return S.selected.includes(l.id);})
     :filteredLeads();
-  var cols=['Nom','Prénom','Email','Téléphone','Produit','Statut','Date','Notes'];
+  var cols=['Nom','Prénom','Email','Téléphone','Produit','Source','Statut','Date','Notes'];
   var rows=leads.map(function(l){
     return [l.nom,l.prenom,l.email,l.telephone,PRODUIT_LABELS[l.produit]||l.produit,
+      (leadSource(l)==='funnel'?'Ads':'Web'),
       STATUT_LABELS[l.statut]||l.statut,l.date,l.notes].map(function(v){return '"'+(v||'').replace(/"/g,'""')+'"';}).join(',');
   });
   var csv='﻿'+cols.map(function(c){return '"'+c+'"';}).join(',')+'\n'+rows.join('\n');
