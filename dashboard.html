@@ -254,6 +254,11 @@ textarea.notes-area:focus{border-color:var(--blue);}
 .rdv-type-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 10px;border:1.5px solid var(--border);border-radius:var(--rad-sm);background:var(--card);color:var(--muted);font-family:inherit;font-size:0.86rem;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s,color .15s;}
 .rdv-type-btn:hover{border-color:var(--blue);}
 .rdv-type-btn.is-active{border-color:var(--blue);background:var(--blue-pale);color:var(--blue);}
+.rdv-view-grid{display:flex;flex-direction:column;gap:13px;}
+.rdv-view-row{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:start;}
+.rdv-view-label{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding-top:2px;}
+.rdv-view-val{font-size:0.9rem;color:var(--text);line-height:1.45;}
+@media(max-width:480px){.rdv-view-row{grid-template-columns:1fr;gap:2px;}}
 
 /* ── EMPTY ──────────────────────────────────────────────── */
 .empty-state{text-align:center;padding:48px 24px;color:var(--muted);}
@@ -482,7 +487,8 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
       <span class="modal-title" id="rdv-modal-title"><i class="ti ti-calendar-plus"></i> Nouveau RDV</span>
       <button class="modal-close" onclick="closeModal('modal-rdv')">&times;</button>
     </div>
-    <div class="modal-grid">
+    <div id="rdv-view"></div>
+    <div class="modal-grid" id="rdv-edit">
       <div class="modal-field full"><label>Client *</label>
         <div class="lead-search-wrap">
           <input type="text" id="rdv-client" placeholder="Nom du client…" oninput="filterRdvLeads()" autocomplete="off" />
@@ -517,9 +523,14 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
       </div>
       <div class="modal-field full"><label>Notes</label><textarea id="rdv-notes" rows="3" placeholder="Détails du rendez-vous…"></textarea></div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" id="rdv-footer-view" style="display:none;">
+      <button class="btn btn-danger" style="margin-right:auto;" onclick="deleteRdv()"><i class="ti ti-trash"></i> Supprimer</button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-rdv')">Fermer</button>
+      <button class="btn btn-primary" onclick="switchRdvToEdit()"><i class="ti ti-edit"></i> Modifier</button>
+    </div>
+    <div class="modal-footer" id="rdv-footer-edit" style="display:none;">
       <button class="btn btn-danger" id="rdv-delete-btn" style="display:none;margin-right:auto;" onclick="deleteRdv()"><i class="ti ti-trash"></i> Supprimer</button>
-      <button class="btn btn-ghost" onclick="closeModal('modal-rdv')">Annuler</button>
+      <button class="btn btn-ghost" onclick="cancelRdvEdit()">Annuler</button>
       <button class="btn btn-primary" id="rdv-save-btn" onclick="saveRdv()"><i class="ti ti-check"></i> Enregistrer</button>
     </div>
   </div>
@@ -553,7 +564,7 @@ var S = {
   filter:{statut:'',produit:'',search:''},
   statFilter:'', currentLeadId:null, draggedId:null,
   calView:'mois', calCursor:new Date(),
-  editingRdvId:null, rdvLead:null, rdvType:'presentiel'
+  editingRdvId:null, rdvLead:null, rdvType:'presentiel', rdvMode:'edit', viewingRdv:null
 };
 
 /* ── Helpers ────────────────────────────────────────────── */
@@ -1463,7 +1474,57 @@ function calDay(){
 /* ── RDV modal ──────────────────────────────────────────── */
 function setVal(id,v){var el=document.getElementById(id);if(el) el.value=(v==null?'':v);}
 function val(id){var el=document.getElementById(id);return el?el.value:'';}
-function openRdvById(id){var r=S.rdvs.find(function(x){return x.id===id;});if(r) openRdvModal({rdv:r});}
+function openRdvById(id){var r=S.rdvs.find(function(x){return x.id===id;});if(r) openRdvView(r);}
+function setRdvMode(mode){
+  S.rdvMode=mode;
+  document.getElementById('rdv-view').style.display        = mode==='view'?'':'none';
+  document.getElementById('rdv-edit').style.display        = mode==='edit'?'':'none';
+  document.getElementById('rdv-footer-view').style.display = mode==='view'?'flex':'none';
+  document.getElementById('rdv-footer-edit').style.display = mode==='edit'?'flex':'none';
+}
+function formatDuree(m){
+  if(m>=60){var h=Math.floor(m/60),r=m%60;return r?(h+'h'+pad2(r)):(h+'h');}
+  return m+' min';
+}
+function rdvViewRow(label,value){
+  return '<div class="rdv-view-row"><div class="rdv-view-label">'+label+'</div><div class="rdv-view-val">'+value+'</div></div>';
+}
+function renderRdvView(rdv){
+  var heure=hm(rdv.heure_debut), fin=hm(rdv.heure_fin);
+  var horaire = heure
+    ? (heure + (fin?' – '+fin:'') + ((heure&&fin)?' ('+formatDuree(diffMinutes(heure,fin))+')':''))
+    : '—';
+  var client = (rdv.lead_nom||rdv.titre||'—');
+  var clientLine = esc(client)+(rdv.lead_produit?' · '+esc(PRODUIT_LABELS[rdv.lead_produit]||rdv.lead_produit):'');
+  var typeLabel = (rdv.type_rdv==='digital')?'Digital':'Présentiel';
+  var rows = rdvViewRow('Client', clientLine)
+    + rdvViewRow('Date', fmtDate(rdv.date_rdv))
+    + rdvViewRow('Horaire', horaire)
+    + rdvViewRow('Type', rdvTypeIcon(rdv)+' '+typeLabel);
+  if(rdv.type_rdv!=='digital'){
+    var adr=[rdv.adresse,((rdv.code_postal||'')+' '+(rdv.ville||'')).trim()].filter(Boolean).join(', ');
+    rows += rdvViewRow('Adresse', adr?esc(adr):'—');
+  }
+  if(rdv.notes) rows += rdvViewRow('Notes', esc(rdv.notes));
+  var mb=rdvMapsBtn(rdv);
+  document.getElementById('rdv-view').innerHTML='<div class="rdv-view-grid">'+rows+'</div>'
+    +(mb?'<div style="margin-top:14px;">'+mb+'</div>':'');
+}
+function openRdvView(rdv){
+  S.viewingRdv=rdv;
+  S.editingRdvId=rdv.id;
+  document.getElementById('rdv-modal-title').innerHTML='<i class="ti ti-calendar"></i> '
+    +esc(rdv.lead_nom||rdv.titre||'Rendez-vous');
+  renderRdvView(rdv);
+  document.getElementById('rdv-lead-list').classList.remove('show');
+  setRdvMode('view');
+  openModal('modal-rdv');
+}
+function switchRdvToEdit(){ if(S.viewingRdv) openRdvModal({rdv:S.viewingRdv}); }
+function cancelRdvEdit(){
+  if(S.viewingRdv){ openRdvView(S.viewingRdv); }
+  else { closeModal('modal-rdv'); }
+}
 var DUREE_OPTS=[30,45,60,90,120];
 function addMinutes(hhmm,mins){
   var p=String(hhmm).split(':');
@@ -1481,6 +1542,7 @@ function openRdvModal(opts){
   opts=opts||{};
   var rdv=opts.rdv;
   S.editingRdvId=rdv?rdv.id:null;
+  S.viewingRdv=rdv||null;
   document.getElementById('rdv-modal-title').innerHTML=rdv
     ?'<i class="ti ti-calendar"></i> Modifier le RDV'
     :'<i class="ti ti-calendar-plus"></i> Nouveau RDV';
@@ -1504,6 +1566,7 @@ function openRdvModal(opts){
   document.getElementById('rdv-lead-list').classList.remove('show');
   updateRdvHint();
   document.getElementById('rdv-delete-btn').style.display=rdv?'':'none';
+  setRdvMode('edit');
   openModal('modal-rdv');
 }
 function setRdvType(type){
