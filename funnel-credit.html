@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crédit privé dès 4.4% — Romero Finances</title>
+  <meta name="description" content="Obtenez votre offre de crédit personnalisée en 1 minute. Réponse sous 24h, gratuit et sans engagement." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --c:#1F22A0;
+      --c-rgb:31,34,160;
+      --ink:#1A1A2E;
+      --muted:#6B6B80;
+      --line:#E4E4EC;
+      --bg:#F6F6FB;
+      --white:#FFFFFF;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;}
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.55;
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Topbar */
+    .topbar{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      padding:18px 16px;
+    }
+    .topbar img{height:30px;width:auto;display:block;}
+    .topbar span{font-family:'Playfair Display',serif;font-weight:600;font-size:18px;color:var(--ink);}
+
+    /* Progress */
+    .progress{
+      display:flex;gap:6px;max-width:520px;width:100%;
+      margin:0 auto 8px;padding:0 20px;
+    }
+    .progress__seg{
+      flex:1;height:6px;border-radius:99px;background:var(--line);
+      overflow:hidden;
+    }
+    .progress__seg i{
+      display:block;height:100%;width:0;border-radius:99px;
+      background:var(--c);transition:width .35s ease;
+    }
+    .progress__seg.is-done i{width:100%;}
+
+    /* Stage */
+    .stage{
+      flex:1;display:flex;align-items:flex-start;justify-content:center;
+      padding:24px 20px 48px;
+    }
+    .screen{
+      display:none;width:100%;max-width:520px;animation:fade .35s ease;
+    }
+    .screen.is-active{display:block;}
+    @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+    .etape{
+      font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--c);margin-bottom:12px;
+    }
+    .question{
+      font-family:'Playfair Display',serif;font-weight:600;
+      font-size:26px;line-height:1.25;color:var(--ink);margin-bottom:22px;
+    }
+    .subtitle{color:var(--muted);font-size:15px;margin:-12px 0 22px;}
+
+    /* Option buttons */
+    .options{display:flex;flex-direction:column;gap:12px;}
+    .opt{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      width:100%;text-align:left;cursor:pointer;
+      background:var(--white);border:1.5px solid var(--line);border-radius:14px;
+      padding:18px 20px;font-family:'DM Sans',sans-serif;font-size:16.5px;font-weight:500;
+      color:var(--ink);transition:border-color .15s,box-shadow .15s,background .15s,transform .05s;
+    }
+    .opt:hover{border-color:var(--c);box-shadow:0 4px 16px rgba(var(--c-rgb),.10);}
+    .opt:active{transform:scale(.99);}
+    .opt.is-selected{
+      border-color:var(--c);background:rgba(var(--c-rgb),.06);
+      box-shadow:0 4px 16px rgba(var(--c-rgb),.14);
+    }
+    .opt .chev{color:var(--c);opacity:.55;flex-shrink:0;}
+
+    /* Retour */
+    .retour{
+      display:inline-flex;align-items:center;gap:6px;
+      background:none;border:none;cursor:pointer;
+      color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14.5px;font-weight:500;
+      margin-bottom:18px;padding:6px 2px;
+    }
+    .retour:hover{color:var(--c);}
+
+    /* Contact form */
+    .field{margin-bottom:16px;}
+    .field label{display:block;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:7px;}
+    .field input{
+      width:100%;border:1.5px solid var(--line);border-radius:12px;
+      padding:15px 16px;font-family:'DM Sans',sans-serif;font-size:16px;color:var(--ink);
+      background:var(--white);transition:border-color .15s,box-shadow .15s;
+    }
+    .field input:focus{outline:none;border-color:var(--c);box-shadow:0 0 0 3px rgba(var(--c-rgb),.12);}
+    .field input.err{border-color:#E0413A;box-shadow:0 0 0 3px rgba(224,65,58,.12);}
+
+    .hlabel{font-size:14px;font-weight:600;color:var(--ink);margin:22px 0 10px;}
+    .hgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .hopt{
+      cursor:pointer;text-align:center;background:var(--white);
+      border:1.5px solid var(--line);border-radius:12px;padding:14px 8px;
+      font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;color:var(--ink);
+      transition:border-color .15s,background .15s,box-shadow .15s;
+    }
+    .hopt:hover{border-color:var(--c);}
+    .hopt.is-selected{
+      border-color:var(--c);background:rgba(var(--c-rgb),.06);
+      box-shadow:0 4px 16px rgba(var(--c-rgb),.14);font-weight:600;
+    }
+
+    .submit{
+      width:100%;margin-top:26px;cursor:pointer;
+      background:var(--c);color:var(--white);border:none;border-radius:14px;
+      padding:18px 20px;font-family:'DM Sans',sans-serif;font-size:17px;font-weight:600;
+      box-shadow:0 8px 24px rgba(var(--c-rgb),.28);
+      transition:transform .05s,box-shadow .15s,opacity .15s;
+    }
+    .submit:hover{box-shadow:0 10px 30px rgba(var(--c-rgb),.36);}
+    .submit:active{transform:scale(.99);}
+    .submit:disabled{opacity:.6;cursor:default;}
+
+    .reassure{
+      display:flex;align-items:center;justify-content:center;gap:7px;
+      color:var(--muted);font-size:13px;margin-top:16px;text-align:center;
+    }
+    .formerr{color:#E0413A;font-size:14px;margin-top:14px;text-align:center;display:none;}
+
+    @media(max-width:480px){
+      .question{font-size:23px;}
+      .opt{padding:16px 18px;font-size:16px;}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <img src="assets/logo.svg" alt="Romero Finances" />
+    <span>Romero Finances</span>
+  </header>
+
+  <div class="progress" id="progress">
+    <div class="progress__seg"><i></i></div>
+    <div class="progress__seg"><i></i></div>
+    <div class="progress__seg"><i></i></div>
+    <div class="progress__seg"><i></i></div>
+  </div>
+
+  <main class="stage" id="stage"></main>
+
+  <script>
+  (function(){
+    var CONFIG = {
+      produit: 'credit',
+      questions: [
+        {
+          field: 'montant', label: 'Montant',
+          q: 'Quel montant souhaitez-vous emprunter ?',
+          options: ['10 000 – 20 000 CHF','20 000 – 50 000 CHF','50 000 – 80 000 CHF','Plus de 80 000 CHF']
+        },
+        {
+          field: 'situation', label: 'Situation',
+          q: 'Quelle est votre situation professionnelle ?',
+          options: ['CDI','CDD','Indépendant','Autre']
+        },
+        {
+          field: 'credits', label: 'Crédits en cours',
+          q: 'Avez-vous déjà des crédits en cours ?',
+          options: ['Oui','Non']
+        }
+      ],
+      contact: {
+        subtitle: 'Recevez votre réponse sous 24h.',
+        submit: 'Recevoir mon offre'
+      },
+      // Maps the collected answers to /api/leads fields for this product
+      buildExtra: function(a, heure){
+        return { objet: summary(a, heure) };
+      }
+    };
+
+    /* ---------- shared engine ---------- */
+    var HEURES = ['08:00 – 12:00','12:00 – 16:00','16:00 – 20:00','Peu importe'];
+    var answers = {};
+    var heure = '';
+    var current = 0;                 // 0..3 (3 = contact)
+    var TOTAL = 4;
+    var stage = document.getElementById('stage');
+    var segs = document.querySelectorAll('#progress .progress__seg');
+
+    function summary(a, h){
+      var parts = CONFIG.questions.map(function(q){
+        return q.label + '=' + (a[q.field] || '—');
+      });
+      parts.push('Heure de contact=' + (h || '—'));
+      return 'Funnel: ' + parts.join(', ');
+    }
+
+    function updateProgress(){
+      segs.forEach(function(s,i){ s.classList.toggle('is-done', i <= current); });
+    }
+
+    var CHEV = '<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+    var BACK = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+    var LOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
+
+    function esc(s){ return String(s).replace(/[&<>"]/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+    function render(){
+      updateProgress();
+      window.scrollTo(0,0);
+      if(current < CONFIG.questions.length){ renderQuestion(current); }
+      else { renderContact(); }
+    }
+
+    function retourBtn(){
+      if(current === 0) return '';
+      return '<button class="retour" type="button" id="retour">'+BACK+' Retour</button>';
+    }
+
+    function renderQuestion(idx){
+      var q = CONFIG.questions[idx];
+      var html = '<section class="screen is-active">' + retourBtn() +
+        '<div class="etape">Étape '+(idx+1)+' sur '+TOTAL+'</div>' +
+        '<h2 class="question">'+esc(q.q)+'</h2>' +
+        '<div class="options">';
+      q.options.forEach(function(opt){
+        var sel = answers[q.field] === opt ? ' is-selected' : '';
+        html += '<button class="opt'+sel+'" type="button" data-val="'+esc(opt)+'"><span>'+esc(opt)+'</span>'+CHEV+'</button>';
+      });
+      html += '</div></section>';
+      stage.innerHTML = html;
+
+      stage.querySelectorAll('.opt').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          answers[q.field] = btn.getAttribute('data-val');
+          btn.classList.add('is-selected');
+          setTimeout(function(){ current++; render(); }, 180);
+        });
+      });
+      bindRetour();
+    }
+
+    function renderContact(){
+      var c = CONFIG.contact;
+      var html = '<section class="screen is-active">' + retourBtn() +
+        '<div class="etape">Étape '+TOTAL+' sur '+TOTAL+'</div>' +
+        '<h2 class="question">Recevez votre analyse personnalisée</h2>' +
+        '<p class="subtitle">'+esc(c.subtitle)+'</p>' +
+        '<div class="field"><label for="f_prenom">Prénom</label><input id="f_prenom" type="text" autocomplete="given-name" placeholder="Votre prénom" /></div>' +
+        '<div class="field"><label for="f_email">Email</label><input id="f_email" type="email" autocomplete="email" placeholder="vous@email.ch" /></div>' +
+        '<div class="field"><label for="f_tel">Téléphone</label><input id="f_tel" type="tel" autocomplete="tel" placeholder="079 123 45 67" /></div>' +
+        '<div class="hlabel">Quand préférez-vous être contacté ?</div>' +
+        '<div class="hgrid" id="hgrid">';
+      HEURES.forEach(function(h){
+        var sel = heure === h ? ' is-selected' : '';
+        html += '<button class="hopt'+sel+'" type="button" data-h="'+esc(h)+'">'+esc(h)+'</button>';
+      });
+      html += '</div>' +
+        '<button class="submit" type="button" id="submit">'+esc(c.submit)+'</button>' +
+        '<div class="reassure">'+LOCK+' Vos données sont confidentielles et sans engagement.</div>' +
+        '<div class="formerr" id="formerr">Une erreur est survenue. Veuillez réessayer.</div>' +
+        '</section>';
+      stage.innerHTML = html;
+
+      stage.querySelectorAll('.hopt').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          heure = btn.getAttribute('data-h');
+          stage.querySelectorAll('.hopt').forEach(function(b){ b.classList.remove('is-selected'); });
+          btn.classList.add('is-selected');
+        });
+      });
+      document.getElementById('submit').addEventListener('click', submitLead);
+      bindRetour();
+    }
+
+    function bindRetour(){
+      var r = document.getElementById('retour');
+      if(r) r.addEventListener('click', function(){ if(current>0){ current--; render(); } });
+    }
+
+    function submitLead(){
+      var prenom = document.getElementById('f_prenom');
+      var email  = document.getElementById('f_email');
+      var tel    = document.getElementById('f_tel');
+      var err    = document.getElementById('formerr');
+      [prenom,email,tel].forEach(function(el){ el.classList.remove('err'); });
+      err.style.display = 'none';
+
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+      var bad = false;
+      if(!prenom.value.trim()){ prenom.classList.add('err'); bad = true; }
+      if(!emailOk){ email.classList.add('err'); bad = true; }
+      if(!tel.value.trim()){ tel.classList.add('err'); bad = true; }
+      if(bad) return;
+
+      var btn = document.getElementById('submit');
+      btn.disabled = true; btn.textContent = 'Envoi…';
+
+      var payload = Object.assign({
+        produit: CONFIG.produit,
+        prenom: prenom.value.trim(),
+        nom: '',
+        email: email.value.trim(),
+        telephone: tel.value.trim(),
+        marketing: false,
+        heure_contact: heure
+      }, CONFIG.buildExtra(answers, heure));
+
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok, d:d}; }); })
+        .then(function(r){
+          if(r.ok && r.d && r.d.success){
+            window.location.href = 'merci.html?produit=' + CONFIG.produit;
+          } else { onError(); }
+        }).catch(onError);
+
+      function onError(){
+        btn.disabled = false; btn.textContent = CONFIG.contact.submit;
+        err.style.display = 'block';
+      }
+    }
+
+    render();
+  })();
+  </script>
+</body>
+</html>
