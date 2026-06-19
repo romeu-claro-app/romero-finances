@@ -235,9 +235,12 @@ function brokerHtml(lead, produitTraduit) {
 </html>`;
 }
 
-async function sendOneEmail(payload) {
+async function sendOneEmail(payload, label = 'email') {
   const apiKey = process.env.BREVO_API_KEY;
   if (!apiKey) throw new Error('Missing BREVO_API_KEY');
+
+  // [diagnóstico] payload exato enviado ao Brevo (truncado a 500 chars)
+  console.log(`Brevo payload (${label}):`, JSON.stringify(payload).slice(0, 500));
 
   const response = await fetch(BREVO_ENDPOINT, {
     method: 'POST',
@@ -250,8 +253,10 @@ async function sendOneEmail(payload) {
   });
 
   if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`Brevo ${response.status}: ${text}`);
+    // [diagnóstico] resposta completa do Brevo em caso de erro
+    const errText = await response.text();
+    console.error('Brevo FULL error — status:', response.status, 'body:', errText);
+    throw new Error(`Brevo ${response.status}: ${errText}`);
   }
   return true;
 }
@@ -265,6 +270,13 @@ async function sendOneEmail(payload) {
  */
 export async function sendLeadEmails(lead) {
   const result = { leadEmailSent: false, brokerEmailSent: false };
+
+  // [diagnóstico] confirma presença da API key sem revelar a key inteira
+  console.log(
+    'BREVO_API_KEY present:', !!process.env.BREVO_API_KEY,
+    'length:', (process.env.BREVO_API_KEY || '').length,
+    'prefix:', (process.env.BREVO_API_KEY || '').slice(0, 8)
+  );
 
   if (!lead || typeof lead !== 'object') {
     console.error('sendLeadEmails: invalid lead');
@@ -283,7 +295,7 @@ export async function sendLeadEmails(lead) {
         to: [{ email: lead.email, name: prenom || undefined }],
         subject: 'Nous avons bien reçu votre demande ✓',
         htmlContent: leadHtml(lead, produitTraduit)
-      });
+      }, 'lead');
       result.leadEmailSent = true;
     } catch (err) {
       console.error('sendLeadEmails: lead email failed —', err && err.message ? err.message : err);
@@ -299,7 +311,7 @@ export async function sendLeadEmails(lead) {
       to: [{ email: 'contact@romerofinances.ch' }],
       subject: `🔔 Nouveau lead — ${produitTraduit} — ${prenom} ${nom}`.trim(),
       htmlContent: brokerHtml(lead, produitTraduit)
-    });
+    }, 'broker');
     result.brokerEmailSent = true;
   } catch (err) {
     console.error('sendLeadEmails: broker email failed —', err && err.message ? err.message : err);
