@@ -246,10 +246,10 @@ async function sendOneEmail(payload, label = 'email') {
     method: 'POST',
     headers: {
       'api-key': apiKey,
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
       'Accept': 'application/json'
     },
-    body: JSON.stringify(payload)
+    body: Buffer.from(JSON.stringify(payload), 'utf-8')
   });
 
   if (!response.ok) {
