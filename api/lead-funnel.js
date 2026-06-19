@@ -1,3 +1,5 @@
+import { sendLeadEmails } from './_send-emails.js';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -50,5 +52,13 @@ export default async function handler(req, res) {
   }
 
   const data = JSON.parse(text);
+
+  // Fire confirmation + broker emails. Never let an email error break the lead.
+  try {
+    await sendLeadEmails({ produit, prenom, nom, email, telephone, dados: dados || {} });
+  } catch (err) {
+    console.error('sendLeadEmails (lead-funnel.js) failed:', err && err.message ? err.message : err);
+  }
+
   return res.status(200).json({ success: true, id: data[0]?.id });
 }

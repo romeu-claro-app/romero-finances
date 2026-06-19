@@ -1,3 +1,5 @@
+import { sendLeadEmails } from './_send-emails.js';
+
 export default async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -257,6 +259,14 @@ export default async function handler(req, res) {
 
   if (!response.ok) {
     return res.status(500).json({ success: false, error: data });
+  }
+
+  // Fire confirmation + broker emails. Never let an email error break the lead.
+  try {
+    const { prenom, nom, email, telephone, marketing, ...dados } = payload;
+    await sendLeadEmails({ produit, prenom, nom, email, telephone, dados });
+  } catch (err) {
+    console.error('sendLeadEmails (leads.js) failed:', err && err.message ? err.message : err);
   }
 
   return res.status(200).json({ success: true, id: data[0]?.id });
