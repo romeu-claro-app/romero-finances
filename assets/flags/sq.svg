@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 18">
+  <clipPath id="sq"><rect width="24" height="18" rx="2"/></clipPath>
+  <g clip-path="url(#sq)">
+    <rect width="24" height="18" fill="#E41E20"/>
+    <g fill="#000000">
+      <!-- têtes de l'aigle bicéphale -->
+      <circle cx="9.3" cy="5.6" r="1.45"/>
+      <circle cx="14.7" cy="5.6" r="1.45"/>
+      <!-- becs -->
+      <path d="M8.3,5.3 L6.3,4.7 L8.2,6.4 Z"/>
+      <path d="M15.7,5.3 L17.7,4.7 L15.8,6.4 Z"/>
+      <!-- corps + ailes déployées -->
+      <path d="M12,6.2 C9.5,6.2 5,7 3.2,9 C6,8.9 8.2,9.4 9.8,11.2 L9.2,14.2 L12,12.6 L14.8,14.2 L14.2,11.2 C15.8,9.4 18,8.9 20.8,9 C19,7 14.5,6.2 12,6.2 Z"/>
+    </g>
+  </g>
+</svg>

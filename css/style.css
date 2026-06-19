@@ -227,6 +227,72 @@ body { font-family: 'DM Sans', sans-serif; background: var(--blue-pale2); color:
   color: var(--text-light) !important;
 }
 
+/* ─── SÉLECTEUR DE LANGUE ─────────────────────────────────── */
+.lang { position: relative; flex-shrink: 0; }
+.lang__toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.lang__toggle:hover { border-color: var(--blue); color: var(--blue); }
+.lang__flag {
+  width: 22px;
+  height: 16px;
+  border-radius: 3px;
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
+}
+.lang__code { letter-spacing: 0.02em; }
+.lang__chevron { transition: transform 0.2s; flex-shrink: 0; }
+.lang--open .lang__chevron { transform: rotate(180deg); }
+.lang__menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 180px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 32px rgba(43, 47, 212, 0.12);
+  padding: 6px;
+  z-index: 200;
+}
+.lang--open .lang__menu { display: block; }
+.lang__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: background 0.15s, color 0.15s;
+}
+.lang__item:hover { background: var(--blue-pale2); color: var(--blue); }
+.lang__item--active { background: var(--blue-pale); color: var(--blue); font-weight: 600; }
+.lang__item--active::after {
+  content: '';
+  margin-left: auto;
+  width: 5px; height: 10px;
+  border: solid var(--blue);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
 /* ─── CHECKBOX FIELD (marketing, shared across all forms) ── */
 .checkbox-field {
   display: flex;

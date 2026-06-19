@@ -70,6 +70,26 @@ document.addEventListener('click', function (e) {
   }
 });
 
+// Toggle do seletor de línguas — chamado via onclick no HTML
+function toggleLang() {
+  var lang = document.getElementById('langSwitch');
+  if (!lang) return;
+  var isOpen = lang.classList.toggle('lang--open');
+  var toggle = lang.querySelector('.lang__toggle');
+  if (toggle) toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+// Fecha o seletor de línguas ao clicar fora
+document.addEventListener('click', function (e) {
+  var lang = document.getElementById('langSwitch');
+  if (!lang) return;
+  if (lang.classList.contains('lang--open') && !lang.contains(e.target)) {
+    lang.classList.remove('lang--open');
+    var toggle = lang.querySelector('.lang__toggle');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
+});
+
 // FAQ accordion
 function toggleFaq(item) {
   var isOpen = item.classList.contains('faq__item--open');

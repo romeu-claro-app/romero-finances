@@ -275,6 +275,24 @@
         <li><a href="patrimoine.html">Choses &amp; Biens</a></li>
       </ul>
       <a href="#formulaire" class="btn btn--primary btn--sm nav__cta">Obtenir un conseil</a>
+      <!-- Sélecteur de langue -->
+      <div class="lang" id="langSwitch">
+        <button type="button" class="lang__toggle" aria-label="Choisir la langue" aria-haspopup="true" aria-expanded="false" onclick="toggleLang()">
+          <img src="/assets/flags/fr.svg" alt="" class="lang__flag" />
+          <span class="lang__code">FR</span>
+          <svg class="lang__chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="lang__menu" role="menu">
+          <a href="/fr/" class="lang__item lang__item--active" role="menuitem"><img src="/assets/flags/fr.svg" alt="" class="lang__flag" /><span>Français</span></a>
+          <!-- TODO: apontar para a língua real (/de/, /it/, /en/, /pt/, /es/, /sq/) quando traduzida -->
+          <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/de.svg" alt="" class="lang__flag" /><span>Deutsch</span></a>
+          <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/it.svg" alt="" class="lang__flag" /><span>Italiano</span></a>
+          <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/en.svg" alt="" class="lang__flag" /><span>English</span></a>
+          <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/pt.svg" alt="" class="lang__flag" /><span>Português</span></a>
+          <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/es.svg" alt="" class="lang__flag" /><span>Español</span></a>
+          <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/sq.svg" alt="" class="lang__flag" /><span>Shqip</span></a>
+        </div>
+      </div>
       <button class="nav__burger" aria-label="Menu" onclick="toggleMenu()">
         <span></span><span></span><span></span>
       </button>
