@@ -252,11 +252,13 @@ async function sendOneEmail(payload, label = 'email') {
     body: Buffer.from(JSON.stringify(payload), 'utf-8')
   });
 
+  // [diagnóstico] lê o corpo UMA única vez e loga sempre (sucesso ou erro)
+  const respText = await response.text();
+  console.log('Brevo response — status:', response.status, 'body:', respText);
+
   if (!response.ok) {
-    // [diagnóstico] resposta completa do Brevo em caso de erro
-    const errText = await response.text();
-    console.error('Brevo FULL error — status:', response.status, 'body:', errText);
-    throw new Error(`Brevo ${response.status}: ${errText}`);
+    console.error('Brevo FULL error — status:', response.status, 'body:', respText);
+    throw new Error(`Brevo ${response.status}: ${respText}`);
   }
   return true;
 }
