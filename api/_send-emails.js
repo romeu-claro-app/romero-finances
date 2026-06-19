@@ -129,7 +129,6 @@ function leadHtml(lead, produitTraduit) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <title>Romero Finances</title>
 </head>
 <body style="margin:0;padding:0;background-color:#F7F8FF;">
@@ -140,13 +139,13 @@ function leadHtml(lead, produitTraduit) {
           <!-- Header -->
           <tr>
             <td style="background-color:#1A1B8F;padding:32px 32px;text-align:center;">
-              <span style="font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:700;color:#ffffff;letter-spacing:0.5px;">Romero Finances</span>
+              <span style="font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:700;color:#ffffff;letter-spacing:0.5px;">Romero Finances</span>
             </td>
           </tr>
           <!-- Body -->
           <tr>
-            <td style="padding:32px;font-family:'DM Sans',Arial,sans-serif;">
-              <h1 style="margin:0 0 16px;font-size:20px;color:#1A1B8F;font-weight:700;">Bonjour ${prenom},</h1>
+            <td style="padding:32px;font-family:Arial,Helvetica,sans-serif;">
+              <h1 style="margin:0 0 16px;font-size:20px;color:#1A1B8F;font-weight:700;font-family:Georgia,'Times New Roman',serif;">Bonjour ${prenom},</h1>
               <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#444;">
                 Nous confirmons avoir bien reçu votre demande relative à
                 <strong style="color:#2B2FD4;">${escapeHtml(produitTraduit)}</strong>.
@@ -161,12 +160,15 @@ function leadHtml(lead, produitTraduit) {
           </tr>
           <!-- Footer -->
           <tr>
-            <td style="padding:24px 32px;background-color:#F7F8FF;border-top:1px solid #E6E8FF;font-family:'DM Sans',Arial,sans-serif;">
+            <td style="padding:24px 32px;background-color:#F7F8FF;border-top:1px solid #E6E8FF;font-family:Arial,Helvetica,sans-serif;">
               <p style="margin:0 0 6px;font-size:12px;line-height:1.5;color:#999;">
                 Romero Finances · contact@romerofinances.ch · romerofinances.ch
               </p>
-              <p style="margin:0;font-size:12px;line-height:1.5;color:#bbb;">
+              <p style="margin:0 0 6px;font-size:12px;line-height:1.5;color:#bbb;">
                 Ceci est un message automatique, merci de ne pas y répondre.
+              </p>
+              <p style="margin:0;font-size:11px;line-height:1.5;color:#bbb;">
+                Vous recevez cet e-mail suite à votre demande sur romerofinances.ch. Romero Finances · 1564 Domdidier, Suisse
               </p>
             </td>
           </tr>
@@ -214,7 +216,7 @@ function brokerHtml(lead, produitTraduit) {
       .map(([k, v]) => row(fieldLabel(k), renderValue(v)))
       .join('');
     detailsSection = `
-      <h2 style="font-family:Arial,sans-serif;font-size:16px;color:#1A1B8F;margin:24px 0 8px;">Détails de la demande</h2>
+      <h2 style="font-family:Georgia,'Times New Roman',serif;font-size:16px;color:#1A1B8F;margin:24px 0 8px;">Détails de la demande</h2>
       <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px;color:#333;">
         ${detailRows}
       </table>`;
@@ -225,7 +227,7 @@ function brokerHtml(lead, produitTraduit) {
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
 <body style="margin:0;padding:16px;background-color:#ffffff;font-family:Arial,sans-serif;">
   <div style="max-width:640px;margin:0 auto;">
-    <h1 style="font-size:18px;color:#1A1B8F;margin:0 0 16px;">🔔 Nouveau lead — ${escapeHtml(produitTraduit)}</h1>
+    <h1 style="font-family:Georgia,'Times New Roman',serif;font-size:18px;color:#1A1B8F;margin:0 0 16px;">🔔 Nouveau lead — ${escapeHtml(produitTraduit)}</h1>
     <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px;color:#333;">
       ${identityRows}
     </table>
@@ -235,12 +237,96 @@ function brokerHtml(lead, produitTraduit) {
 </html>`;
 }
 
-async function sendOneEmail(payload, label = 'email') {
+// Plain-text counterpart of renderValue, for the textContent versions below.
+function renderValueText(value) {
+  if (value === null || value === undefined || value === '') return '—';
+  if (Array.isArray(value)) {
+    if (value.length === 0) return '—';
+    return value
+      .map((item) => {
+        if (item && typeof item === 'object') {
+          return Object.entries(item)
+            .filter(([, v]) => v !== null && v !== undefined && v !== '')
+            .map(([k, v]) => `${fieldLabel(k)}: ${v}`)
+            .join(', ');
+        }
+        return String(item);
+      })
+      .map((line) => `- ${line}`)
+      .join('\n');
+  }
+  if (typeof value === 'object') {
+    return (
+      Object.entries(value)
+        .filter(([, v]) => v !== null && v !== undefined && v !== '')
+        .map(([k, v]) => `${fieldLabel(k)}: ${v}`)
+        .join('\n') || '—'
+    );
+  }
+  return String(value);
+}
+
+// Plain-text version of the lead confirmation email (improves deliverability).
+function leadText(lead, produitTraduit) {
+  const prenom = lead.prenom || '';
+  const heure = lead.dados && lead.dados.heure_contact;
+  const lines = [];
+  lines.push(`Bonjour ${prenom},`.trim());
+  lines.push('');
+  lines.push(`Nous confirmons avoir bien reçu votre demande relative à ${produitTraduit}.`);
+  lines.push('');
+  lines.push('Un conseiller va vous contacter dans les 24 heures (jours ouvrables) afin de vous accompagner.');
+  if (heure) {
+    lines.push('');
+    lines.push(`Vous avez indiqué préférer être contacté : ${heure}.`);
+  }
+  lines.push('');
+  lines.push('Cordialement,');
+  lines.push("L'équipe Romero Finances");
+  lines.push('');
+  lines.push('Romero Finances · contact@romerofinances.ch · romerofinances.ch');
+  lines.push('Vous recevez cet e-mail suite à votre demande sur romerofinances.ch. Romero Finances · 1564 Domdidier, Suisse');
+  return lines.join('\n');
+}
+
+// Plain-text version of the broker notification email.
+function brokerText(lead, produitTraduit) {
+  const prenom = lead.prenom || '';
+  const nom = lead.nom || '';
+  const email = lead.email || '';
+  const telephone = lead.telephone || '';
+  const dados = lead.dados && typeof lead.dados === 'object' ? lead.dados : {};
+  const recu = new Date().toLocaleString('fr-CH', { timeZone: 'Europe/Zurich' });
+
+  const lines = [];
+  lines.push(`Nouveau lead — ${produitTraduit}`);
+  lines.push('');
+  lines.push(`Produit: ${produitTraduit}`);
+  lines.push(`Prénom: ${prenom || '—'}`);
+  lines.push(`Nom: ${nom || '—'}`);
+  lines.push(`Email: ${email || '—'}`);
+  lines.push(`Téléphone: ${telephone || '—'}`);
+  if (dados.heure_contact) {
+    lines.push(`Horaire de contact souhaité: ${dados.heure_contact}`);
+  }
+  lines.push(`Reçu le: ${recu}`);
+
+  const detailEntries = Object.entries(dados).filter(
+    ([k, v]) => k !== 'heure_contact' && v !== null && v !== undefined && v !== ''
+  );
+  if (detailEntries.length) {
+    lines.push('');
+    lines.push('Détails de la demande:');
+    detailEntries.forEach(([k, v]) => {
+      lines.push(`${fieldLabel(k)}: ${renderValueText(v)}`);
+    });
+  }
+  return lines.join('\n');
+}
+
+async function sendOneEmail(payload) {
   const apiKey = process.env.BREVO_API_KEY;
   if (!apiKey) throw new Error('Missing BREVO_API_KEY');
-
-  // [diagnóstico] payload exato enviado ao Brevo (truncado a 500 chars)
-  console.log(`Brevo payload (${label}):`, JSON.stringify(payload).slice(0, 500));
 
   const response = await fetch(BREVO_ENDPOINT, {
     method: 'POST',
@@ -252,13 +338,9 @@ async function sendOneEmail(payload, label = 'email') {
     body: Buffer.from(JSON.stringify(payload), 'utf-8')
   });
 
-  // [diagnóstico] lê o corpo UMA única vez e loga sempre (sucesso ou erro)
-  const respText = await response.text();
-  console.log('Brevo response — status:', response.status, 'body:', respText);
-
   if (!response.ok) {
-    console.error('Brevo FULL error — status:', response.status, 'body:', respText);
-    throw new Error(`Brevo ${response.status}: ${respText}`);
+    const text = await response.text();
+    throw new Error(`Brevo ${response.status}: ${text}`);
   }
   return true;
 }
@@ -272,13 +354,6 @@ async function sendOneEmail(payload, label = 'email') {
  */
 export async function sendLeadEmails(lead) {
   const result = { leadEmailSent: false, brokerEmailSent: false };
-
-  // [diagnóstico] confirma presença da API key sem revelar a key inteira
-  console.log(
-    'BREVO_API_KEY present:', !!process.env.BREVO_API_KEY,
-    'length:', (process.env.BREVO_API_KEY || '').length,
-    'prefix:', (process.env.BREVO_API_KEY || '').slice(0, 8)
-  );
 
   if (!lead || typeof lead !== 'object') {
     console.error('sendLeadEmails: invalid lead');
@@ -296,8 +371,10 @@ export async function sendLeadEmails(lead) {
         sender: { name: 'Romero Finances', email: 'no-reply@romerofinances.ch' },
         to: [{ email: lead.email, name: prenom || undefined }],
         subject: 'Nous avons bien reçu votre demande',
-        htmlContent: leadHtml(lead, produitTraduit)
-      }, 'lead');
+        htmlContent: leadHtml(lead, produitTraduit),
+        textContent: leadText(lead, produitTraduit),
+        tags: ['confirmation-lead']
+      });
       result.leadEmailSent = true;
     } catch (err) {
       console.error('sendLeadEmails: lead email failed —', err && err.message ? err.message : err);
@@ -312,8 +389,10 @@ export async function sendLeadEmails(lead) {
       sender: { name: 'Romero Finances Leads', email: 'no-reply@romerofinances.ch' },
       to: [{ email: 'contact@romerofinances.ch' }],
       subject: `Nouveau lead — ${produitTraduit} — ${prenom} ${nom}`.trim(),
-      htmlContent: brokerHtml(lead, produitTraduit)
-    }, 'broker');
+      htmlContent: brokerHtml(lead, produitTraduit),
+      textContent: brokerText(lead, produitTraduit),
+      tags: ['notification-courtier']
+    });
     result.brokerEmailSent = true;
   } catch (err) {
     console.error('sendLeadEmails: broker email failed —', err && err.message ? err.message : err);
