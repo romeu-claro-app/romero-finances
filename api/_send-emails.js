@@ -293,7 +293,7 @@ export async function sendLeadEmails(lead) {
       await sendOneEmail({
         sender: { name: 'Romero Finances', email: 'no-reply@romerofinances.ch' },
         to: [{ email: lead.email, name: prenom || undefined }],
-        subject: 'Nous avons bien reçu votre demande ✓',
+        subject: 'Nous avons bien reçu votre demande',
         htmlContent: leadHtml(lead, produitTraduit)
       }, 'lead');
       result.leadEmailSent = true;
@@ -309,7 +309,7 @@ export async function sendLeadEmails(lead) {
     await sendOneEmail({
       sender: { name: 'Romero Finances Leads', email: 'no-reply@romerofinances.ch' },
       to: [{ email: 'contact@romerofinances.ch' }],
-      subject: `🔔 Nouveau lead — ${produitTraduit} — ${prenom} ${nom}`.trim(),
+      subject: `Nouveau lead — ${produitTraduit} — ${prenom} ${nom}`.trim(),
       htmlContent: brokerHtml(lead, produitTraduit)
     }, 'broker');
     result.brokerEmailSent = true;
