@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Romero Finances — Crédito, Seguro de Saúde &amp; 3.º Pilar na Suíça</title>
-  <meta name="description" content="Aconselhamento financeiro independente na Suíça. Crédito privado desde 4.4%, comparação de seguro de saúde, 3.º pilar. Gratuito, sem compromisso, resposta em 24h." />
+  <title>Romero Finances — Crédit, Assurance Maladie &amp; 3ème Pilier en Suisse</title>
+  <meta name="description" content="Conseil financier indépendant en Suisse romande. Crédit privé dès 4.4%, comparaison assurance maladie, 3ème pilier. Gratuit, sans engagement, réponse sous 24h." />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Romero Finances" />
-  <link rel="canonical" href="https://romerofinances.ch/pt/" />
+  <link rel="canonical" href="https://romerofinances.ch/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Romero Finances" />
-  <meta property="og:title" content="Romero Finances — Crédito, Seguro de Saúde &amp; 3.º Pilar na Suíça" />
-  <meta property="og:description" content="Aconselhamento financeiro independente na Suíça. Crédito privado desde 4.4%, comparação de seguro de saúde, 3.º pilar. Gratuito, sem compromisso, resposta em 24h." />
-  <meta property="og:url" content="https://romerofinances.ch/pt/" />
+  <meta property="og:title" content="Romero Finances — Crédit, Assurance Maladie &amp; 3ème Pilier en Suisse" />
+  <meta property="og:description" content="Conseil financier indépendant en Suisse romande. Crédit privé dès 4.4%, comparaison assurance maladie, 3ème pilier. Gratuit, sans engagement, réponse sous 24h." />
+  <meta property="og:url" content="https://romerofinances.ch/" />
   <meta property="og:image" content="https://romerofinances.ch/assets/logo.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,33 +31,33 @@
         <span class="nav__name">Romero Finances</span>
       </a>
       <ul class="nav__links">
-        <li><a href="credit.html">Crédito</a></li>
+        <li><a href="credit.html">Crédit</a></li>
         <li class="nav__dropdown">
-          <a href="assurance.html" class="nav__dropdown-toggle">Seguro de saúde <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+          <a href="assurance.html" class="nav__dropdown-toggle">Assurance maladie <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
           <div class="nav__dropdown-menu">
-            <a href="assurance.html">Comparar o meu seguro</a>
-            <a href="assurance-nouveau-arrive.html">Recém-chegado à Suíça</a>
-            <a href="assurance-prenatale.html">Seguro pré-natal</a>
+            <a href="assurance.html">Comparer mon assurance</a>
+            <a href="assurance-nouveau-arrive.html">Nouveau arrivé en Suisse</a>
+            <a href="assurance-prenatale.html">Assurance pré-natale</a>
           </div>
         </li>
-        <li><a href="pilier.html">3.º pilar</a></li>
-        <li><a href="patrimoine.html">Bens &amp; Património</a></li>
+        <li><a href="pilier.html">3ème pilier</a></li>
+        <li><a href="patrimoine.html">Choses &amp; Biens</a></li>
       </ul>
-      <a href="#produits" class="btn btn--primary btn--sm nav__cta">Obter aconselhamento</a>
+      <a href="#produits" class="btn btn--primary btn--sm nav__cta">Obtenir un conseil</a>
       <!-- Sélecteur de langue -->
       <div class="lang" id="langSwitch">
         <button type="button" class="lang__toggle" aria-label="Choisir la langue" aria-haspopup="true" aria-expanded="false" onclick="toggleLang()">
-          <img src="/assets/flags/pt.svg" alt="" class="lang__flag" />
-          <span class="lang__code">PT</span>
+          <img src="/assets/flags/de.svg" alt="" class="lang__flag" />
+          <span class="lang__code">DE</span>
           <svg class="lang__chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
         <div class="lang__menu" role="menu">
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/fr.svg" alt="" class="lang__flag" /><span>Français</span></a>
           <!-- TODO: apontar para a língua real (/de/, /it/, /en/, /pt/, /es/, /sq/) quando traduzida -->
-          <a href="/de/" class="lang__item" role="menuitem"><img src="/assets/flags/de.svg" alt="" class="lang__flag" /><span>Deutsch</span></a>
+          <a href="/de/" class="lang__item lang__item--active" role="menuitem"><img src="/assets/flags/de.svg" alt="" class="lang__flag" /><span>Deutsch</span></a>
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/it.svg" alt="" class="lang__flag" /><span>Italiano</span></a>
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/en.svg" alt="" class="lang__flag" /><span>English</span></a>
-          <a href="/pt/" class="lang__item lang__item--active" role="menuitem"><img src="/assets/flags/pt.svg" alt="" class="lang__flag" /><span>Português</span></a>
+          <a href="/pt/" class="lang__item" role="menuitem"><img src="/assets/flags/pt.svg" alt="" class="lang__flag" /><span>Português</span></a>
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/es.svg" alt="" class="lang__flag" /><span>Español</span></a>
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/sq.svg" alt="" class="lang__flag" /><span>Shqip</span></a>
         </div>
@@ -67,18 +67,18 @@
       </button>
     </div>
     <div class="nav__mobile" id="navMobile">
-      <a href="credit.html">Crédito</a>
+      <a href="credit.html">Crédit</a>
       <div class="nav__mobile-acc" id="accAssurance">
-        <button type="button" class="nav__mobile-acc-toggle" onclick="toggleMobileAcc()">Seguro de saúde <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+        <button type="button" class="nav__mobile-acc-toggle" onclick="toggleMobileAcc()">Assurance maladie <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
         <div class="nav__mobile-acc-items">
-          <a href="assurance.html" class="nav__mobile-sub">Comparar o meu seguro</a>
-          <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Recém-chegado à Suíça</a>
-          <a href="assurance-prenatale.html" class="nav__mobile-sub">Seguro pré-natal</a>
+          <a href="assurance.html" class="nav__mobile-sub">Comparer mon assurance</a>
+          <a href="assurance-nouveau-arrive.html" class="nav__mobile-sub">Nouveau arrivé en Suisse</a>
+          <a href="assurance-prenatale.html" class="nav__mobile-sub">Assurance pré-natale</a>
         </div>
       </div>
-      <a href="pilier.html">3.º pilar</a>
-      <a href="patrimoine.html">Bens &amp; Património</a>
-      <a href="#produits" class="btn btn--primary">Obter aconselhamento</a>
+      <a href="pilier.html">3ème pilier</a>
+      <a href="patrimoine.html">Choses &amp; Biens</a>
+      <a href="#produits" class="btn btn--primary">Obtenir un conseil</a>
     </div>
   </nav>
 
@@ -87,15 +87,15 @@
     <div class="hero__inner">
       <div class="hero__title">
         <span class="hero__brand">ROMERO FINANCES</span>
-        <span class="hero__tagline">o essencial das suas finanças em boas mãos</span>
-        <span class="hero__main">Crédito <span class="hero__slash">/</span> Seguros</span>
+        <span class="hero__tagline">l'essentiel de vos finances entre de bonnes mains</span>
+        <span class="hero__main">Crédit <span class="hero__slash">/</span> Assurances</span>
       </div>
       <div class="hero__pills">
-        <span class="pill">✓ Gratuito &amp; sem compromisso</span>
-        <span class="pill">⚡ Resposta em 24h</span>
-        <span class="pill">🔒 100% confidencial</span>
+        <span class="pill">✓ Gratuit &amp; sans engagement</span>
+        <span class="pill">⚡ Réponse sous 24h</span>
+        <span class="pill">🔒 100% confidentiel</span>
       </div>
-      <a href="#produits" class="btn btn--primary btn--lg">Escolher a minha solução</a>
+      <a href="#produits" class="btn btn--primary btn--lg">Choisir ma solution</a>
     </div>
   </section>
 
@@ -104,19 +104,19 @@
     <div class="stats-bar__inner">
       <div class="stat">
         <span class="stat__num">200+</span>
-        <span class="stat__label">Clientes acompanhados</span>
+        <span class="stat__label">Clients accompagnés</span>
       </div>
       <div class="stat">
         <span class="stat__num">24h</span>
-        <span class="stat__label">Prazo de resposta</span>
+        <span class="stat__label">Délai de réponse</span>
       </div>
       <div class="stat">
         <span class="stat__num">100%</span>
-        <span class="stat__label">Gratuito &amp; sem compromisso</span>
+        <span class="stat__label">Gratuit &amp; sans engagement</span>
       </div>
       <div class="stat">
         <span class="stat__num">4.4%</span>
-        <span class="stat__label">Taxa de crédito desde</span>
+        <span class="stat__label">Taux crédit dès</span>
       </div>
     </div>
   </div>
@@ -124,8 +124,8 @@
   <!-- PRODUITS -->
   <section class="section produits" id="produits">
     <div class="container">
-      <h2 class="section__title">Qual é a sua prioridade&nbsp;?</h2>
-      <p class="section__sub">Escolha a sua necessidade — o nosso especialista entra em contacto consigo em 24h.</p>
+      <h2 class="section__title">Quelle est votre priorité&nbsp;?</h2>
+      <p class="section__sub">Choisissez votre besoin — notre expert vous contacte sous 24h.</p>
       <div class="cards">
 
         <!-- Crédit -->
@@ -137,13 +137,13 @@
                 <line x1="1" y1="10" x2="23" y2="10"></line>
               </svg>
             </div>
-            <h3 class="card__title">Crédito privado</h3>
+            <h3 class="card__title">Crédit privé</h3>
           </div>
-          <p class="card__desc">Financiamento rápido e personalizado — taxa desde 4.4%, resposta em 24h.</p>
+          <p class="card__desc">Financement rapide et personnalisé — taux dès 4.4%, réponse en 24h.</p>
           <div class="card__tags">
-            <span class="tag tag--blue">Desde 4.4%</span>
-            <span class="tag tag--blue">6 a 84 meses</span>
-            <span class="tag tag--blue">Resposta 24h</span>
+            <span class="tag tag--blue">Dès 4.4%</span>
+            <span class="tag tag--blue">6 à 84 mois</span>
+            <span class="tag tag--blue">Réponse 24h</span>
           </div>
           <div class="card__arrow">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -161,13 +161,13 @@
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
               </svg>
             </div>
-            <h3 class="card__title">Seguro de saúde</h3>
+            <h3 class="card__title">Assurance maladie</h3>
           </div>
-          <p class="card__desc">Compare todas as seguradoras de saúde suíças e poupe até 40%.</p>
+          <p class="card__desc">Comparez toutes les caisses maladie suisses et économisez jusqu'à 40%.</p>
           <div class="card__tags">
-            <span class="tag tag--green">Comparação gratuita</span>
-            <span class="tag tag--green">Todas as seguradoras</span>
-            <span class="tag tag--green">Até −40%</span>
+            <span class="tag tag--green">Comparaison gratuite</span>
+            <span class="tag tag--green">Toutes caisses</span>
+            <span class="tag tag--green">Jusqu'à −40%</span>
           </div>
           <div class="card__arrow">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -185,13 +185,13 @@
                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
               </svg>
             </div>
-            <h3 class="card__title">3.º pilar</h3>
+            <h3 class="card__title">3ème pilier</h3>
           </div>
-          <p class="card__desc">Prepare a sua reforma e reduza os seus impostos graças ao 3.º pilar.</p>
+          <p class="card__desc">Préparez votre retraite et réduisez vos impôts grâce au 3ème pilier.</p>
           <div class="card__tags">
-            <span class="tag tag--amber">Dedução fiscal</span>
-            <span class="tag tag--amber">Reforma tranquila</span>
-            <span class="tag tag--amber">Aconselhamento à medida</span>
+            <span class="tag tag--amber">Déduction fiscale</span>
+            <span class="tag tag--amber">Retraite sereine</span>
+            <span class="tag tag--amber">Conseil sur mesure</span>
           </div>
           <div class="card__arrow">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -210,13 +210,13 @@
                 <path d="M9 12l1.5 1.5L15 9"></path>
               </svg>
             </div>
-            <h3 class="card__title">Bens &amp; Património</h3>
+            <h3 class="card__title">Choses &amp; Biens</h3>
           </div>
-          <p class="card__desc">Proteja a sua habitação, o seu veículo e a sua responsabilidade civil. Soluções adaptadas à sua situação na Suíça.</p>
+          <p class="card__desc">Protégez votre logement, votre véhicule et votre responsabilité civile. Des solutions adaptées à votre situation en Suisse.</p>
           <div class="card__tags">
-            <span class="tag tag--terracotta">Habitação</span>
-            <span class="tag tag--terracotta">Veículo</span>
-            <span class="tag tag--terracotta">RC pessoal</span>
+            <span class="tag tag--terracotta">Logement</span>
+            <span class="tag tag--terracotta">Véhicule</span>
+            <span class="tag tag--terracotta">RC personnelle</span>
           </div>
           <div class="card__arrow">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -233,38 +233,38 @@
   <!-- COMMENT ÇA MARCHE -->
   <section class="section steps">
     <div class="container">
-      <h2 class="section__title">Como funciona&nbsp;?</h2>
-      <p class="section__sub">Simples, rápido e sem compromisso.</p>
+      <h2 class="section__title">Comment ça marche&nbsp;?</h2>
+      <p class="section__sub">Simple, rapide et sans engagement.</p>
       <div class="steps__card">
         <div class="step">
           <div class="step__num">1</div>
           <div class="step__body">
-            <h4 class="step__title">Você escolhe</h4>
-            <p class="step__desc">Selecione o produto que corresponde à sua necessidade: crédito, seguro ou 3.º pilar.</p>
+            <h4 class="step__title">Vous choisissez</h4>
+            <p class="step__desc">Sélectionnez le produit qui correspond à votre besoin : crédit, assurance ou 3ème pilier.</p>
           </div>
         </div>
         <div class="step__divider"></div>
         <div class="step">
           <div class="step__num">2</div>
           <div class="step__body">
-            <h4 class="step__title">Você preenche</h4>
-            <p class="step__desc">Preencha o formulário em 2 minutos com as suas informações básicas.</p>
+            <h4 class="step__title">Vous remplissez</h4>
+            <p class="step__desc">Remplissez le formulaire en 2 minutes avec vos informations de base.</p>
           </div>
         </div>
         <div class="step__divider"></div>
         <div class="step">
           <div class="step__num">3</div>
           <div class="step__body">
-            <h4 class="step__title">Nós ligamos-lhe</h4>
-            <p class="step__desc">O nosso consultor entra em contacto consigo em 24h para analisar a sua situação e propor-lhe as melhores ofertas.</p>
+            <h4 class="step__title">On vous rappelle</h4>
+            <p class="step__desc">Notre conseiller vous contacte sous 24h pour analyser votre situation et vous proposer les meilleures offres.</p>
           </div>
         </div>
         <div class="step__divider"></div>
         <div class="step">
           <div class="step__num">4</div>
           <div class="step__body">
-            <h4 class="step__title">Você decide</h4>
-            <p class="step__desc">Sem qualquer pressão. Você escolhe livremente, sem obrigação. O aconselhamento é sempre gratuito.</p>
+            <h4 class="step__title">Vous décidez</h4>
+            <p class="step__desc">Aucune pression. Vous choisissez librement, sans obligation. Le conseil reste toujours gratuit.</p>
           </div>
         </div>
       </div>
@@ -274,54 +274,54 @@
   <!-- TÉMOIGNAGES -->
   <section class="section temoignages">
     <div class="container">
-      <h2 class="section__title">O que dizem os nossos clientes</h2>
-      <p class="section__sub">Pessoas como você, acompanhadas com sucesso.</p>
+      <h2 class="section__title">Ce que disent nos clients</h2>
+      <p class="section__sub">Des personnes comme vous, accompagnées avec succès.</p>
       <div class="temoignages__grid">
 
         <div class="temoignage">
           <div class="temoignage__stars">★★★★★</div>
-          <p class="temoignage__quote">"Processo tratado rapidamente e condições mais vantajosas do que as que eu tinha encontrado sozinho. Explicações claras e nenhuma surpresa desagradável. Serviço eficaz e tranquilizador."</p>
+          <p class="temoignage__quote">"Dossier traité rapidement et conditions plus avantageuses que ce que j'avais trouvé seul. Explications claires et aucune mauvaise surprise. Service efficace et rassurant."</p>
           <div class="temoignage__author">
             <div class="avatar avatar--blue">LM</div>
             <div>
               <strong>Lukas Meier</strong>
-              <span>Bienne · Crédito privado</span>
+              <span>Bienne · Crédit privé</span>
             </div>
           </div>
         </div>
 
         <div class="temoignage">
           <div class="temoignage__stars">★★★★★</div>
-          <p class="temoignage__quote">"Situação complexa no início, mas solução encontrada rapidamente. Prestações bem ajustadas e acompanhamento sério até à libertação dos fundos."</p>
+          <p class="temoignage__quote">"Situation complexe au départ, mais solution trouvée rapidement. Mensualités bien ajustées et suivi sérieux jusqu'au déblocage des fonds."</p>
           <div class="temoignage__author">
             <div class="avatar avatar--green">MS</div>
             <div>
               <strong>Maia Silva</strong>
-              <span>Genève · Seguro de saúde</span>
+              <span>Genève · Assurance maladie</span>
             </div>
           </div>
         </div>
 
         <div class="temoignage">
           <div class="temoignage__stars">★★★★★</div>
-          <p class="temoignage__quote">"Oferta perfeitamente adaptada à minha situação. Processo fluido do início ao fim e uma verdadeira poupança de tempo. Experiência clara e eficaz."</p>
+          <p class="temoignage__quote">"Offre parfaitement adaptée à ma situation. Processus fluide du début à la fin et vrai gain de temps. Expérience claire et efficace."</p>
           <div class="temoignage__author">
             <div class="avatar avatar--amber">CG</div>
             <div>
               <strong>Carlos García</strong>
-              <span>Lausanne · 3.º pilar</span>
+              <span>Lausanne · 3ème pilier</span>
             </div>
           </div>
         </div>
 
         <div class="temoignage">
           <div class="temoignage__stars">★★★★★</div>
-          <p class="temoignage__quote">"Um serviço verdadeiramente atento. Sem pressão, respostas claras a todas as minhas perguntas e um consultor sempre disponível. Recomendo sem hesitar."</p>
+          <p class="temoignage__quote">"Un service vraiment à l'écoute. Pas de pression, des réponses claires à toutes mes questions et un conseiller toujours disponible. Je recommande sans hésiter."</p>
           <div class="temoignage__author">
             <div class="avatar avatar--blue">SB</div>
             <div>
               <strong>Sophie Bernard</strong>
-              <span>Fribourg · 3.º pilar</span>
+              <span>Fribourg · 3ème pilier</span>
             </div>
           </div>
         </div>
@@ -333,66 +333,66 @@
   <!-- FAQ -->
   <section class="section faq">
     <div class="container container--sm">
-      <h2 class="section__title">Perguntas frequentes</h2>
+      <h2 class="section__title">Questions fréquentes</h2>
       <div class="faq__list">
 
         <div class="faq__item" onclick="toggleFaq(this)">
           <div class="faq__question">
-            <span>O aconselhamento é mesmo gratuito?</span>
+            <span>Le conseil est-il vraiment gratuit ?</span>
             <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
           <div class="faq__answer">
-            <p>Sim, absolutamente. A Romero Finances é remunerada pelos parceiros financeiros apenas se você aceitar uma oferta. Não há qualquer custo para si, seja qual for o resultado do aconselhamento.</p>
+            <p>Oui, absolument. Romero Finances est rémunéré par les partenaires financiers uniquement si vous acceptez une offre. Il n'y a aucun frais pour vous, quelle que soit l'issue du conseil.</p>
           </div>
         </div>
 
         <div class="faq__item" onclick="toggleFaq(this)">
           <div class="faq__question">
-            <span>Posso obter um crédito se estiver em período experimental?</span>
+            <span>Puis-je obtenir un crédit si je suis en période d'essai ?</span>
             <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
           <div class="faq__answer">
-            <p>Depende da duração do seu contrato e da sua situação. Em geral, um contrato com mais de 3 meses é suficiente. O nosso consultor avaliará o seu processo e indicar-lhe-á as opções disponíveis.</p>
+            <p>Cela dépend de la durée de votre contrat et de votre situation. En général, un contrat de plus de 3 mois est suffisant. Notre conseiller évaluera votre dossier et vous indiquera les options disponibles.</p>
           </div>
         </div>
 
         <div class="faq__item" onclick="toggleFaq(this)">
           <div class="faq__question">
-            <span>Como mudar de seguro de saúde durante o ano?</span>
+            <span>Comment changer d'assurance maladie en cours d'année ?</span>
             <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
           <div class="faq__answer">
-            <p>Na Suíça, a mudança de seguradora de saúde de base faz-se geralmente a 31 de dezembro, com um pré-aviso de 3 meses (antes do final de setembro). Alguns seguros complementares podem ser rescindidos noutras datas. O nosso consultor orientá-lo-á sobre os prazos exatos consoante a sua seguradora atual.</p>
+            <p>En Suisse, le changement de caisse maladie de base se fait généralement au 31 décembre avec un préavis de 3 mois (avant fin septembre). Certaines assurances complémentaires peuvent être résiliées à d'autres dates. Notre conseiller vous guidera sur les délais exacts selon votre caisse actuelle.</p>
           </div>
         </div>
 
         <div class="faq__item" onclick="toggleFaq(this)">
           <div class="faq__question">
-            <span>Qual é a diferença entre o pilar 3a e o pilar 3b?</span>
+            <span>Quelle est la différence entre le pilier 3a et le pilier 3b ?</span>
             <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
           <div class="faq__answer">
-            <p>O pilar 3a é vinculado: as contribuições são dedutíveis dos impostos até um limite anual (CHF 7 258 para os trabalhadores por conta de outrem em 2024), mas o capital fica bloqueado até 5 anos antes da reforma. O pilar 3b é livre: não há dedução fiscal, mas também não há restrições aos levantamentos. O nosso consultor ajudá-lo-á a escolher consoante a sua situação.</p>
+            <p>Le pilier 3a est lié : les versements sont déductibles des impôts jusqu'à un plafond annuel (CHF 7 258 pour les salariés en 2024), mais le capital est bloqué jusqu'à 5 ans avant la retraite. Le pilier 3b est libre : pas de déduction fiscale, mais pas de restriction sur les retraits. Notre conseiller vous aidera à choisir selon votre situation.</p>
           </div>
         </div>
 
         <div class="faq__item" onclick="toggleFaq(this)">
           <div class="faq__question">
-            <span>Os meus dados pessoais estão protegidos?</span>
+            <span>Mes données personnelles sont-elles protégées ?</span>
             <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
           <div class="faq__answer">
-            <p>Sim. Os seus dados são tratados em conformidade com a LPD (Lei federal de proteção de dados) e nunca são revendidos a terceiros. São utilizados unicamente para lhe propor ofertas adaptadas à sua situação.</p>
+            <p>Oui. Vos données sont traitées conformément à la LPD (Loi fédérale sur la protection des données) et ne sont jamais revendues à des tiers. Elles sont utilisées uniquement pour vous proposer des offres adaptées à votre situation.</p>
           </div>
         </div>
 
@@ -403,9 +403,9 @@
   <!-- CTA FINAL -->
   <section class="cta-final">
     <div class="container container--sm">
-      <h2 class="cta-final__title">Pronto para otimizar as suas finanças&nbsp;?</h2>
-      <p class="cta-final__sub">Aconselhamento gratuito · Sem compromisso · Resposta em 24h</p>
-      <a href="#produits" class="btn btn--white btn--lg">Escolher a minha solução</a>
+      <h2 class="cta-final__title">Prêt à optimiser vos finances&nbsp;?</h2>
+      <p class="cta-final__sub">Conseil gratuit · Sans engagement · Réponse sous 24h</p>
+      <a href="#produits" class="btn btn--white btn--lg">Choisir ma solution</a>
     </div>
   </section>
 
@@ -419,31 +419,31 @@
             <img src="/assets/logo.svg" alt="Romero Finances" class="footer__logo" />
             <span>Romero Finances</span>
           </div>
-          <p class="footer__desc">Aconselhamento independente em finanças pessoais para os residentes da Suíça.</p>
+          <p class="footer__desc">Conseil indépendant en finances personnelles pour les résidents de Suisse romande.</p>
         </div>
 
         <div class="footer__col">
-          <h5 class="footer__heading">Soluções</h5>
+          <h5 class="footer__heading">Solutions</h5>
           <ul>
-            <li><a href="credit.html">Crédito privado</a></li>
-            <li><a href="assurance.html">Seguro de saúde</a></li>
-            <li><a href="pilier.html">3.º pilar</a></li>
-            <li><a href="patrimoine.html">Bens &amp; Património</a></li>
+            <li><a href="credit.html">Crédit privé</a></li>
+            <li><a href="assurance.html">Assurance maladie</a></li>
+            <li><a href="pilier.html">3ème pilier</a></li>
+            <li><a href="patrimoine.html">Choses &amp; Biens</a></li>
           </ul>
         </div>
 
         <div class="footer__col">
-          <h5 class="footer__heading">Legal</h5>
+          <h5 class="footer__heading">Légal</h5>
           <ul>
-            <li><a href="cgu.html">Condições gerais</a></li>
-            <li><a href="confidentialite.html">Política de privacidade</a></li>
-            <li><a href="consentement.html">Consentimento</a></li>
+            <li><a href="cgu.html">Conditions générales</a></li>
+            <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+            <li><a href="consentement.html">Consentement</a></li>
             <li><a href="cookies.html">Cookies</a></li>
           </ul>
         </div>
 
         <div class="footer__col">
-          <h5 class="footer__heading">Contacto</h5>
+          <h5 class="footer__heading">Contact</h5>
           <ul>
             <li><a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a></li>
             <li><a href="tel:+41782044818">+41 78 204 48 18</a></li>
@@ -458,8 +458,8 @@
       </div>
 
       <div class="footer__bottom">
-        <p>&copy; 2026 Romero Finances. Todos os direitos reservados.</p>
-        <p class="footer__lcc">Intermediário de crédito sujeito à Lei sobre o crédito ao consumo (LCC). Atividade regulamentada.</p>
+        <p>&copy; 2026 Romero Finances. Tous droits réservés.</p>
+        <p class="footer__lcc">Intermédiaire en crédit soumis à la Loi sur le crédit à la consommation (LCC). Activité réglementée.</p>
       </div>
     </div>
   </footer>
