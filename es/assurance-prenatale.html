@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Assurance Maladie Nouveau Arrivé en Suisse | Romero Finances</title>
-  <meta name="description" content="Vous venez d'arriver en Suisse ? L'assurance maladie LAMal est obligatoire sous 3 mois. Nous vous guidons pour choisir la meilleure caisse. Gratuit." />
+  <title>Assurance Maladie Pré-Natale Suisse | Romero Finances</title>
+  <meta name="description" content="Assurez votre bébé avant sa naissance en Suisse. Profitez des meilleures conditions en anticipant votre affiliation LAMal. Conseil gratuit sous 24h." />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Romero Finances" />
-  <link rel="canonical" href="https://romerofinances.ch/assurance-nouveau-arrive.html" />
+  <link rel="canonical" href="https://romerofinances.ch/assurance-prenatale.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Romero Finances" />
-  <meta property="og:title" content="Assurance Maladie Nouveau Arrivé en Suisse | Romero Finances" />
-  <meta property="og:description" content="Vous venez d'arriver en Suisse ? L'assurance maladie LAMal est obligatoire sous 3 mois. Nous vous guidons pour choisir la meilleure caisse. Gratuit." />
-  <meta property="og:url" content="https://romerofinances.ch/assurance-nouveau-arrive.html" />
+  <meta property="og:title" content="Assurance Maladie Pré-Natale Suisse | Romero Finances" />
+  <meta property="og:description" content="Assurez votre bébé avant sa naissance en Suisse. Profitez des meilleures conditions en anticipant votre affiliation LAMal. Conseil gratuit sous 24h." />
+  <meta property="og:url" content="https://romerofinances.ch/assurance-prenatale.html" />
   <meta property="og:image" content="https://romerofinances.ch/assets/logo.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -65,7 +65,7 @@
     }
     .btn--green--lg { padding: 16px 40px; font-size: 1.05rem; }
 
-    /* ── INFOS RAPIDES ────────────────────────────────────── */
+    /* ── AVANTAGES ────────────────────────────────────────── */
     .info-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
     }
@@ -143,53 +143,10 @@
     }
     .form-success-am p { color: var(--accent); font-weight: 600; font-size: 0.97rem; line-height: 1.6; }
 
-    /* ── TOGGLE OUI/NON ───────────────────────────────────── */
-    .toggle-oui-non {
-      display: flex; width: fit-content;
-      border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden;
-    }
-    .toggle-btn { cursor: pointer; }
-    .toggle-btn input[type="radio"] { display: none; }
-    .toggle-btn span {
-      display: block; padding: 10px 28px;
-      font-size: 0.95rem; font-weight: 500; color: var(--text-muted);
-      background: var(--blue-pale2); transition: background 0.15s, color 0.15s;
-    }
-    .toggle-btn:not(:last-child) span { border-right: 1.5px solid var(--border); }
-    .toggle-btn input[type="radio"]:checked + span {
-      background: var(--accent); color: var(--white); font-weight: 600;
-    }
-
-    /* ── PERMIS FIELDS ────────────────────────────────────── */
-    .permis-fields {
-      display: none; margin-top: 14px;
-      display: none; grid-template-columns: 1fr 1fr; gap: 14px 24px;
-    }
-    .permis-fields.visible { display: grid; }
-
-    /* ── PERSONNE BLOCK NA ───────────────────────────────── */
-    .na-personne-block {
-      background: var(--blue-pale2); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 20px 22px; margin-top: 4px;
-    }
-    .na-personne-block__header {
-      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
-    }
-    .na-personne-inner {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px;
-    }
-    .na-personne-inner .fg-am input {
-      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--text);
-      background: var(--white); border: 1.5px solid var(--border);
-      border-radius: 10px; padding: 11px 14px; outline: none; width: 100%;
-      transition: border-color 0.18s, box-shadow 0.18s;
-    }
-    .na-personne-inner .fg-am input:focus {
-      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(13,158,107,0.12);
-    }
-    .na-personne-inner .fg-am input::placeholder { color: var(--text-light); }
-    @media (max-width: 600px) { .na-personne-inner { grid-template-columns: 1fr; } }
+    /* ── LCA SAME WRAP ───────────────────────────────────── */
+    .lca-same-wrap { display: flex; align-items: center; gap: 6px; margin-top: 7px; }
+    .lca-same-wrap input[type="checkbox"] { width: 13px; height: 13px; min-width: 13px; accent-color: var(--accent); cursor: pointer; }
+    .lca-same-wrap label { font-size: 0.78rem; font-weight: 500; color: var(--text-light); cursor: pointer; margin: 0; line-height: 1.3; }
 
     /* ── CTA FINAL VERT ───────────────────────────────────── */
     .cta-vert { background: var(--accent); padding: 88px 24px; text-align: center; }
@@ -240,18 +197,18 @@
       <!-- Sélecteur de langue -->
       <div class="lang" id="langSwitch">
         <button type="button" class="lang__toggle" aria-label="Choisir la langue" aria-haspopup="true" aria-expanded="false" onclick="toggleLang()">
-          <img src="/assets/flags/fr.svg" alt="" class="lang__flag" />
-          <span class="lang__code">FR</span>
+          <img src="/assets/flags/es.svg" alt="" class="lang__flag" />
+          <span class="lang__code">ES</span>
           <svg class="lang__chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
         <div class="lang__menu" role="menu">
-          <a href="/fr/" class="lang__item lang__item--active" role="menuitem"><img src="/assets/flags/fr.svg" alt="" class="lang__flag" /><span>Français</span></a>
+          <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/fr.svg" alt="" class="lang__flag" /><span>Français</span></a>
           <!-- TODO: apontar para a língua real (/de/, /it/, /en/, /pt/, /es/, /sq/) quando traduzida -->
           <a href="/de/" class="lang__item" role="menuitem"><img src="/assets/flags/de.svg" alt="" class="lang__flag" /><span>Deutsch</span></a>
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/it.svg" alt="" class="lang__flag" /><span>Italiano</span></a>
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/en.svg" alt="" class="lang__flag" /><span>English</span></a>
           <a href="/pt/" class="lang__item" role="menuitem"><img src="/assets/flags/pt.svg" alt="" class="lang__flag" /><span>Português</span></a>
-          <a href="/es/" class="lang__item" role="menuitem"><img src="/assets/flags/es.svg" alt="" class="lang__flag" /><span>Español</span></a>
+          <a href="/es/" class="lang__item lang__item--active" role="menuitem"><img src="/assets/flags/es.svg" alt="" class="lang__flag" /><span>Español</span></a>
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/sq.svg" alt="" class="lang__flag" /><span>Shqip</span></a>
         </div>
       </div>
@@ -271,7 +228,7 @@
       </div>
       <a href="pilier.html">3ème pilier</a>
       <a href="patrimoine.html">Choses &amp; Biens</a>
-      <a href="#formulaire" class="btn btn--primary">Demander mon affiliation</a>
+      <a href="#formulaire" class="btn btn--primary">Demander mon conseil pré-natal</a>
     </div>
   </nav>
 
@@ -279,36 +236,25 @@
   <section class="hero-am">
     <div class="hero-am__inner">
       <div class="hero-am__text">
-        <span class="badge--green">Nouveau arrivé en Suisse · Bienvenue</span>
-        <h1 class="hero-am__h1">Vous venez d'arriver en Suisse&nbsp;? Trouvez votre assurance maladie rapidement</h1>
-        <p class="hero-am__sub">En Suisse, l'assurance maladie de base (LAMal) est obligatoire dans les 3 mois suivant votre arrivée. Nous vous guidons pour choisir la meilleure caisse maladie selon votre canton.</p>
+        <span class="badge--green">Assurance pré-natale · Suisse romande</span>
+        <h1 class="hero-am__h1">Assurez votre bébé avant même sa naissance</h1>
+        <p class="hero-am__sub">En Suisse, vous pouvez affilier votre enfant à une caisse maladie avant sa naissance. Profitez des meilleures conditions en anticipant dès maintenant.</p>
         <div class="hero-am__pills">
-          <span class="pill--green">✓ Délai de 3 mois</span>
-          <span class="pill--green">Toutes les caisses</span>
-          <span class="pill--green">Accompagnement personnalisé</span>
+          <span class="pill--green">✓ Affiliation avant la naissance</span>
+          <span class="pill--green">Meilleures conditions garanties</span>
+          <span class="pill--green">Conseil personnalisé</span>
         </div>
-        <a href="#formulaire" class="btn--green btn--green--lg" style="align-self:flex-start;">Demander mon affiliation</a>
+        <a href="#formulaire" class="btn--green btn--green--lg" style="align-self:flex-start;">Demander mon conseil pré-natal</a>
       </div>
     </div>
   </section>
 
-  <!-- INFORMATIONS CLÉS -->
+  <!-- AVANTAGES -->
   <section class="section" style="background:var(--white);">
     <div class="container">
-      <h2 class="section__title">Ce que vous devez savoir</h2>
-      <p class="section__sub">Les points essentiels pour votre affiliation à l'assurance maladie suisse.</p>
+      <h2 class="section__title">Pourquoi anticiper ?</h2>
+      <p class="section__sub">Affilier votre enfant avant la naissance vous offre des avantages concrets.</p>
       <div class="info-grid">
-
-        <div class="info-card">
-          <div class="info-card__icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-          </div>
-          <h3 class="info-card__title">3 mois pour s'affilier</h3>
-          <p class="info-card__desc">Dès votre arrivée en Suisse, vous avez 3 mois pour choisir une caisse maladie. L'affiliation est rétroactive à votre date d'arrivée.</p>
-        </div>
 
         <div class="info-card">
           <div class="info-card__icon">
@@ -316,8 +262,8 @@
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             </svg>
           </div>
-          <h3 class="info-card__title">LAMal obligatoire</h3>
-          <p class="info-card__desc">L'assurance de base (LAMal) couvre les soins essentiels. Les primes varient selon la caisse, le canton et la franchise choisie.</p>
+          <h3 class="info-card__title">Couverture dès la naissance</h3>
+          <p class="info-card__desc">En s'affiliant avant la naissance, votre bébé est couvert dès le premier jour, sans délai d'attente ni lacune de couverture.</p>
         </div>
 
         <div class="info-card">
@@ -327,8 +273,19 @@
               <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
             </svg>
           </div>
-          <h3 class="info-card__title">Subsides possibles</h3>
-          <p class="info-card__desc">En fonction de votre revenu, vous pouvez bénéficier de subsides cantonaux pour réduire le coût de votre prime mensuelle.</p>
+          <h3 class="info-card__title">Meilleures primes</h3>
+          <p class="info-card__desc">En choisissant la caisse au préalable, vous avez le temps de comparer sereinement toutes les offres pour trouver la prime la plus avantageuse.</p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <h3 class="info-card__title">Sérénité pour les parents</h3>
+          <p class="info-card__desc">Gérez cette démarche administrative avant l'arrivée du bébé, et profitez pleinement des premiers moments en famille.</p>
         </div>
 
       </div>
@@ -338,23 +295,23 @@
   <!-- COMMENT ÇA MARCHE -->
   <section class="section etapes-am">
     <div class="container">
-      <h2 class="section__title">Comment nous vous aidons</h2>
-      <p class="section__sub">Trois étapes pour trouver la meilleure caisse maladie dès votre arrivée.</p>
+      <h2 class="section__title">Comment nous vous guidons</h2>
+      <p class="section__sub">Trois étapes simples pour assurer votre bébé avant sa naissance.</p>
       <div class="etapes-am__grid">
         <div class="etape-am">
           <div class="etape-am__num">1</div>
           <h4 class="etape-am__title">Vous remplissez le formulaire</h4>
-          <p class="etape-am__desc">Indiquez vos informations personnelles et votre situation. Prend moins de 2 minutes.</p>
+          <p class="etape-am__desc">Indiquez la date prévue d'accouchement et votre situation actuelle. Prend moins de 2 minutes.</p>
         </div>
         <div class="etape-am">
           <div class="etape-am__num">2</div>
-          <h4 class="etape-am__title">Nous analysons les options</h4>
-          <p class="etape-am__desc">Notre expert compare toutes les caisses disponibles dans votre canton pour vous trouver la meilleure offre.</p>
+          <h4 class="etape-am__title">Nous comparons les caisses</h4>
+          <p class="etape-am__desc">Notre expert analyse les meilleures options pour votre canton et votre situation familiale.</p>
         </div>
         <div class="etape-am">
           <div class="etape-am__num">3</div>
-          <h4 class="etape-am__title">Votre affiliation est faite</h4>
-          <p class="etape-am__desc">Nous vous accompagnons dans toutes les démarches administratives et votre couverture démarre dès votre arrivée.</p>
+          <h4 class="etape-am__title">Votre bébé est assuré</h4>
+          <p class="etape-am__desc">L'affiliation est faite avant la naissance. Votre enfant est couvert dès le premier jour, sans surprise.</p>
         </div>
       </div>
     </div>
@@ -364,99 +321,94 @@
   <section class="section formulaire-am" id="formulaire">
     <div class="container">
       <div class="form-card-am">
-        <h2 class="form-card-am__title">Votre inscription à l'assurance maladie</h2>
-        <form id="naForm" onsubmit="submitNA(event)">
+        <h2 class="form-card-am__title">Votre demande d'assurance pré-natale</h2>
+        <form id="pnForm" onsubmit="submitPN(event)">
           <div class="form-grid-am">
 
-            <!-- Prénom + Nom -->
+            <!-- Prénom + Nom du preneur -->
             <div class="fg-am">
-              <label for="na_prenom">Prénom *</label>
-              <input type="text" id="na_prenom" placeholder="Jean" required />
+              <label for="pn_prenom">Prénom du preneur d'assurance *</label>
+              <input type="text" id="pn_prenom" placeholder="Marie" required />
             </div>
             <div class="fg-am">
-              <label for="na_nom">Nom *</label>
-              <input type="text" id="na_nom" placeholder="Dupont" required />
+              <label for="pn_nom">Nom du preneur d'assurance *</label>
+              <input type="text" id="pn_nom" placeholder="Dupont" required />
             </div>
 
-            <!-- Date de naissance -->
+            <!-- Date de naissance du preneur -->
             <div class="fg-am">
-              <label for="na_naissance">Date de naissance *</label>
-              <input type="date" id="na_naissance" required />
+              <label for="pn_naissance">Date de naissance du preneur *</label>
+              <input type="date" id="pn_naissance" required />
             </div>
-            <div class="fg-am" style="visibility:hidden;"></div>
 
-            <!-- Adresse -->
+            <!-- Date prévue d'accouchement -->
+            <div class="fg-am">
+              <label for="pn_accouchement">Date prévue d'accouchement *</label>
+              <input type="date" id="pn_accouchement" required />
+            </div>
+
+            <!-- Prénom du bébé (optionnel) -->
             <div class="fg-am fg-am--full">
-              <label for="na_adresse">Adresse complète (rue et numéro) *</label>
-              <input type="text" id="na_adresse" placeholder="Rue des Fleurs 12" required />
-            </div>
-            <div class="fg-am">
-              <label for="na_npa">NPA *</label>
-              <input type="text" id="na_npa" placeholder="1000" maxlength="4" required />
-            </div>
-            <div class="fg-am">
-              <label for="na_localite">Localité *</label>
-              <input type="text" id="na_localite" placeholder="Lausanne" required />
+              <label for="pn_bebe">Prénom du bébé (si déjà choisi) <span style="font-weight:400;color:var(--text-light);">(optionnel)</span></label>
+              <input type="text" id="pn_bebe" placeholder="Ex : Léa, Noah…" />
             </div>
 
-            <!-- Toggle Déjà inscrit -->
-            <div class="fg-am fg-am--full">
-              <label style="margin-bottom:10px;">Déjà inscrit à la commune&nbsp;? *</label>
-              <div class="toggle-oui-non">
-                <label class="toggle-btn">
-                  <input type="radio" name="na_inscrit" value="oui" onchange="onInscritCommune()" />
-                  <span>Oui</span>
-                </label>
-                <label class="toggle-btn">
-                  <input type="radio" name="na_inscrit" value="non" onchange="onInscritCommune()" />
-                  <span>Non</span>
-                </label>
-              </div>
-              <!-- Champs conditionnels -->
-              <div class="permis-fields" id="permis-fields">
-                <div class="fg-am">
-                  <label for="na_permis">Type de permis reçu *</label>
-                  <select id="na_permis">
-                    <option value="">Choisir…</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="G">G</option>
-                    <option value="L">L</option>
-                    <option value="F">F</option>
-                    <option value="Autre">Autre</option>
-                  </select>
-                </div>
-                <div class="fg-am">
-                  <label for="na_date_entree">Date d'entrée en Suisse / d'inscription *</label>
-                  <input type="date" id="na_date_entree" />
-                </div>
-              </div>
-            </div>
-
-            <!-- Nombre de personnes -->
-            <div class="fg-am fg-am--full">
-              <label for="na_nb">Nombre de personnes à assurer *</label>
-              <select id="na_nb" onchange="onNbChangeNA()" required>
+            <!-- Caisse LAMal + LCA -->
+            <div class="fg-am">
+              <label for="pn_lamal_caisse">Caisse LAMal actuelle *</label>
+              <select id="pn_lamal_caisse" onchange="syncPNLca()" required>
                 <option value="">Choisir…</option>
-                <option value="1">1 personne</option>
-                <option value="2">2 personnes</option>
-                <option value="3">3 personnes</option>
-                <option value="4">4 personnes</option>
-                <option value="5">5 personnes et plus</option>
+                <option>Swica</option><option>CSS</option><option>Helsana</option>
+                <option>Concordia</option><option>Groupe Mutuel</option><option>Assura</option>
+                <option>Visana</option><option>KPT</option><option>Sanitas</option>
+                <option>Atupri</option><option>Aquilana</option><option>EGK</option>
+                <option>Sana24</option><option>Sympany</option><option>Arcosana</option>
+                <option>Avenir</option><option>Easy Sana</option><option>First</option>
+                <option>Mutuel Assurance</option><option>Philos</option>
+                <option>AMB Assurances</option><option>CMBB</option>
+                <option>Caisse-maladie de la Vallée</option>
+                <option>Caisse Maladie Universa</option><option>Autre</option>
               </select>
             </div>
+            <div class="fg-am">
+              <label for="pn_lca_caisse">Caisse LCA actuelle</label>
+              <select id="pn_lca_caisse">
+                <option value="">Choisir…</option>
+                <option>Swica</option><option>CSS</option><option>Helsana</option>
+                <option>Concordia</option><option>Groupe Mutuel</option><option>Assura</option>
+                <option>Visana</option><option>KPT</option><option>Sanitas</option>
+                <option>Atupri</option><option>Aquilana</option><option>EGK</option>
+                <option>Sana24</option><option>Sympany</option><option>Arcosana</option>
+                <option>Avenir</option><option>Easy Sana</option><option>First</option>
+                <option>Mutuel Assurance</option><option>Philos</option>
+                <option>AMB Assurances</option><option>CMBB</option>
+                <option>Caisse-maladie de la Vallée</option>
+                <option>Caisse Maladie Universa</option><option>Autre</option>
+              </select>
+              <div class="lca-same-wrap">
+                <input type="checkbox" id="pn_lca_same" onchange="togglePNLcaSame()" />
+                <label for="pn_lca_same">Même caisse que LAMal</label>
+              </div>
+            </div>
 
-            <!-- Personnes supplémentaires -->
-            <div class="fg-am fg-am--full" id="na-extra-personnes"></div>
+            <!-- NPA + Localité -->
+            <div class="fg-am">
+              <label for="pn_npa">NPA *</label>
+              <input type="number" id="pn_npa" placeholder="1000" min="1000" max="9999" required />
+            </div>
+            <div class="fg-am">
+              <label for="pn_localite">Localité *</label>
+              <input type="text" id="pn_localite" placeholder="Lausanne" required />
+            </div>
 
             <!-- Téléphone + Email -->
             <div class="fg-am">
-              <label for="na_tel">Téléphone *</label>
-              <input type="tel" id="na_tel" placeholder="+41 79 000 00 00" required />
+              <label for="pn_tel">Téléphone *</label>
+              <input type="tel" id="pn_tel" placeholder="+41 79 000 00 00" required />
             </div>
             <div class="fg-am">
-              <label for="na_email">Email *</label>
-              <input type="email" id="na_email" placeholder="jean@exemple.ch" required />
+              <label for="pn_email">Email *</label>
+              <input type="email" id="pn_email" placeholder="marie@exemple.ch" required />
             </div>
 
             <!-- RGPD -->
@@ -465,16 +417,16 @@
               <label for="marketing">J'accepte de recevoir des offres, conseils et actualités personnalisés par e-mail. <span style="color: var(--text-light); font-size: 0.75rem;">(optionnel)</span></label>
             </div>
             <div class="form-rgpd-am">
-              <input type="checkbox" id="na_rgpd" required />
-              <label for="na_rgpd">J'accepte que mes données soient utilisées pour traiter ma demande d'affiliation. <a href="confidentialite.html">Politique de confidentialité</a></label>
+              <input type="checkbox" id="pn_rgpd" required />
+              <label for="pn_rgpd">J'accepte que mes données soient utilisées pour traiter ma demande de conseil pré-natal. <a href="confidentialite.html">Politique de confidentialité</a></label>
             </div>
 
             <div class="form-submit-am">
-              <button type="submit" class="btn--green">Demander mon affiliation</button>
+              <button type="submit" class="btn--green">Demander mon conseil pré-natal</button>
             </div>
 
-            <div class="form-success-am" id="naSuccess">
-              <p>✓ Votre demande a bien été reçue. Notre expert vous contacte sous 24h pour finaliser votre affiliation à l'assurance maladie suisse.</p>
+            <div class="form-success-am" id="pnSuccess">
+              <p>✓ Votre demande a bien été reçue. Notre expert vous contacte sous 24h pour vous guider dans l'affiliation pré-natale de votre bébé.</p>
             </div>
 
           </div>
@@ -491,34 +443,34 @@
       <div class="temoignages__grid">
         <div class="temoignage">
           <div class="temoignage__stars">★★★★★</div>
-          <p class="temoignage__quote">"Arrivée en Suisse sans rien comprendre au système. Romero Finances m'a guidée pas à pas pour mon affiliation. Service impeccable."</p>
+          <p class="temoignage__quote">"On ne savait pas qu'on pouvait assurer notre bébé avant la naissance. Romero Finances nous a tout expliqué et tout organisé. Merci !"</p>
           <div class="temoignage__author">
-            <div class="avatar avatar--green">FE</div>
+            <div class="avatar avatar--green">CD</div>
             <div>
-              <strong>Fatima El Amrani</strong>
-              <span>Lausanne · Nouveau arrivé</span>
+              <strong>Camille Dubois</strong>
+              <span>Vaud · Assurance pré-natale</span>
             </div>
           </div>
         </div>
         <div class="temoignage">
           <div class="temoignage__stars">★★★★★</div>
-          <p class="temoignage__quote">"Très professionnel. Tout a été expliqué clairement, sans jargon. Je me suis senti accompagné dès le premier contact."</p>
+          <p class="temoignage__quote">"Service chaleureux et efficace. Les conseils étaient clairs et on a trouvé la meilleure caisse pour notre enfant bien avant l'accouchement."</p>
           <div class="temoignage__author">
-            <div class="avatar avatar--blue">RF</div>
+            <div class="avatar avatar--blue">LS</div>
             <div>
-              <strong>Ricardo Ferreira</strong>
-              <span>Genève · Nouveau arrivé</span>
+              <strong>Laura Schneider</strong>
+              <span>Berne · Assurance pré-natale</span>
             </div>
           </div>
         </div>
         <div class="temoignage">
           <div class="temoignage__stars">★★★★★</div>
-          <p class="temoignage__quote">"Processus rapide et sans stress. Le conseiller a répondu à toutes mes questions et mon assurance était réglée en quelques jours."</p>
+          <p class="temoignage__quote">"Conseiller disponible, réactif et très sympathique. On se sentait vraiment bien accompagnés pendant cette période importante."</p>
           <div class="temoignage__author">
-            <div class="avatar avatar--amber">YT</div>
+            <div class="avatar avatar--amber">MO</div>
             <div>
-              <strong>Yuki Tanaka</strong>
-              <span>Zurich · Nouveau arrivé</span>
+              <strong>Marina Oliveira</strong>
+              <span>Genève · Assurance pré-natale</span>
             </div>
           </div>
         </div>
@@ -534,37 +486,37 @@
 
         <div class="faq__item" onclick="toggleFaq(this)">
           <div class="faq__question">
-            <span>Quand dois-je m'affilier à une caisse maladie ?</span>
+            <span>À partir de quand peut-on affilier un bébé ?</span>
             <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
           <div class="faq__answer">
-            <p>Dès votre arrivée en Suisse, vous avez 3 mois pour choisir une caisse maladie et vous affilier. L'affiliation est rétroactive à votre date d'arrivée — vous êtes donc couvert dès le premier jour, même si vous choisissez votre caisse plus tard dans ce délai.</p>
+            <p>En Suisse, il est possible de soumettre une demande d'affiliation avant la naissance. La couverture prend effet dès la naissance de l'enfant. Plus vous anticipez, plus vous avez de temps pour comparer les offres sereinement.</p>
           </div>
         </div>
 
         <div class="faq__item" onclick="toggleFaq(this)">
           <div class="faq__question">
-            <span>Que se passe-t-il si je dépasse les 3 mois ?</span>
+            <span>Doit-on choisir la même caisse que les parents ?</span>
             <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
           <div class="faq__answer">
-            <p>Si vous ne choisissez pas de caisse dans le délai, l'autorité cantonale peut vous en attribuer une d'office, sans garantie que ce soit la plus avantageuse pour votre situation. Il est donc important d'agir rapidement.</p>
+            <p>Non, l'enfant peut être assuré auprès d'une caisse différente de celle des parents. Il est parfois avantageux de choisir une caisse spécialisée dans les assurances pédiatriques ou offrant de meilleures primes pour les enfants.</p>
           </div>
         </div>
 
         <div class="faq__item" onclick="toggleFaq(this)">
           <div class="faq__question">
-            <span>Ai-je droit à des subsides ?</span>
+            <span>La franchise pour un enfant est-elle différente ?</span>
             <svg class="faq__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
           <div class="faq__answer">
-            <p>En fonction de votre revenu et de votre canton de résidence, vous pouvez bénéficier de subsides qui réduisent votre prime mensuelle. Notre expert vérifiera votre éligibilité lors de votre demande d'affiliation.</p>
+            <p>Oui, pour les enfants de moins de 18 ans, la franchise minimale LAMal est de 0 CHF. Les primes sont également réduites par rapport aux adultes. Notre expert vous conseillera sur la combinaison la plus avantageuse.</p>
           </div>
         </div>
 
@@ -576,7 +528,7 @@
             </svg>
           </div>
           <div class="faq__answer">
-            <p>Oui, notre service d'accompagnement est entièrement gratuit pour vous. Nous sommes rémunérés par les caisses maladie partenaires. Aucun frais, aucune obligation.</p>
+            <p>Oui, notre service de conseil est entièrement gratuit pour vous. Nous sommes rémunérés par les caisses maladie partenaires. Aucun frais, aucune obligation de votre part.</p>
           </div>
         </div>
 
@@ -587,9 +539,9 @@
   <!-- CTA FINAL -->
   <section class="cta-vert">
     <div class="container container--sm">
-      <h2 class="cta-vert__title">Affiliez-vous avant la fin de votre délai</h2>
-      <p class="cta-vert__sub">Accompagnement gratuit · Démarches simplifiées · Réponse sous 24h</p>
-      <a href="#formulaire" class="btn btn--white btn--lg">Demander mon affiliation</a>
+      <h2 class="cta-vert__title">Assurez votre bébé avant sa naissance</h2>
+      <p class="cta-vert__sub">Conseil gratuit · Démarches simplifiées · Réponse sous 24h</p>
+      <a href="#formulaire" class="btn btn--white btn--lg">Demander mon conseil pré-natal</a>
     </div>
   </section>
 
@@ -644,42 +596,27 @@
 
   <script src="/js/main.js"></script>
   <script>
-    function buildNAPersonneBlock(n) {
-      return '<div class="na-personne-block" id="na-p' + n + '-block">' +
-        '<div class="na-personne-block__header">Personne ' + n + '</div>' +
-        '<div class="na-personne-inner">' +
-          '<div class="fg-am"><label>Prénom *</label>' +
-            '<input type="text" id="na_p' + n + '_prenom" name="na_p' + n + '_prenom" placeholder="Prénom" /></div>' +
-          '<div class="fg-am"><label>Nom *</label>' +
-            '<input type="text" id="na_p' + n + '_nom" name="na_p' + n + '_nom" placeholder="Nom" /></div>' +
-          '<div class="fg-am"><label>Date de naissance *</label>' +
-            '<input type="date" id="na_p' + n + '_naissance" name="na_p' + n + '_naissance" /></div>' +
-        '</div>' +
-      '</div>';
-    }
-
-    function onNbChangeNA() {
-      var nb = Math.min(parseInt(document.getElementById('na_nb').value) || 1, 5);
-      var container = document.getElementById('na-extra-personnes');
-      container.innerHTML = '';
-      for (var i = 2; i <= nb; i++) {
-        container.insertAdjacentHTML('beforeend', buildNAPersonneBlock(i));
+    function syncPNLca() {
+      var cb = document.getElementById('pn_lca_same');
+      if (cb && cb.checked) {
+        document.getElementById('pn_lca_caisse').value = document.getElementById('pn_lamal_caisse').value;
       }
     }
 
-    function onInscritCommune() {
-      var selected = document.querySelector('input[name="na_inscrit"]:checked');
-      var fields = document.getElementById('permis-fields');
-      if (selected && selected.value === 'oui') {
-        fields.classList.add('visible');
+    function togglePNLcaSame() {
+      var cb = document.getElementById('pn_lca_same');
+      var sel = document.getElementById('pn_lca_caisse');
+      if (cb.checked) {
+        sel.value = document.getElementById('pn_lamal_caisse').value;
+        sel.disabled = true;
       } else {
-        fields.classList.remove('visible');
+        sel.disabled = false;
       }
     }
 
-    function submitNA(e) {
+    function submitPN(e) {
       e.preventDefault();
-      var fields = ['na_prenom', 'na_nom', 'na_naissance', 'na_adresse', 'na_npa', 'na_localite', 'na_nb', 'na_tel', 'na_email'];
+      var fields = ['pn_prenom', 'pn_nom', 'pn_naissance', 'pn_accouchement', 'pn_lamal_caisse', 'pn_npa', 'pn_localite', 'pn_tel', 'pn_email'];
       var valid = true;
       fields.forEach(function(id) {
         var el = document.getElementById(id);
@@ -688,19 +625,7 @@
           valid = false;
         }
       });
-      var nb = Math.min(parseInt(document.getElementById('na_nb').value) || 1, 5);
-      for (var i = 2; i <= nb; i++) {
-        ['na_p' + i + '_prenom', 'na_p' + i + '_nom', 'na_p' + i + '_naissance'].forEach(function(id) {
-          var el = document.getElementById(id);
-          if (!el || !el.value.trim()) {
-            if (el) { el.style.borderColor = '#e53e3e'; el.addEventListener('input', function() { el.style.borderColor = ''; }, { once: true }); }
-            valid = false;
-          }
-        });
-      }
-      var inscrit = document.querySelector('input[name="na_inscrit"]:checked');
-      if (!inscrit) { valid = false; }
-      var rgpd = document.getElementById('na_rgpd');
+      var rgpd = document.getElementById('pn_rgpd');
       if (!rgpd.checked) {
         rgpd.style.outline = '2px solid #e53e3e';
         rgpd.addEventListener('change', function() { rgpd.style.outline = ''; }, { once: true });
@@ -712,23 +637,23 @@
       var origText = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = '···'; }
 
-      var errEl = document.getElementById('na-err');
+      var errEl = document.getElementById('pn-err');
       if (!errEl) {
         errEl = document.createElement('p');
-        errEl.id = 'na-err';
+        errEl.id = 'pn-err';
         errEl.style.cssText = 'color:#e53e3e;font-size:.84rem;margin-top:10px;display:none;text-align:center;';
         errEl.textContent = 'Une erreur est survenue. Veuillez réessayer.';
         if (btn && btn.parentNode) btn.parentNode.appendChild(errEl);
       }
       errEl.style.display = 'none';
 
-      var prenom    = document.getElementById('na_prenom').value.trim();
-      var nom       = document.getElementById('na_nom').value.trim();
-      var email     = document.getElementById('na_email').value.trim();
-      var telephone = document.getElementById('na_tel').value.trim();
+      var prenom    = document.getElementById('pn_prenom').value.trim();
+      var nom       = document.getElementById('pn_nom').value.trim();
+      var email     = document.getElementById('pn_email').value.trim();
+      var telephone = document.getElementById('pn_tel').value.trim();
       var marketing = document.getElementById('marketing') ? document.getElementById('marketing').checked : false;
 
-      var skip = ['na_prenom','na_nom','na_email','na_tel','na_rgpd','marketing'];
+      var skip = ['pn_prenom','pn_nom','pn_email','pn_tel','pn_rgpd','marketing'];
       var dados = {};
       e.target.querySelectorAll('input,select,textarea').forEach(function(el) {
         var k = el.name || el.id;
@@ -742,14 +667,14 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.assign({
-          produit: 'assurance-nouveau-arrive', prenom: prenom, nom: nom,
+          produit: 'assurance-prenatale', prenom: prenom, nom: nom,
           email: email, telephone: telephone, marketing: marketing
         }, dados))
       }).then(function(res) {
         return res.json().then(function(d) { return { ok: res.ok, d: d }; });
       }).then(function(r) {
         if (r.ok && r.d.success) {
-          window.location.href = 'merci.html?produit=assurance-nouveau-arrive';
+          window.location.href = 'merci.html?produit=assurance-prenatale';
         } else {
           errEl.style.display = 'block';
           if (btn) { btn.disabled = false; btn.textContent = origText; }
