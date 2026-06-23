@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Politique de Confidentialité | Romero Finances</title>
-  <meta name="description" content="Politique de confidentialité de Romero Finances. Protection de vos données personnelles conformément à la LPD suisse." />
+  <title>Consentement &amp; Clause de Non-Responsabilité | Romero Finances</title>
+  <meta name="description" content="Clause de consentement et de non-responsabilité pour les services de courtage de Romero Finances en Suisse." />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Romero Finances" />
-  <link rel="canonical" href="https://romerofinances.ch/confidentialite.html" />
+  <link rel="canonical" href="https://romerofinances.ch/consentement.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Romero Finances" />
-  <meta property="og:title" content="Politique de Confidentialité | Romero Finances" />
-  <meta property="og:description" content="Politique de confidentialité de Romero Finances. Protection de vos données personnelles conformément à la LPD suisse." />
-  <meta property="og:url" content="https://romerofinances.ch/confidentialite.html" />
+  <meta property="og:title" content="Consentement &amp; Clause de Non-Responsabilité | Romero Finances" />
+  <meta property="og:description" content="Clause de consentement et de non-responsabilité pour les services de courtage de Romero Finances en Suisse." />
+  <meta property="og:url" content="https://romerofinances.ch/consentement.html" />
   <meta property="og:image" content="https://romerofinances.ch/assets/logo.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,16 +28,15 @@
     .legal-body { max-width: 800px; margin: 0 auto; padding: 52px 24px 80px; }
     .legal-article { margin-bottom: 44px; }
     .legal-article h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-    .legal-article h3 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--text); margin: 16px 0 8px; }
     .legal-article p { font-size: 0.96rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 10px; }
     .legal-article ul { padding-left: 20px; margin-bottom: 10px; }
     .legal-article ul li { font-size: 0.96rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 4px; }
     .legal-article a { color: var(--blue); text-decoration: underline; }
-    .rights-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px; }
-    .rights-item { background: var(--blue-pale2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
-    .rights-item strong { display: block; font-size: 0.88rem; color: var(--text); margin-bottom: 4px; }
-    .rights-item span { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
-    @media (max-width: 600px) { .rights-grid { grid-template-columns: 1fr; } }
+    .legal-warn {
+      background: rgba(186,117,23,0.08); border: 1px solid rgba(186,117,23,0.25);
+      border-radius: var(--radius); padding: 16px 20px; margin-top: 16px;
+      font-size: 0.88rem; color: #7a4e10; line-height: 1.65; font-weight: 500;
+    }
   </style>
 </head>
 <body>
@@ -65,15 +64,15 @@
       <!-- Sélecteur de langue -->
       <div class="lang" id="langSwitch">
         <button type="button" class="lang__toggle" aria-label="Choisir la langue" aria-haspopup="true" aria-expanded="false" onclick="toggleLang()">
-          <img src="/assets/flags/fr.svg" alt="" class="lang__flag" />
-          <span class="lang__code">FR</span>
+          <img src="/assets/flags/it.svg" alt="" class="lang__flag" />
+          <span class="lang__code">IT</span>
           <svg class="lang__chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
         <div class="lang__menu" role="menu">
-          <a href="/fr/" class="lang__item lang__item--active" role="menuitem"><img src="/assets/flags/fr.svg" alt="" class="lang__flag" /><span>Français</span></a>
+          <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/fr.svg" alt="" class="lang__flag" /><span>Français</span></a>
           <!-- TODO: apontar para a língua real (/de/, /it/, /en/, /pt/, /es/, /sq/) quando traduzida -->
           <a href="/de/" class="lang__item" role="menuitem"><img src="/assets/flags/de.svg" alt="" class="lang__flag" /><span>Deutsch</span></a>
-          <a href="/it/" class="lang__item" role="menuitem"><img src="/assets/flags/it.svg" alt="" class="lang__flag" /><span>Italiano</span></a>
+          <a href="/it/" class="lang__item lang__item--active" role="menuitem"><img src="/assets/flags/it.svg" alt="" class="lang__flag" /><span>Italiano</span></a>
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/en.svg" alt="" class="lang__flag" /><span>English</span></a>
           <a href="/pt/" class="lang__item" role="menuitem"><img src="/assets/flags/pt.svg" alt="" class="lang__flag" /><span>Português</span></a>
           <a href="/es/" class="lang__item" role="menuitem"><img src="/assets/flags/es.svg" alt="" class="lang__flag" /><span>Español</span></a>
@@ -102,110 +101,69 @@
 
   <div class="legal-hero">
     <div class="legal-hero__inner">
-      <h1 class="legal-hero__title">Politique de confidentialité</h1>
-      <p class="legal-hero__date">Dernière mise à jour : 09 Janvier 2026</p>
+      <h1 class="legal-hero__title">Consentement et Clause de non-responsabilité (Courtage)</h1>
+      <p class="legal-hero__date">État au : 09 Janvier 2026</p>
     </div>
   </div>
 
   <div class="legal-body">
 
     <div class="legal-article">
-      <h2>Art. 1 — Responsable du traitement</h2>
-      <p>Le responsable du traitement des données personnelles collectées via le site <strong>romerofinances.ch</strong> est :</p>
+      <h2>Art. 1 — Examen de la demande et solvabilité</h2>
+      <p>En soumettant une demande via Romero Finances, le demandeur autorise expressément Romero Finances et ses partenaires financiers à :</p>
       <ul>
-        <li><strong>Romero Finances</strong></li>
-        <li>Route des Vuarines 44, 1564 Domdidier, Suisse</li>
-        <li><a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a></li>
+        <li>Consulter les <strong>fichiers ZEK (Zentralstelle für Kreditinformation)</strong> et <strong>IKO (Informationsstelle für Konsumkredit)</strong> afin d'évaluer la solvabilité et l'historique de crédit</li>
+        <li>Contacter l'<strong>employeur</strong> du demandeur pour confirmation des informations professionnelles déclarées</li>
+        <li>Solliciter des informations auprès des <strong>autorités publiques compétentes</strong> (registres officiels, offices des poursuites) dans la mesure permise par la loi</li>
       </ul>
-      <p>Le traitement est effectué conformément à la Loi fédérale sur la protection des données (LPD) du 25 septembre 2020, en vigueur depuis le 1er septembre 2023, ainsi qu'au Règlement général sur la protection des données (RGPD) de l'UE lorsque applicable.</p>
+      <p>Cette autorisation est valable pour la durée du traitement de la demande et peut être révoquée par écrit à tout moment, sous réserve des droits légaux des partenaires financiers.</p>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 2 — Données collectées</h2>
-      <p>Nous collectons les catégories de données suivantes :</p>
-      <h3>Données d'identification</h3>
+      <h2>Art. 2 — Collaboration avec l'intermédiaire</h2>
+      <p>Romero Finances agit exclusivement en qualité d'<strong>intermédiaire indépendant</strong>. À ce titre :</p>
       <ul>
-        <li>Nom, prénom, date de naissance, nationalité, titre de séjour</li>
-        <li>Adresse postale, code postal, commune</li>
-      </ul>
-      <h3>Coordonnées</h3>
-      <ul>
-        <li>Numéro de téléphone, adresse email</li>
-      </ul>
-      <h3>Données financières</h3>
-      <ul>
-        <li>Revenus, charges, situation professionnelle, employeur</li>
-        <li>Montant et durée du crédit souhaité, assurances actuelles, primes</li>
-      </ul>
-      <h3>Données de navigation</h3>
-      <ul>
-        <li>Adresse IP, type de navigateur, pages visitées, durée de visite (via cookies)</li>
+        <li>Romero Finances n'accorde pas elle-même de crédit et ne prend pas de décision d'octroi</li>
+        <li>La décision finale d'octroi ou de refus appartient exclusivement à l'établissement prêteur partenaire</li>
+        <li>Les conditions définitives (taux, durée, montant) sont fixées par l'établissement prêteur après analyse complète du dossier</li>
+        <li>Romero Finances est rémunérée par les partenaires financiers uniquement en cas d'acceptation et de signature d'un contrat — aucun frais n'est facturé au demandeur</li>
       </ul>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 3 — Finalités du traitement</h2>
-      <p>Vos données sont traitées aux fins suivantes :</p>
+      <h2>Art. 3 — Informations sur le partenaire conjoint</h2>
+      <p>Lorsque la demande implique un co-emprunteur ou un partenaire conjoint, le demandeur principal déclare :</p>
       <ul>
-        <li>Évaluation de la solvabilité et traitement des demandes de crédit (obligation légale LCC)</li>
-        <li>Courtage en assurances et prévoyance</li>
-        <li>Communication relative à votre dossier</li>
-        <li>Marketing direct avec votre consentement (offres personnalisées, newsletter)</li>
-        <li>Conformité légale et réglementaire</li>
+        <li>Avoir informé son partenaire conjoint de la demande en cours et du traitement de ses données personnelles</li>
+        <li>Disposer du consentement de son partenaire conjoint pour la transmission de ses informations aux fins d'évaluation de la demande</li>
+        <li>S'engager à informer Romero Finances de tout changement de situation susceptible d'influencer la demande</li>
       </ul>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 4 — Partage des données</h2>
-      <p>Vos données peuvent être partagées avec :</p>
+      <h2>Art. 4 — Traitement des données et Marketing</h2>
+      <p>Le demandeur consent au traitement de ses données personnelles conformément à la <a href="confidentialite.html">Politique de confidentialité</a> de Romero Finances, notamment pour :</p>
       <ul>
-        <li><strong>Établissements bancaires et partenaires financiers</strong> — dans le cadre de l'instruction de votre demande de crédit</li>
-        <li><strong>ZEK / IKO</strong> — centrales d'information sur le crédit, conformément à la LCC</li>
-        <li><strong>Compagnies d'assurance partenaires</strong> — pour l'établissement d'offres personnalisées</li>
-        <li><strong>Sous-traitants techniques</strong> — hébergement, outils CRM, sous contrats garantissant la confidentialité</li>
-        <li><strong>Autorités publiques</strong> — sur réquisition légale uniquement</li>
+        <li>L'instruction et le suivi de la demande</li>
+        <li>La transmission aux partenaires financiers concernés</li>
+        <li>La réception de communications commerciales personnalisées (offres de crédit, assurances, prévoyance) par email, SMS ou téléphone</li>
       </ul>
-      <p>Aucune donnée n'est vendue à des tiers à des fins commerciales.</p>
+      <p>Le consentement aux communications marketing peut être révoqué à tout moment en adressant un email à <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a> avec pour objet « Révocation de consentement marketing ».</p>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 5 — Sécurité des données</h2>
-      <p>Romero Finances met en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, perte ou destruction :</p>
+      <h2>Art. 5 — Communication électronique et Externalisation</h2>
+      <p>Le demandeur accepte que Romero Finances puisse :</p>
       <ul>
-        <li>Chiffrement SSL/TLS des transmissions</li>
-        <li>Pare-feu et contrôles d'accès aux systèmes internes</li>
-        <li>Accès restreint aux personnes habilitées</li>
-        <li>Sauvegardes régulières</li>
+        <li>Communiquer avec lui par voie électronique (email, SMS, portail en ligne) pour le traitement de son dossier</li>
+        <li>Faire appel à des prestataires techniques tiers (hébergement, CRM, traitement de documents) dans le cadre strict du traitement de sa demande, sous garantie contractuelle de confidentialité</li>
+        <li>Transmettre les données du dossier à des partenaires hors de Suisse, pour autant que ces pays offrent un niveau de protection des données adéquat au sens de la LPD</li>
       </ul>
     </div>
 
-    <div class="legal-article">
-      <h2>Art. 6 — Vos droits (LPD / RGPD)</h2>
-      <p>Conformément à la LPD et, le cas échéant, au RGPD, vous disposez des droits suivants :</p>
-      <div class="rights-grid">
-        <div class="rights-item"><strong>Droit d'accès</strong><span>Obtenir une copie de vos données personnelles que nous détenons.</span></div>
-        <div class="rights-item"><strong>Droit de rectification</strong><span>Faire corriger des données inexactes ou incomplètes.</span></div>
-        <div class="rights-item"><strong>Droit à l'effacement</strong><span>Demander la suppression de vos données, sous réserve des obligations légales.</span></div>
-        <div class="rights-item"><strong>Droit de retrait du consentement</strong><span>Révoquer à tout moment un consentement donné pour le marketing.</span></div>
-        <div class="rights-item"><strong>Droit d'opposition</strong><span>Vous opposer au traitement de vos données à des fins de marketing direct.</span></div>
-        <div class="rights-item"><strong>Droit à la portabilité</strong><span>Recevoir vos données dans un format structuré et lisible par machine.</span></div>
-      </div>
-      <p style="margin-top:14px;">Pour exercer ces droits, contactez-nous à <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a>.</p>
-    </div>
-
-    <div class="legal-article">
-      <h2>Art. 7 — Cookies</h2>
-      <p>Notre site utilise des cookies pour améliorer votre expérience et analyser l'audience. Pour plus d'informations, consultez notre <a href="cookies.html">Politique de cookies</a>.</p>
-    </div>
-
-    <div class="legal-article">
-      <h2>Art. 8 — Durée de conservation</h2>
-      <p>Vos données sont conservées pendant une durée de <strong>10 ans</strong> à compter de la clôture de votre dossier, conformément aux obligations légales suisses en matière de crédit et d'assurance. Les données de navigation sont conservées 13 mois maximum.</p>
-    </div>
-
-    <div class="legal-article">
-      <h2>Art. 9 — Modifications</h2>
-      <p>La présente politique peut être modifiée à tout moment. Toute modification substantielle sera communiquée par email aux personnes concernées. La version en vigueur est celle publiée sur le Site avec la date de mise à jour indiquée en haut de page.</p>
+    <div class="legal-warn">
+      <strong>Avertissement légal — Loi sur le crédit à la consommation (LCC) :</strong><br />
+      Conformément à l'art. 3 LCC, l'octroi d'un crédit est interdit s'il entraîne le surendettement du consommateur. Romero Finances et ses partenaires s'engagent à n'accorder aucun crédit susceptible de placer le demandeur en situation de surendettement. Toute demande fait l'objet d'une évaluation rigoureuse de la capacité de remboursement. Le demandeur est tenu de fournir des informations exactes et complètes sur sa situation financière.
     </div>
 
   </div>

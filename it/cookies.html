@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Politique de Confidentialité | Romero Finances</title>
-  <meta name="description" content="Politique de confidentialité de Romero Finances. Protection de vos données personnelles conformément à la LPD suisse." />
+  <title>Politique de Cookies | Romero Finances</title>
+  <meta name="description" content="Politique d'utilisation des cookies sur le site Romero Finances." />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Romero Finances" />
-  <link rel="canonical" href="https://romerofinances.ch/confidentialite.html" />
+  <link rel="canonical" href="https://romerofinances.ch/cookies.html" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Romero Finances" />
-  <meta property="og:title" content="Politique de Confidentialité | Romero Finances" />
-  <meta property="og:description" content="Politique de confidentialité de Romero Finances. Protection de vos données personnelles conformément à la LPD suisse." />
-  <meta property="og:url" content="https://romerofinances.ch/confidentialite.html" />
+  <meta property="og:title" content="Politique de Cookies | Romero Finances" />
+  <meta property="og:description" content="Politique d'utilisation des cookies sur le site Romero Finances." />
+  <meta property="og:url" content="https://romerofinances.ch/cookies.html" />
   <meta property="og:image" content="https://romerofinances.ch/assets/logo.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,16 +28,22 @@
     .legal-body { max-width: 800px; margin: 0 auto; padding: 52px 24px 80px; }
     .legal-article { margin-bottom: 44px; }
     .legal-article h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-    .legal-article h3 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--text); margin: 16px 0 8px; }
     .legal-article p { font-size: 0.96rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 10px; }
     .legal-article ul { padding-left: 20px; margin-bottom: 10px; }
     .legal-article ul li { font-size: 0.96rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 4px; }
     .legal-article a { color: var(--blue); text-decoration: underline; }
-    .rights-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px; }
-    .rights-item { background: var(--blue-pale2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
-    .rights-item strong { display: block; font-size: 0.88rem; color: var(--text); margin-bottom: 4px; }
-    .rights-item span { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
-    @media (max-width: 600px) { .rights-grid { grid-template-columns: 1fr; } }
+    .cookie-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.88rem; }
+    .cookie-table th { background: var(--blue-pale); color: var(--blue); font-weight: 700; text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border); }
+    .cookie-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+    .cookie-table tr:last-child td { border-bottom: none; }
+    .cookie-badge {
+      display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 2px 8px;
+      border-radius: 50px; white-space: nowrap;
+    }
+    .badge-nec  { background: rgba(13,158,107,0.1); color: #0a7a53; }
+    .badge-perf { background: var(--blue-pale); color: var(--blue); }
+    .badge-fonc { background: rgba(186,117,23,0.1); color: #7a4e10; }
+    .badge-mktg { background: rgba(185,64,32,0.1); color: #7a2510; }
   </style>
 </head>
 <body>
@@ -65,15 +71,15 @@
       <!-- Sélecteur de langue -->
       <div class="lang" id="langSwitch">
         <button type="button" class="lang__toggle" aria-label="Choisir la langue" aria-haspopup="true" aria-expanded="false" onclick="toggleLang()">
-          <img src="/assets/flags/fr.svg" alt="" class="lang__flag" />
-          <span class="lang__code">FR</span>
+          <img src="/assets/flags/it.svg" alt="" class="lang__flag" />
+          <span class="lang__code">IT</span>
           <svg class="lang__chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </button>
         <div class="lang__menu" role="menu">
-          <a href="/fr/" class="lang__item lang__item--active" role="menuitem"><img src="/assets/flags/fr.svg" alt="" class="lang__flag" /><span>Français</span></a>
+          <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/fr.svg" alt="" class="lang__flag" /><span>Français</span></a>
           <!-- TODO: apontar para a língua real (/de/, /it/, /en/, /pt/, /es/, /sq/) quando traduzida -->
           <a href="/de/" class="lang__item" role="menuitem"><img src="/assets/flags/de.svg" alt="" class="lang__flag" /><span>Deutsch</span></a>
-          <a href="/it/" class="lang__item" role="menuitem"><img src="/assets/flags/it.svg" alt="" class="lang__flag" /><span>Italiano</span></a>
+          <a href="/it/" class="lang__item lang__item--active" role="menuitem"><img src="/assets/flags/it.svg" alt="" class="lang__flag" /><span>Italiano</span></a>
           <a href="/fr/" class="lang__item" role="menuitem"><img src="/assets/flags/en.svg" alt="" class="lang__flag" /><span>English</span></a>
           <a href="/pt/" class="lang__item" role="menuitem"><img src="/assets/flags/pt.svg" alt="" class="lang__flag" /><span>Português</span></a>
           <a href="/es/" class="lang__item" role="menuitem"><img src="/assets/flags/es.svg" alt="" class="lang__flag" /><span>Español</span></a>
@@ -102,7 +108,7 @@
 
   <div class="legal-hero">
     <div class="legal-hero__inner">
-      <h1 class="legal-hero__title">Politique de confidentialité</h1>
+      <h1 class="legal-hero__title">Politique de Cookies</h1>
       <p class="legal-hero__date">Dernière mise à jour : 09 Janvier 2026</p>
     </div>
   </div>
@@ -110,102 +116,86 @@
   <div class="legal-body">
 
     <div class="legal-article">
-      <h2>Art. 1 — Responsable du traitement</h2>
-      <p>Le responsable du traitement des données personnelles collectées via le site <strong>romerofinances.ch</strong> est :</p>
-      <ul>
-        <li><strong>Romero Finances</strong></li>
-        <li>Route des Vuarines 44, 1564 Domdidier, Suisse</li>
-        <li><a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a></li>
-      </ul>
-      <p>Le traitement est effectué conformément à la Loi fédérale sur la protection des données (LPD) du 25 septembre 2020, en vigueur depuis le 1er septembre 2023, ainsi qu'au Règlement général sur la protection des données (RGPD) de l'UE lorsque applicable.</p>
+      <h2>Art. 1 — Que sont les cookies ?</h2>
+      <p>Les cookies sont de petits fichiers texte déposés sur votre appareil (ordinateur, smartphone, tablette) lors de votre visite sur un site internet. Ils permettent au site de mémoriser vos actions et préférences pendant une certaine durée, afin que vous n'ayez pas à les saisir à nouveau lors de vos prochaines visites.</p>
+      <p>Certains cookies sont indispensables au fonctionnement du site, d'autres servent à améliorer l'expérience utilisateur ou à des fins analytiques et publicitaires.</p>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 2 — Données collectées</h2>
-      <p>Nous collectons les catégories de données suivantes :</p>
-      <h3>Données d'identification</h3>
-      <ul>
-        <li>Nom, prénom, date de naissance, nationalité, titre de séjour</li>
-        <li>Adresse postale, code postal, commune</li>
-      </ul>
-      <h3>Coordonnées</h3>
-      <ul>
-        <li>Numéro de téléphone, adresse email</li>
-      </ul>
-      <h3>Données financières</h3>
-      <ul>
-        <li>Revenus, charges, situation professionnelle, employeur</li>
-        <li>Montant et durée du crédit souhaité, assurances actuelles, primes</li>
-      </ul>
-      <h3>Données de navigation</h3>
-      <ul>
-        <li>Adresse IP, type de navigateur, pages visitées, durée de visite (via cookies)</li>
-      </ul>
+      <h2>Art. 2 — Types de cookies utilisés</h2>
+      <table class="cookie-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Durée</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="cookie-badge badge-nec">Strictement nécessaires</span></td>
+            <td>Indispensables au fonctionnement du site (session, sécurité, mémorisation du formulaire). Ne peuvent pas être désactivés.</td>
+            <td>Session</td>
+          </tr>
+          <tr>
+            <td><span class="cookie-badge badge-perf">Performance</span></td>
+            <td>Collectent des données anonymes sur la façon dont les visiteurs utilisent le site (pages visitées, temps de chargement). Permettent d'améliorer les performances.</td>
+            <td>13 mois</td>
+          </tr>
+          <tr>
+            <td><span class="cookie-badge badge-fonc">Fonctionnalité</span></td>
+            <td>Mémorisent vos préférences (langue, région) pour personnaliser votre expérience.</td>
+            <td>12 mois</td>
+          </tr>
+          <tr>
+            <td><span class="cookie-badge badge-mktg">Marketing</span></td>
+            <td>Suivent votre navigation pour afficher des publicités personnalisées sur d'autres sites. Activés uniquement avec votre consentement.</td>
+            <td>90 jours</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 3 — Finalités du traitement</h2>
-      <p>Vos données sont traitées aux fins suivantes :</p>
+      <h2>Art. 3 — Cookies tiers</h2>
+      <p>Nous utilisons des services tiers qui déposent leurs propres cookies :</p>
       <ul>
-        <li>Évaluation de la solvabilité et traitement des demandes de crédit (obligation légale LCC)</li>
-        <li>Courtage en assurances et prévoyance</li>
-        <li>Communication relative à votre dossier</li>
-        <li>Marketing direct avec votre consentement (offres personnalisées, newsletter)</li>
-        <li>Conformité légale et réglementaire</li>
-      </ul>
-    </div>
-
-    <div class="legal-article">
-      <h2>Art. 4 — Partage des données</h2>
-      <p>Vos données peuvent être partagées avec :</p>
-      <ul>
-        <li><strong>Établissements bancaires et partenaires financiers</strong> — dans le cadre de l'instruction de votre demande de crédit</li>
-        <li><strong>ZEK / IKO</strong> — centrales d'information sur le crédit, conformément à la LCC</li>
-        <li><strong>Compagnies d'assurance partenaires</strong> — pour l'établissement d'offres personnalisées</li>
-        <li><strong>Sous-traitants techniques</strong> — hébergement, outils CRM, sous contrats garantissant la confidentialité</li>
-        <li><strong>Autorités publiques</strong> — sur réquisition légale uniquement</li>
-      </ul>
-      <p>Aucune donnée n'est vendue à des tiers à des fins commerciales.</p>
-    </div>
-
-    <div class="legal-article">
-      <h2>Art. 5 — Sécurité des données</h2>
-      <p>Romero Finances met en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, perte ou destruction :</p>
-      <ul>
-        <li>Chiffrement SSL/TLS des transmissions</li>
-        <li>Pare-feu et contrôles d'accès aux systèmes internes</li>
-        <li>Accès restreint aux personnes habilitées</li>
-        <li>Sauvegardes régulières</li>
+        <li><strong>Google Analytics</strong> — Mesure d'audience et analyse du comportement des visiteurs. Les données sont anonymisées. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Politique Google</a></li>
+        <li><strong>Facebook Pixel</strong> — Suivi des conversions et retargeting publicitaire sur Meta. Activé uniquement avec votre consentement.</li>
+        <li><strong>LinkedIn Insight Tag</strong> — Analyse des visiteurs provenant de LinkedIn et retargeting B2B. Activé uniquement avec votre consentement.</li>
       </ul>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 6 — Vos droits (LPD / RGPD)</h2>
-      <p>Conformément à la LPD et, le cas échéant, au RGPD, vous disposez des droits suivants :</p>
-      <div class="rights-grid">
-        <div class="rights-item"><strong>Droit d'accès</strong><span>Obtenir une copie de vos données personnelles que nous détenons.</span></div>
-        <div class="rights-item"><strong>Droit de rectification</strong><span>Faire corriger des données inexactes ou incomplètes.</span></div>
-        <div class="rights-item"><strong>Droit à l'effacement</strong><span>Demander la suppression de vos données, sous réserve des obligations légales.</span></div>
-        <div class="rights-item"><strong>Droit de retrait du consentement</strong><span>Révoquer à tout moment un consentement donné pour le marketing.</span></div>
-        <div class="rights-item"><strong>Droit d'opposition</strong><span>Vous opposer au traitement de vos données à des fins de marketing direct.</span></div>
-        <div class="rights-item"><strong>Droit à la portabilité</strong><span>Recevoir vos données dans un format structuré et lisible par machine.</span></div>
-      </div>
-      <p style="margin-top:14px;">Pour exercer ces droits, contactez-nous à <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a>.</p>
+      <h2>Art. 4 — Gestion du consentement avec Cookiebot</h2>
+      <p>Notre site utilise <strong>Cookiebot</strong> (ou un outil équivalent) pour recueillir et gérer votre consentement aux cookies non essentiels, conformément à la LPD suisse et au RGPD.</p>
+      <p>Lors de votre première visite, une bannière vous propose d'accepter, de refuser ou de personnaliser les catégories de cookies. Votre choix est enregistré pour 12 mois et peut être modifié à tout moment en cliquant sur « Gérer mes cookies » en bas de chaque page.</p>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 7 — Cookies</h2>
-      <p>Notre site utilise des cookies pour améliorer votre expérience et analyser l'audience. Pour plus d'informations, consultez notre <a href="cookies.html">Politique de cookies</a>.</p>
+      <h2>Art. 5 — Contrôle via votre navigateur</h2>
+      <p>Indépendamment de nos outils de consentement, vous pouvez contrôler et supprimer les cookies directement depuis les paramètres de votre navigateur :</p>
+      <ul>
+        <li><strong>Chrome :</strong> Paramètres → Confidentialité et sécurité → Cookies</li>
+        <li><strong>Firefox :</strong> Options → Vie privée et sécurité → Cookies et données de site</li>
+        <li><strong>Safari :</strong> Préférences → Confidentialité</li>
+        <li><strong>Edge :</strong> Paramètres → Cookies et autorisations de site</li>
+      </ul>
+      <p>Notez que la désactivation de certains cookies peut affecter le bon fonctionnement du site.</p>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 8 — Durée de conservation</h2>
-      <p>Vos données sont conservées pendant une durée de <strong>10 ans</strong> à compter de la clôture de votre dossier, conformément aux obligations légales suisses en matière de crédit et d'assurance. Les données de navigation sont conservées 13 mois maximum.</p>
+      <h2>Art. 6 — Modifications</h2>
+      <p>Cette politique de cookies peut être mise à jour pour refléter l'évolution des technologies utilisées ou des exigences légales. La date de dernière mise à jour est indiquée en haut de cette page.</p>
     </div>
 
     <div class="legal-article">
-      <h2>Art. 9 — Modifications</h2>
-      <p>La présente politique peut être modifiée à tout moment. Toute modification substantielle sera communiquée par email aux personnes concernées. La version en vigueur est celle publiée sur le Site avec la date de mise à jour indiquée en haut de page.</p>
+      <h2>Art. 7 — Contact</h2>
+      <p>Pour toute question relative aux cookies et au traitement de vos données de navigation, contactez-nous :</p>
+      <ul>
+        <li>Email : <a href="mailto:contact@romerofinances.ch">contact@romerofinances.ch</a></li>
+        <li>Courrier : Romero Finances, Route des Vuarines 44, 1564 Domdidier</li>
+      </ul>
     </div>
 
   </div>
