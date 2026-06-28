@@ -1,58 +1,553 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://romerofinances.ch/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://romerofinances.ch/fr/assurance-nouveau-arrive.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/credit.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://romerofinances.ch/fr/assurance-prenatale.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/assurance.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://romerofinances.ch/fr/assurance.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance.html" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/assurance-nouveau-arrive.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://romerofinances.ch/fr/cgu.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cgu.html" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/assurance-prenatale.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://romerofinances.ch/fr/confidentialite.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/confidentialite.html" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/pilier.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://romerofinances.ch/fr/consentement.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/consentement.html" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/patrimoine.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://romerofinances.ch/fr/cookies.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cookies.html" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/cgu.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://romerofinances.ch/fr/credit.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/credit.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/credit.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/credit.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/credit.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/credit.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/credit.html" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/confidentialite.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://romerofinances.ch/fr/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/consentement.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://romerofinances.ch/fr/patrimoine.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/patrimoine.html" />
   </url>
   <url>
-    <loc>https://romerofinances.ch/cookies.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://romerofinances.ch/fr/pilier.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/pilier.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/assurance-nouveau-arrive.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/assurance-prenatale.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/assurance.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/cgu.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cgu.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/confidentialite.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/confidentialite.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/consentement.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/consentement.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/cookies.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cookies.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/credit.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/credit.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/credit.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/credit.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/credit.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/credit.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/credit.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/patrimoine.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/patrimoine.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/de/pilier.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/pilier.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/assurance-nouveau-arrive.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/assurance-prenatale.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/assurance.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/cgu.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cgu.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/confidentialite.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/confidentialite.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/consentement.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/consentement.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/cookies.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cookies.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/credit.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/credit.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/credit.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/credit.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/credit.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/credit.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/credit.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/patrimoine.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/patrimoine.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/it/pilier.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/pilier.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/assurance-nouveau-arrive.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/assurance-prenatale.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/assurance.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/cgu.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cgu.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/confidentialite.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/confidentialite.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/consentement.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/consentement.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/cookies.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cookies.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/credit.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/credit.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/credit.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/credit.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/credit.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/credit.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/credit.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/patrimoine.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/patrimoine.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/pt/pilier.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/pilier.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/assurance-nouveau-arrive.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-nouveau-arrive.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-nouveau-arrive.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/assurance-prenatale.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance-prenatale.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance-prenatale.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/assurance.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/assurance.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/assurance.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/cgu.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cgu.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cgu.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/confidentialite.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/confidentialite.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/confidentialite.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/consentement.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/consentement.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/consentement.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/cookies.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/cookies.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/cookies.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/credit.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/credit.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/credit.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/credit.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/credit.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/credit.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/credit.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/patrimoine.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/patrimoine.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/patrimoine.html" />
+  </url>
+  <url>
+    <loc>https://romerofinances.ch/es/pilier.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://romerofinances.ch/fr/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://romerofinances.ch/de/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://romerofinances.ch/it/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://romerofinances.ch/pt/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://romerofinances.ch/es/pilier.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://romerofinances.ch/fr/pilier.html" />
   </url>
 </urlset>
