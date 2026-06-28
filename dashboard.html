@@ -689,14 +689,14 @@ function loadFromSupabase(){
   var promises=TABLES.map(function(t){
     return fetch(SUPABASE_URL+'/rest/v1/'+t.table+'?select=*&order=created_at.desc',{headers:headers})
       .then(function(r){return r.ok?r.json():[];})
-      .then(function(rows){return rows.map(function(row){return normalizeLead(row,t.produit);});})
+      .then(function(rows){return rows.map(function(row){var l=normalizeLead(row,t.produit);l._table=t.table;return l;});})
       .catch(function(){return[];});
   });
   // Leads Ads — unified "leads" table
   promises.push(
     fetch(SUPABASE_URL+'/rest/v1/leads?select=*&order=created_at.desc',{headers:headers})
       .then(function(r){return r.ok?r.json():[];})
-      .then(function(rows){return rows.map(normalizeLeadAds);})
+      .then(function(rows){return rows.map(function(row){var l=normalizeLeadAds(row);l._table='leads';return l;});})
       .catch(function(){return[];})
   );
   return Promise.all(promises).then(function(results){
@@ -935,12 +935,34 @@ function toggleAll(){
   renderListe(); updateMassBar();
 }
 function clearSelection(){S.selected=[];renderListe();updateMassBar();}
-function deleteSelected(){
+async function deleteSelected(){
   if(!S.selected.length) return;
   if(!confirm('Supprimer '+S.selected.length+' lead(s) ?')) return;
-  S.leads=S.leads.filter(function(l){return !S.selected.includes(l.id);});
-  S.selected=[];
+  var toDelete=S.leads.filter(function(l){return S.selected.includes(l.id);});
+  var deletedIds=[]; var failed=0;
+  for(var i=0;i<toDelete.length;i++){
+    var l=toDelete[i];
+    if(!l._table){
+      // Lead local (criado no browser) — não existe no Supabase; saveData() reconstrói rf_local
+      deletedIds.push(l.id);
+      continue;
+    }
+    try{
+      var r=await fetch('/api/lead-delete',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({table:l._table,id:l.id})
+      });
+      if(r.ok) deletedIds.push(l.id);
+      else failed++;
+    }catch(e){ failed++; }
+  }
+  if(deletedIds.length){
+    S.leads=S.leads.filter(function(l){return !deletedIds.includes(l.id);});
+  }
+  S.selected=S.selected.filter(function(id){return !deletedIds.includes(id);});
   saveData(); render();
+  if(failed) alert(failed+' lead(s) n\'ont pas pu être supprimé(s). Réessayez.');
 }
 
 /* ════════════════════════════════════════════════════════════
