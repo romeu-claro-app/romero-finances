@@ -143,6 +143,7 @@
       color:var(--muted);font-size:13px;margin-top:16px;text-align:center;
     }
     .formerr{color:#E0413A;font-size:14px;margin-top:14px;text-align:center;display:none;}
+    .legal-note{color:var(--muted);font-size:11.5px;line-height:1.5;margin-top:10px;text-align:center;opacity:.8;}
 
     @media(max-width:480px){
       .question{font-size:23px;}
@@ -274,6 +275,7 @@
       html += '</div>' +
         '<button class="submit" type="button" id="submit">'+esc(c.submit)+'</button>' +
         '<div class="reassure">'+LOCK+' Vos données sont confidentielles et sans engagement.</div>' +
+        '<div class="legal-note">Selon l\'art. 3 al. 1 let. n LCD, l\'octroi d\'un crédit est déloyal s\'il occasionne un surendettement.</div>' +
         '<div class="formerr" id="formerr">Une erreur est survenue. Veuillez réessayer.</div>' +
         '</section>';
       stage.innerHTML = html;
