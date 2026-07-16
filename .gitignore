@@ -12,3 +12,7 @@ Thumbs.db
 
 # Configuração local do Claude
 .claude/
+
+# Documentos soltos — nunca enviar PDFs/propostas para o GitHub
+*.pdf
+Proposition_Commerciale_*.pdf
