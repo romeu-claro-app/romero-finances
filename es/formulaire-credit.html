@@ -548,17 +548,12 @@
               <input type="date" id="s1_dob" name="dob" required />
             </div>
             <div class="fg">
-              <label for="s1_nationalite">Nacionalidad *</label>
-              <select id="s1_nationalite" name="nationalite" onchange="checkNationalite()" required>
-                <option value="">Elegir…</option>
-                <option value="Suisse">Suiza</option>
-                <option value="Française">Francesa</option>
-                <option value="Allemande">Alemana</option>
-                <option value="Italienne">Italiana</option>
-                <option value="Portugaise">Portuguesa</option>
-                <option value="Espagnole">Española</option>
-                <option value="Autre">Otra</option>
-              </select>
+              <label>¿Nacionalidad suiza?</label>
+              <div class="toggle-group">
+                <button type="button" class="toggle-btn active" id="s1_nat_oui" onclick="setNationalite(true)">Sí</button>
+                <button type="button" class="toggle-btn" id="s1_nat_non" onclick="setNationalite(false)">No</button>
+              </div>
+              <input type="hidden" id="s1_nationalite" name="nationalite" value="oui" />
             </div>
           </div>
 
@@ -656,17 +651,12 @@
                 <input type="date" id="s2c_dob" name="c_dob" />
               </div>
               <div class="fg">
-                <label for="s2c_nat">Nacionalidad *</label>
-                <select id="s2c_nat" name="c_nationalite" onchange="checkNationaliteConjoint()" >
-                  <option value="">Elegir…</option>
-                  <option value="Suisse">Suiza</option>
-                  <option value="Française">Francesa</option>
-                  <option value="Allemande">Alemana</option>
-                  <option value="Italienne">Italiana</option>
-                  <option value="Portugaise">Portuguesa</option>
-                  <option value="Espagnole">Española</option>
-                  <option value="Autre">Otra</option>
-                </select>
+                <label>¿Nacionalidad suiza?</label>
+                <div class="toggle-group">
+                  <button type="button" class="toggle-btn active" id="s2c_nat_oui" onclick="setNationaliteConjoint(true)">Sí</button>
+                  <button type="button" class="toggle-btn" id="s2c_nat_non" onclick="setNationaliteConjoint(false)">No</button>
+                </div>
+                <input type="hidden" id="s2c_nat" name="c_nationalite" value="oui" />
               </div>
             </div>
             <div class="cond-block" id="bloc-permis-conjoint" style="display:none;margin-top:0;background:var(--white);">
@@ -1035,11 +1025,15 @@
     }
 
     /* ─── STEP 1 — CONDITIONS ────────────────────────────────── */
+    function setNationalite(suisse) {
+      document.getElementById('s1_nat_oui').classList.toggle('active', suisse);
+      document.getElementById('s1_nat_non').classList.toggle('active', !suisse);
+      document.getElementById('s1_nationalite').value = suisse ? 'oui' : 'non';
+      checkNationalite();
+    }
     function checkNationalite() {
-      var val  = document.getElementById('s1_nationalite').value;
-      var bloc = document.getElementById('bloc-permis');
-      var show = val && val !== 'Suisse';
-      bloc.style.display = show ? 'block' : 'none';
+      var show = document.getElementById('s1_nationalite').value === 'non';
+      document.getElementById('bloc-permis').style.display = show ? 'block' : 'none';
       setRequired('s1_permis', show);
       setRequired('s1_entree', show);
     }
@@ -1050,10 +1044,15 @@
       var couple = val === 'marie' || val === 'partenariat';
       document.getElementById('bloc-conjoint').style.display = couple ? 'block' : 'none';
     }
+    function setNationaliteConjoint(suisse) {
+      document.getElementById('s2c_nat_oui').classList.toggle('active', suisse);
+      document.getElementById('s2c_nat_non').classList.toggle('active', !suisse);
+      document.getElementById('s2c_nat').value = suisse ? 'oui' : 'non';
+      checkNationaliteConjoint();
+    }
     function checkNationaliteConjoint() {
-      var val  = document.getElementById('s2c_nat').value;
-      var bloc = document.getElementById('bloc-permis-conjoint');
-      bloc.style.display = (val && val !== 'Suisse') ? 'block' : 'none';
+      var show = document.getElementById('s2c_nat').value === 'non';
+      document.getElementById('bloc-permis-conjoint').style.display = show ? 'block' : 'none';
     }
     function toggleEnfants(val) {
       document.getElementById('enfants-oui').classList.toggle('active', val);

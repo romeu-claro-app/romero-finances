@@ -1086,7 +1086,7 @@ function renderProduitData(l){
       ['Salaire secondaire', raw.salaire_secondaire ? raw.salaire_secondaire+' CHF' : '—'],
       ['Loyer / logement',   raw.loyer              ? raw.loyer+' CHF'              : '—'],
       ['Primes maladie',     raw.primes_maladie     ? raw.primes_maladie+' CHF'     : '—'],
-      ['Nationalité',        fv(raw.nationalite)],
+      ['Nationalité',        raw.nationalite === 'oui' ? 'Suisse' : raw.nationalite === 'non' ? 'Étranger' : fv(raw.nationalite)],
       ['Permis',             fv(raw.permis)],
       ['Documents envoyés',  raw.docs_envoyes ? 'Oui' : 'Non']
     ];
@@ -1098,7 +1098,7 @@ function renderProduitData(l){
     }
     if(raw.conjoint_prenom){
       pairs.push(['Conjoint',
-        [raw.conjoint_prenom,raw.conjoint_nom,raw.conjoint_nationalite,raw.conjoint_permis]
+        [raw.conjoint_prenom,raw.conjoint_nom,(raw.conjoint_nationalite === 'oui' ? 'Suisse' : raw.conjoint_nationalite === 'non' ? 'Étranger' : raw.conjoint_nationalite),raw.conjoint_permis]
           .filter(Boolean).map(esc).join(' · ')]);
     }
 
