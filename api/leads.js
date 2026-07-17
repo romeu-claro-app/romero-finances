@@ -96,6 +96,7 @@ export default async function handler(req, res) {
       salaire_net:               payload.salaire            ? parseInt(payload.salaire)            : null,
       debut_activite:            payload.debut_activite     || null,
       salaire_secondaire:        payload.salaire_secondaire ? parseInt(payload.salaire_secondaire) : null,
+      poursuites:                payload.poursuites || null,
       conjoint_salaire_net:      payload.c_salaire          ? parseInt(payload.c_salaire)          : null,
       conjoint_debut_activite:   payload.c_debut_activite   || null,
       conjoint_salaire_sec:      payload.c_salaire_secondaire ? parseInt(payload.c_salaire_secondaire) : null,

@@ -732,6 +732,15 @@
             </div>
           </div>
 
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;">
+            <span style="font-size:0.9rem;font-weight:600;color:var(--text-muted);">Laufende Betreibungen?</span>
+            <div class="toggle-group">
+              <button type="button" class="toggle-btn active" id="pours-non" onclick="setPoursuites(false)">Nein</button>
+              <button type="button" class="toggle-btn" id="pours-oui" onclick="setPoursuites(true)">Ja</button>
+            </div>
+          </div>
+          <input type="hidden" id="poursuites" name="poursuites" value="non" />
+
           <!-- Conjoint pro (si marié/partenariat) -->
           <div id="bloc-conjoint-pro" style="display:none;margin-top:24px;">
             <hr class="section-sep" style="margin-top:0;" />
@@ -1108,6 +1117,11 @@
       document.getElementById('csec-oui').classList.toggle('active', val);
       document.getElementById('csec-non').classList.toggle('active', !val);
       document.getElementById('bloc-csecondaire').style.display = val ? 'block' : 'none';
+    }
+    function setPoursuites(val) {
+      document.getElementById('pours-oui').classList.toggle('active', val);
+      document.getElementById('pours-non').classList.toggle('active', !val);
+      document.getElementById('poursuites').value = val ? 'oui' : 'non';
     }
     function syncConjointPro() {
       var val    = document.getElementById('s2_etatcivil').value;

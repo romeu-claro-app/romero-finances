@@ -1085,6 +1085,7 @@ function renderProduitData(l){
       ['Salaire net',        raw.salaire_net        ? raw.salaire_net+' CHF'        : '—'],
       ['Salaire secondaire', raw.salaire_secondaire ? raw.salaire_secondaire+' CHF' : '—'],
       ['Loyer / logement',   raw.loyer              ? raw.loyer+' CHF'              : '—'],
+      ['Poursuites',         raw.poursuites === 'oui' ? 'Oui' : raw.poursuites === 'non' ? 'Non' : '—'],
       ['Primes maladie',     raw.primes_maladie     ? raw.primes_maladie+' CHF'     : '—'],
       ['Nationalité',        raw.nationalite === 'oui' ? 'Suisse' : raw.nationalite === 'non' ? 'Étranger' : fv(raw.nationalite)],
       ['Permis',             fv(raw.permis)],
