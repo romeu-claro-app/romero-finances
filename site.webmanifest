@@ -1,0 +1,11 @@
+{
+  "name": "Romero Finances",
+  "short_name": "Romero Finances",
+  "icons": [
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ],
+  "theme_color": "#2B2FD4",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}
