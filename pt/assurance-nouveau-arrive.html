@@ -1,7 +1,90 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="ad2451e8-62c8-45c9-abb2-f37afd466a68" data-blockingmode="auto" type="text/javascript"></script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" id="silktide-consent-manager-css" href="https://cdn.jsdelivr.net/gh/silktide/consent-manager@v2.0.1/silktide-consent-manager.css" integrity="sha384-EdMq+R+YOnsbelo08wPenoTlnxbAyxI11NMIxzugx/qAsbh64KcOkqxYqq6pfvO/" crossorigin="anonymous">
+<style id="silktide-consent-manager-overrides">
+#stcm-wrapper {
+  --boxShadow: -5px 5px 10px 0px #00000012, 0px 0px 50px 0px #0000001a;
+  --fontFamily: 'DM Sans', Helvetica Neue, Segoe UI, Arial, sans-serif;
+  --primaryColor: #2B2FD4;
+  --backgroundColor: #ffffff;
+  --textColor: #0F0F1A;
+  --backdropBackgroundColor: #00000033;
+  --backdropBackgroundBlur: 0px;
+  --iconColor: #2B2FD4;
+  --iconBackgroundColor: #FFFFFF;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/gh/silktide/consent-manager@v2.0.1/silktide-consent-manager.js" integrity="sha384-5Pt34uiIbCsvfiiZXoLi4HRf/YBXjr9c8e+gYeVo9smUaInNHYVtc8NZ8wUnXJIq" crossorigin="anonymous"></script>
+<script>
+window.silktideConsentManager.init({
+  backdrop: { show: true },
+  icon: { position: "bottomLeft" },
+  prompt: { position: "bottomCenter" },
+  consentTypes: [
+    {
+      id: "essential",
+      label: "Nécessaires",
+      description: "<p>Ces cookies sont indispensables au bon fonctionnement du site et ne peuvent pas être désactivés.</p>",
+      required: true
+    },
+    {
+      id: "analytics",
+      label: "Statistiques",
+      description: "<p>Ces cookies nous aident à comprendre comment les visiteurs utilisent le site (Google Analytics).</p>",
+      required: false,
+      defaultValue: false,
+      gtag: "analytics_storage",
+      scripts: [
+        {
+          url: "https://www.googletagmanager.com/gtag/js?id=G-FGHVHEDBE3",
+          load: "async",
+          type: "text/javascript"
+        }
+      ],
+      onAccept: function() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FGHVHEDBE3');
+      }
+    },
+    {
+      id: "marketing",
+      label: "Marketing",
+      description: "<p>Ces cookies sont utilisés pour mesurer et optimiser la publicité (Meta/Facebook Pixel).</p>",
+      required: false,
+      defaultValue: false,
+      gtag: ["ad_storage", "ad_user_data", "ad_personalization"],
+      onAccept: function() {
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init','1549046200147207');
+        fbq('track','PageView');
+      }
+    }
+  ],
+  text: {
+    prompt: {
+      description: "<p>Nous utilisons des cookies pour améliorer votre expérience, proposer du contenu personnalisé et analyser notre trafic.</p>",
+      acceptAllButtonText: "Tout accepter",
+      acceptAllButtonAccessibleLabel: "Accepter tous les cookies",
+      rejectNonEssentialButtonText: "Refuser",
+      rejectNonEssentialButtonAccessibleLabel: "Refuser les cookies non essentiels",
+      preferencesButtonText: "Personnaliser",
+      preferencesButtonAccessibleLabel: "Gérer les préférences"
+    },
+    preferences: {
+      title: "Personnalisez vos préférences de cookies",
+      description: "<p>Nous respectons votre droit à la vie privée. Vous pouvez choisir de ne pas autoriser certains types de cookies. Vos préférences s'appliqueront à l'ensemble du site.</p>",
+      saveButtonText: "Enregistrer et fermer",
+      saveButtonAccessibleLabel: "Enregistrer vos préférences",
+      creditLinkText: "Get this banner for free",
+      creditLinkAccessibleLabel: "Get this banner for free"
+    }
+  }
+});
+</script>
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -229,25 +312,6 @@
       .fg-am--full, .form-rgpd-am, .form-submit-am, .form-success-am { grid-column: 1; }
     }
   </style>
-  <!-- Meta Pixel -->
-  <script type="text/plain" data-cookieconsent="marketing">
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','1549046200147207'); fbq('track','PageView');
-  </script>
-  <!-- End Meta Pixel -->
-  <!-- Google Analytics 4 -->
-  <script type="text/plain" data-cookieconsent="statistics" async src="https://www.googletagmanager.com/gtag/js?id=G-FGHVHEDBE3"></script>
-  <script type="text/plain" data-cookieconsent="statistics">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-FGHVHEDBE3');
-  </script>
-  <!-- End Google Analytics 4 -->
 
 </head>
 <body>
