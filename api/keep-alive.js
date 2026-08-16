@@ -1,11 +1,9 @@
-export default async function handler(req) {
+export default async function handler(req, res) {
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY;
 
   if (!SUPABASE_URL || !SUPABASE_SECRET_KEY) {
-    return new Response(JSON.stringify({ ok: false, error: 'Missing Supabase env vars' }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
-    });
+    return res.status(500).json({ ok: false, error: 'Missing Supabase env vars' });
   }
 
   try {
@@ -16,12 +14,8 @@ export default async function handler(req) {
         'Authorization': `Bearer ${SUPABASE_SECRET_KEY}`
       }
     });
-    return new Response(JSON.stringify({ ok: r.ok, status: r.status, ts: new Date().toISOString() }), {
-      status: 200, headers: { 'Content-Type': 'application/json' }
-    });
+    return res.status(200).json({ ok: r.ok, status: r.status, ts: new Date().toISOString() });
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: String(e) }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
-    });
+    return res.status(500).json({ ok: false, error: String(e) });
   }
 }
