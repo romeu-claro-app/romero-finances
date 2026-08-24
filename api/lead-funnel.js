@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
   const { produit, prenom, nom, email, telephone, dados } = req.body || {};
 
-  const ALLOWED = ['credit', 'assurance', 'pilier'];
+  const ALLOWED = ['credit', 'assurance', 'pilier', 'assurance-nouveau-arrive'];
   if (!produit || !ALLOWED.includes(produit)) {
     return res.status(400).json({ success: false, error: 'Invalid produit' });
   }

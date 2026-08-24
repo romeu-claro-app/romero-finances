@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" id="silktide-consent-manager-css" href="https://cdn.jsdelivr.net/gh/silktide/consent-manager@v2.0.1/silktide-consent-manager.css" integrity="sha384-EdMq+R+YOnsbelo08wPenoTlnxbAyxI11NMIxzugx/qAsbh64KcOkqxYqq6pfvO/" crossorigin="anonymous">
+<style id="silktide-consent-manager-overrides">
+#stcm-wrapper {
+  --boxShadow: -5px 5px 10px 0px #00000012, 0px 0px 50px 0px #0000001a;
+  --fontFamily: 'DM Sans', Helvetica Neue, Segoe UI, Arial, sans-serif;
+  --primaryColor: #2B2FD4;
+  --backgroundColor: #ffffff;
+  --textColor: #0F0F1A;
+  --backdropBackgroundColor: #00000033;
+  --backdropBackgroundBlur: 0px;
+  --iconColor: #2B2FD4;
+  --iconBackgroundColor: #FFFFFF;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/gh/silktide/consent-manager@v2.0.1/silktide-consent-manager.js" integrity="sha384-5Pt34uiIbCsvfiiZXoLi4HRf/YBXjr9c8e+gYeVo9smUaInNHYVtc8NZ8wUnXJIq" crossorigin="anonymous"></script>
+<script>
+window.silktideConsentManager.init({
+  backdrop: { show: true },
+  icon: { position: "bottomLeft" },
+  prompt: { position: "bottomCenter" },
+  consentTypes: [
+    {
+      id: "essential",
+      label: "Nécessaires",
+      description: "<p>Ces cookies sont indispensables au bon fonctionnement du site et ne peuvent pas être désactivés.</p>",
+      required: true
+    },
+    {
+      id: "analytics",
+      label: "Statistiques",
+      description: "<p>Ces cookies nous aident à comprendre comment les visiteurs utilisent le site (Google Analytics).</p>",
+      required: false,
+      defaultValue: false,
+      gtag: "analytics_storage",
+      scripts: [
+        {
+          url: "https://www.googletagmanager.com/gtag/js?id=G-FGHVHEDBE3",
+          load: "async",
+          type: "text/javascript"
+        }
+      ],
+      onAccept: function() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-FGHVHEDBE3');
+      }
+    },
+    {
+      id: "marketing",
+      label: "Marketing",
+      description: "<p>Ces cookies sont utilisés pour mesurer et optimiser la publicité (Meta/Facebook Pixel).</p>",
+      required: false,
+      defaultValue: false,
+      gtag: ["ad_storage", "ad_user_data", "ad_personalization"],
+      onAccept: function() {
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init','1549046200147207');
+        fbq('track','PageView');
+      }
+    }
+  ],
+  text: {
+    prompt: {
+      description: "<p>Nous utilisons des cookies pour améliorer votre expérience, proposer du contenu personnalisé et analyser notre trafic.</p>",
+      acceptAllButtonText: "Tout accepter",
+      acceptAllButtonAccessibleLabel: "Accepter tous les cookies",
+      rejectNonEssentialButtonText: "Refuser",
+      rejectNonEssentialButtonAccessibleLabel: "Refuser les cookies non essentiels",
+      preferencesButtonText: "Personnaliser",
+      preferencesButtonAccessibleLabel: "Gérer les préférences"
+    },
+    preferences: {
+      title: "Personnalisez vos préférences de cookies",
+      description: "<p>Nous respectons votre droit à la vie privée. Vous pouvez choisir de ne pas autoriser certains types de cookies. Vos préférences s'appliqueront à l'ensemble du site.</p>",
+      saveButtonText: "Enregistrer et fermer",
+      saveButtonAccessibleLabel: "Enregistrer vos préférences",
+      creditLinkText: "Get this banner for free",
+      creditLinkAccessibleLabel: "Get this banner for free"
+    }
+  }
+});
+</script>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assurance maladie — Nouvel arrivant en Suisse — Romero Finances</title>
+  <meta name="description" content="Nouvel arrivant en Suisse ? On vous accompagne pour votre affiliation à l'assurance maladie obligatoire. Réponse sous 24h, sans engagement." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --c:#0D9E6B;
+      --c-rgb:13,158,107;
+      --c-text:#08704A;
+      --c-btn:#0A7D52;
+      --ink:#0F0F1A;
+      --muted:#5A5B72;
+      --line:#E2E3F0;
+      --bg:#F4FBF8;
+      --white:#FFFFFF;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;}
+    body{
+      font-family:'DM Sans',sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.55;
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Topbar */
+    .topbar{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      padding:18px 16px;
+    }
+    .topbar img{height:30px;width:auto;display:block;}
+    .topbar span{font-family:'Playfair Display',serif;font-weight:600;font-size:18px;color:var(--ink);}
+
+    /* Progress */
+    .progress{
+      display:flex;gap:6px;max-width:520px;width:100%;
+      margin:0 auto 8px;padding:0 20px;
+    }
+    .progress__seg{
+      flex:1;height:6px;border-radius:99px;background:var(--line);
+      overflow:hidden;
+    }
+    .progress__seg i{
+      display:block;height:100%;width:0;border-radius:99px;
+      background:var(--c);transition:width .35s ease;
+    }
+    .progress__seg.is-done i{width:100%;}
+
+    /* Stage */
+    .stage{
+      flex:1;display:flex;align-items:flex-start;justify-content:center;
+      padding:24px 20px 48px;
+    }
+    .screen{
+      display:none;width:100%;max-width:520px;animation:fade .35s ease;
+    }
+    .screen.is-active{display:block;}
+    @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+    .etape{
+      font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--c-text);margin-bottom:12px;
+    }
+    .question{
+      font-family:'Playfair Display',serif;font-weight:600;
+      font-size:26px;line-height:1.25;color:var(--ink);margin-bottom:22px;
+    }
+    .subtitle{color:var(--muted);font-size:15.5px;margin:-12px 0 22px;}
+
+    /* Option buttons */
+    .options{display:flex;flex-direction:column;gap:12px;}
+    .opt{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      width:100%;text-align:left;cursor:pointer;
+      background:var(--white);border:1.5px solid var(--line);border-radius:14px;
+      padding:18px 20px;font-family:'DM Sans',sans-serif;font-size:16.5px;font-weight:500;
+      color:var(--ink);transition:border-color .15s,box-shadow .15s,background .15s,transform .05s;
+    }
+    .opt:hover{border-color:var(--c);box-shadow:0 4px 16px rgba(var(--c-rgb),.10);}
+    .opt:active{transform:scale(.99);}
+    .opt.is-selected{
+      border-color:var(--c);background:rgba(var(--c-rgb),.06);
+      box-shadow:0 4px 16px rgba(var(--c-rgb),.14);
+    }
+    .opt .chev{color:var(--c);opacity:.55;flex-shrink:0;}
+
+    /* Retour */
+    .retour{
+      display:inline-flex;align-items:center;gap:6px;
+      background:none;border:none;cursor:pointer;
+      color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14.5px;font-weight:500;
+      margin-bottom:18px;padding:6px 2px;
+    }
+    .retour:hover{color:var(--c-text);}
+
+    /* Contact form */
+    .field{margin-bottom:16px;}
+    .field label{display:block;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:7px;}
+    .field input{
+      width:100%;border:1.5px solid var(--line);border-radius:12px;
+      padding:15px 16px;font-family:'DM Sans',sans-serif;font-size:16px;color:var(--ink);
+      background:var(--white);transition:border-color .15s,box-shadow .15s;
+    }
+    .field input:focus{outline:none;border-color:var(--c);box-shadow:0 0 0 3px rgba(var(--c-rgb),.12);}
+    .field input.err{border-color:#E0413A;box-shadow:0 0 0 3px rgba(224,65,58,.12);}
+
+    .hlabel{font-size:14px;font-weight:600;color:var(--ink);margin:22px 0 10px;}
+    .hgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .hopt{
+      cursor:pointer;text-align:center;background:var(--white);
+      border:1.5px solid var(--line);border-radius:12px;padding:14px 8px;
+      font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;color:var(--ink);
+      transition:border-color .15s,background .15s,box-shadow .15s;
+    }
+    .hopt:hover{border-color:var(--c);}
+    .hopt.is-selected{
+      border-color:var(--c);background:rgba(var(--c-rgb),.06);
+      box-shadow:0 4px 16px rgba(var(--c-rgb),.14);font-weight:600;
+    }
+
+    .submit{
+      width:100%;margin-top:26px;cursor:pointer;
+      background:var(--c-btn);color:var(--white);border:none;border-radius:14px;
+      padding:18px 20px;font-family:'DM Sans',sans-serif;font-size:17px;font-weight:600;
+      box-shadow:0 8px 24px rgba(var(--c-rgb),.28);
+      transition:transform .05s,box-shadow .15s,opacity .15s;
+    }
+    .submit:hover{box-shadow:0 10px 30px rgba(var(--c-rgb),.36);}
+    .submit:active{transform:scale(.99);}
+    .submit:disabled{opacity:.6;cursor:default;}
+
+    .reassure{
+      display:flex;align-items:center;justify-content:center;gap:7px;
+      color:var(--muted);font-size:13.5px;margin-top:16px;text-align:center;
+    }
+    .formerr{color:#E0413A;font-size:14px;margin-top:14px;text-align:center;display:none;}
+
+    @media(max-width:480px){
+      .question{font-size:23px;}
+      .opt{padding:16px 18px;font-size:16px;}
+    }
+  </style>
+
+</head>
+<body>
+
+  <header class="topbar">
+    <img src="assets/logo.svg" alt="Romero Finances" />
+    <span>Romero Finances</span>
+  </header>
+
+  <div class="progress" id="progress">
+    <div class="progress__seg"><i></i></div>
+    <div class="progress__seg"><i></i></div>
+    <div class="progress__seg"><i></i></div>
+    <div class="progress__seg"><i></i></div>
+  </div>
+
+  <main class="stage" id="stage"></main>
+
+  <script>
+  (function(){
+    var CONFIG = {
+      produit: 'assurance-nouveau-arrive',
+      questions: [
+        {
+          field: 'date_entree', label: "Date d'entrée",
+          q: 'Depuis quand êtes-vous en Suisse ?',
+          options: ['Je vais bientôt arriver','Moins de 3 mois','Plus de 3 mois','Plus d\'un an']
+        },
+        {
+          field: 'type_permis', label: 'Type de permis',
+          q: 'Quel type de permis avez-vous ?',
+          options: ['Permis B','Permis C','Permis L','Permis G (frontalier)',{label:'Pas encore / en cours',value:'En cours'}]
+        },
+        {
+          field: 'nombre_personnes', label: 'Nombre de personnes',
+          q: 'Combien de personnes à assurer ?',
+          options: ['1','2','3','4 ou plus']
+        }
+      ],
+      contact: {
+        title: 'On vous accompagne pour votre assurance maladie',
+        subtitle: 'Affiliation, comparaison des caisses, démarches. Réponse sous 24h, sans engagement.',
+        submit: 'Être accompagné'
+      },
+      // Builds the jsonb "dados" object stored in the unified "leads" table
+      buildDados: function(a, heure){
+        return {
+          date_entree:      a.date_entree      || null,
+          type_permis:      a.type_permis      || null,
+          nombre_personnes: a.nombre_personnes || null,
+          heure_contact:    heure              || null
+        };
+      }
+    };
+
+    /* ---------- shared engine ---------- */
+    var HEURES = ['08:00 – 12:00','12:00 – 16:00','16:00 – 20:00','Peu importe'];
+    var answers = {};
+    var heure = '';
+    var current = 0;                 // 0..3 (3 = contact)
+    var TOTAL = 4;
+    var stage = document.getElementById('stage');
+    var segs = document.querySelectorAll('#progress .progress__seg');
+
+    function updateProgress(){
+      segs.forEach(function(s,i){ s.classList.toggle('is-done', i <= current); });
+    }
+
+    var CHEV = '<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+    var BACK = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+    var LOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
+
+    function esc(s){ return String(s).replace(/[&<>"]/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+    function render(){
+      updateProgress();
+      window.scrollTo(0,0);
+      if(current < CONFIG.questions.length){ renderQuestion(current); }
+      else { renderContact(); }
+    }
+
+    function retourBtn(){
+      if(current === 0) return '';
+      return '<button class="retour" type="button" id="retour">'+BACK+' Retour</button>';
+    }
+
+    function renderQuestion(idx){
+      var q = CONFIG.questions[idx];
+      var html = '<section class="screen is-active">' + retourBtn() +
+        '<div class="etape">Étape '+(idx+1)+' sur '+TOTAL+'</div>' +
+        '<h2 class="question">'+esc(q.q)+'</h2>' +
+        '<div class="options">';
+      q.options.forEach(function(opt){
+        var label = (typeof opt === 'object') ? opt.label : opt;
+        var value = (typeof opt === 'object') ? opt.value : opt;
+        var sel = answers[q.field] === value ? ' is-selected' : '';
+        html += '<button class="opt'+sel+'" type="button" data-val="'+esc(value)+'"><span>'+esc(label)+'</span>'+CHEV+'</button>';
+      });
+      html += '</div></section>';
+      stage.innerHTML = html;
+
+      stage.querySelectorAll('.opt').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          answers[q.field] = btn.getAttribute('data-val');
+          btn.classList.add('is-selected');
+          setTimeout(function(){ current++; render(); }, 180);
+        });
+      });
+      bindRetour();
+    }
+
+    function renderContact(){
+      var c = CONFIG.contact;
+      var html = '<section class="screen is-active">' + retourBtn() +
+        '<div class="etape">Étape '+TOTAL+' sur '+TOTAL+'</div>' +
+        '<h2 class="question">'+esc(c.title)+'</h2>' +
+        '<p class="subtitle">'+esc(c.subtitle)+'</p>' +
+        '<div class="field"><label for="f_prenom">Prénom</label><input id="f_prenom" type="text" autocomplete="given-name" placeholder="Votre prénom" /></div>' +
+        '<div class="field"><label for="f_email">Email</label><input id="f_email" type="email" autocomplete="email" placeholder="vous@email.ch" /></div>' +
+        '<div class="field"><label for="f_tel">Téléphone</label><input id="f_tel" type="tel" autocomplete="tel" placeholder="079 123 45 67" /></div>' +
+        '<div class="hlabel">Quand préférez-vous être contacté ?</div>' +
+        '<div class="hgrid" id="hgrid">';
+      HEURES.forEach(function(h){
+        var sel = heure === h ? ' is-selected' : '';
+        html += '<button class="hopt'+sel+'" type="button" data-h="'+esc(h)+'">'+esc(h)+'</button>';
+      });
+      html += '</div>' +
+        '<button class="submit" type="button" id="submit">'+esc(c.submit)+'</button>' +
+        '<div class="reassure">'+LOCK+' Vos données sont confidentielles et sans engagement.</div>' +
+        '<div class="formerr" id="formerr">Une erreur est survenue. Veuillez réessayer.</div>' +
+        '</section>';
+      stage.innerHTML = html;
+
+      stage.querySelectorAll('.hopt').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          heure = btn.getAttribute('data-h');
+          stage.querySelectorAll('.hopt').forEach(function(b){ b.classList.remove('is-selected'); });
+          btn.classList.add('is-selected');
+        });
+      });
+      document.getElementById('submit').addEventListener('click', submitLead);
+      bindRetour();
+    }
+
+    function bindRetour(){
+      var r = document.getElementById('retour');
+      if(r) r.addEventListener('click', function(){ if(current>0){ current--; render(); } });
+    }
+
+    function submitLead(){
+      var prenom = document.getElementById('f_prenom');
+      var email  = document.getElementById('f_email');
+      var tel    = document.getElementById('f_tel');
+      var err    = document.getElementById('formerr');
+      [prenom,email,tel].forEach(function(el){ el.classList.remove('err'); });
+      err.style.display = 'none';
+
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+      var bad = false;
+      if(!prenom.value.trim()){ prenom.classList.add('err'); bad = true; }
+      if(!emailOk){ email.classList.add('err'); bad = true; }
+      if(!tel.value.trim()){ tel.classList.add('err'); bad = true; }
+      if(bad) return;
+
+      var btn = document.getElementById('submit');
+      btn.disabled = true; btn.textContent = 'Envoi…';
+
+      var payload = {
+        produit: CONFIG.produit,
+        prenom: prenom.value.trim(),
+        nom: '',
+        email: email.value.trim(),
+        telephone: tel.value.trim(),
+        statut: 'nouveau',
+        dados: CONFIG.buildDados(answers, heure)
+      };
+
+      fetch('/api/lead-funnel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok, d:d}; }); })
+        .then(function(r){
+          if(r.ok && r.d && r.d.success){
+            window.location.href = '/fr/merci.html?produit=' + CONFIG.produit;
+          } else { onError(); }
+        }).catch(onError);
+
+      function onError(){
+        btn.disabled = false; btn.textContent = CONFIG.contact.submit;
+        err.style.display = 'block';
+      }
+    }
+
+    render();
+  })();
+  </script>
+</body>
+</html>
