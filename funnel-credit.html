@@ -315,6 +315,15 @@ window.silktideConsentManager.init({
     /* Mede em que etapa as pessoas abandonam. So dispara apos consentimento:
        window.gtag e window.fbq so existem depois de aceitarem no banner. */
     var CODE = 'cr';
+    /* Nomes distintos por etapa -> cada uma aparece como linha propria
+       no Gestor de Eventos da Meta (ex.: AM_Q1, AM_Q2, AM_Contact). */
+    function metaEvent(step, name){
+      var p = CODE.toUpperCase();
+      if(name === 'contact') return p + '_Contact';
+      if(name === 'submit')  return p + '_Submit';
+      return p + '_Q' + step;
+    }
+
     function trackStep(){
       var total = CONFIG.questions.length + 1;
       var step  = current + 1;
@@ -324,13 +333,13 @@ window.silktideConsentManager.init({
       var ev = 'funnel_' + CODE + '_' + step + '_' + name;
       beacon(step, name);
       if(window.gtag){ gtag('event', ev, { funnel: CONFIG.produit, step: step, step_total: total }); }
-      if(window.fbq){ fbq('trackCustom','FunnelStep',{ funnel: CONFIG.produit, step: step, step_name: name }); }
+      if(window.fbq){ fbq('trackCustom', metaEvent(step, name), { funnel: CONFIG.produit, step: step }); }
     }
 
     function trackSubmit(){
       beacon(99, 'submit');
       if(window.gtag){ gtag('event','funnel_' + CODE + '_submit', { funnel: CONFIG.produit }); }
-      if(window.fbq){ fbq('trackCustom','FunnelSubmit',{ funnel: CONFIG.produit }); }
+      if(window.fbq){ fbq('trackCustom', CODE.toUpperCase() + '_Submit', { funnel: CONFIG.produit }); }
     }
 
     /* Contagem agregada e anonima, no nosso proprio servidor.
