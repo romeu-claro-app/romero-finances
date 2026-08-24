@@ -315,31 +315,41 @@ window.silktideConsentManager.init({
 
     /* Mede em que etapa as pessoas abandonam. So dispara apos consentimento:
        window.gtag e window.fbq so existem depois de aceitarem no banner. */
+    var CODE = 'na';
     function trackStep(){
       var total = CONFIG.questions.length + 1;
       var step  = current + 1;
       var name  = current < CONFIG.questions.length
                     ? CONFIG.questions[current].field
                     : 'contact';
-      if(window.gtag){
-        gtag('event','funnel_step',{
-          funnel: CONFIG.produit, step: step, step_total: total, step_name: name
-        });
-      }
-      if(window.fbq){
-        fbq('trackCustom','FunnelStep',{
-          funnel: CONFIG.produit, step: step, step_name: name
-        });
-      }
+      var ev = 'funnel_' + CODE + '_' + step + '_' + name;
+      beacon(step, name);
+      if(window.gtag){ gtag('event', ev, { funnel: CONFIG.produit, step: step, step_total: total }); }
+      if(window.fbq){ fbq('trackCustom','FunnelStep',{ funnel: CONFIG.produit, step: step, step_name: name }); }
     }
 
     function trackSubmit(){
-      if(window.gtag){
-        gtag('event','funnel_submit',{ funnel: CONFIG.produit });
-      }
-      if(window.fbq){
-        fbq('trackCustom','FunnelSubmit',{ funnel: CONFIG.produit });
-      }
+      beacon(99, 'submit');
+      if(window.gtag){ gtag('event','funnel_' + CODE + '_submit', { funnel: CONFIG.produit }); }
+      if(window.fbq){ fbq('trackCustom','FunnelSubmit',{ funnel: CONFIG.produit }); }
+    }
+
+    /* Contagem agregada e anonima, no nosso proprio servidor.
+       Nao usa cookies nem guarda dados pessoais — so funnel/etapa/instante.
+       Por isso cobre 100% das visitas, ao contrario do GA/Meta. */
+    var SID = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    function beacon(step, name){
+      try{
+        var body = JSON.stringify({
+          funnel: CONFIG.produit, step: step, step_name: name, session: SID
+        });
+        if(navigator.sendBeacon){
+          navigator.sendBeacon('/api/funnel-step', new Blob([body], {type:'application/json'}));
+        } else {
+          fetch('/api/funnel-step', {method:'POST', headers:{'Content-Type':'application/json'},
+                                     body: body, keepalive: true});
+        }
+      }catch(e){}
     }
 
     function render(){
