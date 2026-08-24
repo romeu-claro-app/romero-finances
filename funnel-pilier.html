@@ -45,7 +45,7 @@ window.silktideConsentManager.init({
       ],
       onAccept: function() {
         window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments); }
+        window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
         gtag('js', new Date());
         gtag('config', 'G-FGHVHEDBE3');
       }
@@ -311,8 +311,38 @@ window.silktideConsentManager.init({
 
     function esc(s){ return String(s).replace(/[&<>"]/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
+    /* Mede em que etapa as pessoas abandonam. So dispara apos consentimento:
+       window.gtag e window.fbq so existem depois de aceitarem no banner. */
+    function trackStep(){
+      var total = CONFIG.questions.length + 1;
+      var step  = current + 1;
+      var name  = current < CONFIG.questions.length
+                    ? CONFIG.questions[current].field
+                    : 'contact';
+      if(window.gtag){
+        gtag('event','funnel_step',{
+          funnel: CONFIG.produit, step: step, step_total: total, step_name: name
+        });
+      }
+      if(window.fbq){
+        fbq('trackCustom','FunnelStep',{
+          funnel: CONFIG.produit, step: step, step_name: name
+        });
+      }
+    }
+
+    function trackSubmit(){
+      if(window.gtag){
+        gtag('event','funnel_submit',{ funnel: CONFIG.produit });
+      }
+      if(window.fbq){
+        fbq('trackCustom','FunnelSubmit',{ funnel: CONFIG.produit });
+      }
+    }
+
     function render(){
       updateProgress();
+      trackStep();
       window.scrollTo(0,0);
       if(current < CONFIG.questions.length){ renderQuestion(current); }
       else { renderContact(); }
@@ -403,6 +433,7 @@ window.silktideConsentManager.init({
 
       var btn = document.getElementById('submit');
       btn.disabled = true; btn.textContent = 'Envoi…';
+      trackSubmit();
 
       var payload = {
         produit: CONFIG.produit,
