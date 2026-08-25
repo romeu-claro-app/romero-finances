@@ -234,6 +234,17 @@ window.silktideConsentManager.init({
     .formerr{color:#E0413A;font-size:14px;margin-top:14px;text-align:center;display:none;}
     .legal-note{color:var(--muted);font-size:11.5px;line-height:1.5;margin-top:10px;text-align:center;opacity:.8;}
 
+
+    /* Ecras pequenos: compactar para as 4 opcoes caberem acima do banner */
+    @media(max-height:850px){
+      .topbar{padding:10px 16px;}
+      .topbar img{height:26px;}
+      .stage{padding:12px 20px 24px;}
+      .etape{margin-bottom:6px;}
+      .question{font-size:21px;margin-bottom:12px;}
+      .options{gap:9px;}
+      .opt{padding:13px 18px;font-size:15.5px;}
+    }
     @media(max-width:480px){
       .question{font-size:23px;}
       .opt{padding:16px 18px;font-size:16px;}
