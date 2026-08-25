@@ -19,7 +19,7 @@
 <script src="https://cdn.jsdelivr.net/gh/silktide/consent-manager@v2.0.1/silktide-consent-manager.js" integrity="sha384-5Pt34uiIbCsvfiiZXoLi4HRf/YBXjr9c8e+gYeVo9smUaInNHYVtc8NZ8wUnXJIq" crossorigin="anonymous"></script>
 <script>
 window.silktideConsentManager.init({
-  backdrop: { show: true },
+  backdrop: { show: false },
   icon: { position: "bottomLeft" },
   prompt: { position: "bottomCenter" },
   consentTypes: [
@@ -480,6 +480,23 @@ window.silktideConsentManager.init({
         err.style.display = 'block';
       }
     }
+
+    /* Enquanto o banner de cookies estiver visivel, empurra o conteudo para cima
+       para nenhuma opcao ficar escondida por tras dele. */
+    (function keepClear(){
+      var stage = document.querySelector('.stage');
+      if(!stage) return;
+      function adjust(){
+        var b = document.getElementById('stcm-banner');
+        var vis = b && getComputedStyle(b).display !== 'none' && b.getBoundingClientRect().height > 0;
+        stage.style.paddingBottom = vis ? (Math.round(b.getBoundingClientRect().height) + 32) + 'px' : '';
+      }
+      adjust();
+      var mo = new MutationObserver(adjust);
+      mo.observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:['style','class']});
+      addEventListener('resize', adjust);
+      setTimeout(adjust, 500); setTimeout(adjust, 1500);
+    })();
 
     render();
   })();
