@@ -15,6 +15,17 @@
   --iconColor: #2B2FD4;
   --iconBackgroundColor: #FFFFFF;
 }
+/* Banner compacto em telemovel: a 375x640 o banner ocupava 361px e tapava
+   as opcoes do funil. Reduzido para ~196px, mantendo texto e botoes legiveis. */
+@media (max-width:700px){
+  #stcm-banner{padding:12px 14px !important;}
+  #stcm-banner > p{font-size:12.5px !important;line-height:1.3 !important;margin:0 0 8px !important;}
+  #stcm-banner .stcm-actions{flex-direction:row !important;flex-wrap:wrap !important;gap:7px !important;}
+  #stcm-banner .stcm-actions > button{flex:1 1 45% !important;min-width:0 !important;padding:8px 10px !important;font-size:13px !important;min-height:0 !important;height:auto !important;}
+  #stcm-banner .stcm-actions-row{flex:1 1 100% !important;gap:6px !important;align-items:center !important;}
+  #stcm-banner .stcm-preferences-button{padding:2px 0 !important;font-size:12px !important;height:auto !important;}
+  #stcm-banner .stcm-logo{transform:scale(.7);transform-origin:right center;}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/gh/silktide/consent-manager@v2.0.1/silktide-consent-manager.js" integrity="sha384-5Pt34uiIbCsvfiiZXoLi4HRf/YBXjr9c8e+gYeVo9smUaInNHYVtc8NZ8wUnXJIq" crossorigin="anonymous"></script>
 <script>
