@@ -545,7 +545,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);cursor:poin
    CONFIG — SUPABASE
    ════════════════════════════════════════════════════════════ */
 var SUPABASE_URL = 'https://npfvppuprhbycbhmthxi.supabase.co';
-var SUPABASE_KEY = 'sb_publishable_cdQew7JvhMuBpj3aU6LDCg_gU2D3pya';
+var SUPABASE_KEY = null;  /* nunca no browser — leituras via /api/crm */
 var TABLES = [
   { table: 'leads_credit',                   produit: 'credit' },
   { table: 'leads_assurance',                produit: 'assurance' },
@@ -685,21 +685,12 @@ function showSpinner(){document.getElementById('loading-overlay').style.display=
 function hideSpinner(){document.getElementById('loading-overlay').style.display='none';}
 function loadFromSupabase(){
   showSpinner();
-  var headers={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
-  var promises=TABLES.map(function(t){
-    return fetch(SUPABASE_URL+'/rest/v1/'+t.table+'?select=*&order=created_at.desc',{headers:headers})
-      .then(function(r){return r.ok?r.json():[];})
-      .then(function(rows){return rows.map(function(row){var l=normalizeLead(row,t.produit);l._table=t.table;return l;});})
-      .catch(function(){return[];});
-  });
-  // Leads Ads — unified "leads" table
-  promises.push(
-    fetch(SUPABASE_URL+'/rest/v1/leads?select=*&order=created_at.desc',{headers:headers})
-      .then(function(r){return r.ok?r.json():[];})
-      .then(function(rows){return rows.map(function(row){var l=normalizeLeadAds(row);l._table='leads';return l;});})
-      .catch(function(){return[];})
-  );
-  return Promise.all(promises).then(function(results){
+  return crmApi('leads').then(function(r){
+    var T=(r.ok && r.d.tables)?r.d.tables:{};
+    var results=TABLES.map(function(t){
+      return (T[t.table]||[]).map(function(row){var l=normalizeLead(row,t.produit);l._table=t.table;return l;});
+    });
+    results.push((T['leads']||[]).map(function(row){var l=normalizeLeadAds(row);l._table='leads';return l;}));
     var all=[].concat.apply([],results);
     all.sort(function(a,b){return b.date.localeCompare(a.date);});
     applyLocalState(all);
@@ -708,9 +699,8 @@ function loadFromSupabase(){
   }).catch(function(){hideSpinner();});
 }
 function loadRdvs(){
-  var headers={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
-  return fetch(SUPABASE_URL+'/rest/v1/rendezvous?select=*&order=date_rdv.asc',{headers:headers})
-    .then(function(r){return r.ok?r.json():[];})
+  return crmApi('rdvs')
+    .then(function(r){return (r.ok&&r.d.rows)?r.d.rows:[];})
     .then(function(rows){S.rdvs=rows||[];})
     .catch(function(){S.rdvs=[];});
 }
@@ -718,7 +708,12 @@ function loadRdvs(){
 /* ════════════════════════════════════════════════════════════
    AUTH
    ════════════════════════════════════════════════════════════ */
-var PWD='RF2026admin';
+var PWD=null;   /* validada no servidor, nunca no HTML */
+function crmApi(action, extra){
+  var body = Object.assign({pwd: sessionStorage.getItem('rf_pwd')||'', action: action}, extra||{});
+  return fetch('/api/crm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok&&d.ok, status:r.status, d:d}; }); });
+}
 function boot(){
   loadFromSupabase().then(function(){return loadRdvs();}).then(function(){render();}).catch(function(){render();});
 }
@@ -734,10 +729,20 @@ function checkAuth(){
 }
 function doLogin(e){
   e.preventDefault();
-  if(document.getElementById('pwd').value===PWD){
-    sessionStorage.setItem('rf_auth','1');
-    showApp(); boot();
-  }else{
+  var v=document.getElementById('pwd').value;
+  sessionStorage.setItem('rf_pwd', v);
+  crmApi('login').then(function(r){
+    if(r.ok){
+      sessionStorage.setItem('rf_auth','1');
+      showApp(); boot();
+    } else {
+      sessionStorage.removeItem('rf_pwd');
+      loginFail(r.d && r.d.error);
+    }
+  }).catch(function(){ loginFail(); });
+}
+function loginFail(msg){
+  {
     var err=document.getElementById('login-error');
     err.style.display='block';
     setTimeout(function(){err.style.display='none';},3000);
@@ -746,6 +751,7 @@ function doLogin(e){
 }
 function doLogout(){
   sessionStorage.removeItem('rf_auth');
+  sessionStorage.removeItem('rf_pwd');
   document.getElementById('app').style.display='none';
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('pwd').value='';
@@ -1239,9 +1245,8 @@ function rdvsForLead(id){
   return S.rdvs.filter(function(r){return r.lead_id===id;});
 }
 function loadLeadRdvs(leadId){
-  var headers={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
-  return fetch(SUPABASE_URL+'/rest/v1/rendezvous?select=*&lead_id=eq.'+encodeURIComponent(leadId)+'&order=date_rdv.asc',{headers:headers})
-    .then(function(r){return r.ok?r.json():[];})
+  return crmApi('leadRdvs',{leadId:leadId})
+    .then(function(r){return (r.ok&&r.d.rows)?r.d.rows:[];})
     .then(function(rows){
       // Replace this lead's RDVs in the global cache with the fresh set
       S.rdvs=S.rdvs.filter(function(x){return x.lead_id!==leadId;}).concat(rows||[]);
