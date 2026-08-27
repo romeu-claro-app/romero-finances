@@ -393,10 +393,20 @@ window.silktideConsentManager.init({
        Nao usa cookies nem guarda dados pessoais — so funnel/etapa/instante.
        Por isso cobre 100% das visitas, ao contrario do GA/Meta. */
     var SID = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    /* De onde veio a visita (posicionamento/campanha do anuncio).
+       Guardado nos nossos dados, por isso cobre 100% e nao depende de cookies. */
+    var ORIGEM = (function(){
+      try{
+        var q = new URLSearchParams(location.search);
+        var p = [q.get('utm_source'), q.get('utm_campaign'), q.get('utm_content')]
+                  .filter(Boolean).join(' | ');
+        return p ? p.slice(0,120) : null;
+      }catch(e){ return null; }
+    })();
     function beacon(step, name){
       try{
         var body = JSON.stringify({
-          funnel: CONFIG.produit, step: step, step_name: name, session: SID
+          funnel: CONFIG.produit, step: step, step_name: name, session: SID, origem: ORIGEM
         });
         if(navigator.sendBeacon){
           navigator.sendBeacon('/api/funnel-step', new Blob([body], {type:'application/json'}));

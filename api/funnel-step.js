@@ -27,7 +27,8 @@ export default async function handler(req, res) {
     funnel:    b.funnel,
     step:      step,
     step_name: String(b.step_name || '').slice(0, 40),
-    session:   String(b.session || '').slice(0, 40)
+    session:   String(b.session || '').slice(0, 40),
+    origem:    b.origem ? String(b.origem).slice(0, 120) : null
   };
 
   try {

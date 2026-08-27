@@ -51,3 +51,27 @@ for (const [funnel, steps] of Object.entries(byFunnel)) {
   }
   console.log('');
 }
+
+// ── Reparticao por origem do anuncio (posicionamento / campanha) ───────────
+const comOrigem = rows.filter(r => r.origem);
+if (comOrigem.length) {
+  const porOrigem = {};
+  for (const r of comOrigem) {
+    const o = porOrigem[r.origem] || (porOrigem[r.origem] = { ses: new Set(), avanc: new Set(), sub: new Set() });
+    o.ses.add(r.session);
+    if (r.step > 1 && r.step !== 99) o.avanc.add(r.session);
+    if (r.step_name === 'submit') o.sub.add(r.session);
+  }
+  console.log('\nPOR ORIGEM DO ANUNCIO');
+  console.log('  ' + 'origem'.padEnd(44) + 'visitas  avancaram   leads');
+  const ord = Object.entries(porOrigem).sort((a, b) => b[1].ses.size - a[1].ses.size);
+  for (const [o, v] of ord) {
+    const pct = v.ses.size ? Math.round(v.avanc.size / v.ses.size * 100) : 0;
+    console.log('  ' + o.slice(0, 43).padEnd(44)
+      + String(v.ses.size).padStart(6)
+      + (v.avanc.size + ' (' + pct + '%)').padStart(11)
+      + String(v.sub.size).padStart(8));
+  }
+} else {
+  console.log('\n(sem dados de origem ainda - falta utm_content={{placement}} nos Parametros de URL do Meta)');
+}
