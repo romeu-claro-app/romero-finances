@@ -520,7 +520,7 @@ window.silktideConsentManager.init({
       }).then(function(res){ return res.json().then(function(d){ return {ok:res.ok, d:d}; }); })
         .then(function(r){
           if(r.ok && r.d && r.d.success){
-            window.location.href = '/fr/merci.html?produit=' + CONFIG.produit;
+            try{sessionStorage.setItem('rf_lead_ok','1');}catch(e){} window.location.href = '/fr/merci.html?produit=' + CONFIG.produit;
           } else { onError(); }
         }).catch(onError);
 

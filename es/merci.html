@@ -481,7 +481,14 @@ window.silktideConsentManager.init({
   <!-- Meta Pixel — Lead -->
   <script>
 document.addEventListener('DOMContentLoaded', function() {
-  if (window.fbq) {
+  /* So conta como Lead se vier mesmo de uma submissao confirmada pelo servidor.
+     A marca e consumida a seguir, para recargas ou visitas diretas nao contarem. */
+  var confirmado = false;
+  try {
+    confirmado = sessionStorage.getItem('rf_lead_ok') === '1';
+    if (confirmado) sessionStorage.removeItem('rf_lead_ok');
+  } catch (e) {}
+  if (confirmado && window.fbq) {
     var produit = new URLSearchParams(window.location.search).get('produit') || '';
     fbq('track', 'Lead', { content_name: produit });
   }
