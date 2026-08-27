@@ -21,15 +21,16 @@ export default async function handler(req, res) {
   if (!produit || !ALLOWED.includes(produit)) {
     return res.status(400).json({ success: false, error: 'Invalid produit' });
   }
-  if (!email) {
-    return res.status(400).json({ success: false, error: 'Missing email' });
+  // Email passou a opcional: basta um contacto (email OU telefone).
+  if (!email && !telephone) {
+    return res.status(400).json({ success: false, error: 'Missing contact' });
   }
 
   const payload = {
     produit:   produit,
     prenom:    prenom    || null,
     nom:       nom       || null,
-    email:     email,
+    email:     email     || null,
     telephone: telephone || null,
     statut:    'nouveau',
     dados:     dados     || {}

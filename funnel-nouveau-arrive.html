@@ -453,7 +453,7 @@ window.silktideConsentManager.init({
         '<h2 class="question">'+esc(c.title)+'</h2>' +
         '<p class="subtitle">'+esc(c.subtitle)+'</p>' +
         '<div class="field"><label for="f_prenom">Prénom</label><input id="f_prenom" type="text" autocomplete="given-name" placeholder="Votre prénom" /></div>' +
-        '<div class="field"><label for="f_email">Email</label><input id="f_email" type="email" autocomplete="email" placeholder="vous@email.ch" /></div>' +
+        '<div class="field"><label for="f_email">Email <span style="font-weight:500;color:var(--muted);">(optionnel)</span></label><input id="f_email" type="email" autocomplete="email" placeholder="vous@email.ch" /></div>' +
         '<div class="field"><label for="f_tel">Téléphone</label><input id="f_tel" type="tel" autocomplete="tel" placeholder="079 123 45 67" /></div>' +
         '<div class="hlabel">Quand préférez-vous être contacté ?</div>' +
         '<div class="hgrid" id="hgrid">';
@@ -492,7 +492,9 @@ window.silktideConsentManager.init({
       [prenom,email,tel].forEach(function(el){ el.classList.remove('err'); });
       err.style.display = 'none';
 
-      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+      /* Email opcional: so valida o formato se a pessoa o preencher. */
+      var emailVal = email.value.trim();
+      var emailOk = !emailVal || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
       var bad = false;
       if(!prenom.value.trim()){ prenom.classList.add('err'); bad = true; }
       if(!emailOk){ email.classList.add('err'); bad = true; }
