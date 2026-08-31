@@ -15,7 +15,7 @@ const since = new Date(Date.now() - DAYS * 864e5).toISOString();
 const H = { apikey: env.SUPABASE_SECRET_KEY, Authorization: 'Bearer ' + env.SUPABASE_SECRET_KEY };
 
 const r = await fetch(
-  `${env.SUPABASE_URL}/rest/v1/funnel_events?select=funnel,step,step_name,session&created_at=gte.${since}&limit=50000`,
+  `${env.SUPABASE_URL}/rest/v1/funnel_events?select=funnel,step,step_name,session,origem,created_at&created_at=gte.${since}&limit=50000`,
   { headers: H });
 
 if (!r.ok) {
